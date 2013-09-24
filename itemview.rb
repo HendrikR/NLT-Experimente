@@ -4,7 +4,7 @@
 
 # Insgesamt gibt es 352 Items, davon 84 Waffen und 36 Rüstungsteile.
 class Item
-  attr_accessor :name, :itemcode, :typ, :typ2, :subtyp, :gewicht, :icon, :preis, :magic, :i_entry, :unk1, :unk2, :unk3
+  attr_accessor :name, :itemcode, :typ, :typ2, :subtyp, :gewicht, :icon, :preis, :magic, :i_entry, :haeufigkeit, :unk3
   def name_s
     arr = @name.split('.')
     if arr.size == 1 then arr[0]
@@ -60,8 +60,8 @@ class Item
       end
     elsif (typ & 0x08 != 0)  #Nahrungsmittel
       case(subtyp)
-      when 0x00; "getränk"
-      when 0x01; "essen"
+      when 0x00; "Getränk"
+      when 0x01; "Essen"
       else       "unbekannt:"+subtyp.to_s
       end
     elsif (typ & 0x20 != 0)  #Kraut/Elixier
@@ -91,22 +91,22 @@ while(data = f_data.read(14))
   while((c = f_name.read(1)) != "\0") do name+=c; end
   i = Item.new
   i.name = name
-  i.i_entry  = f_entry.readbyte
+  i.i_entry  = f_entry.readbyte # Wenn i_entry==1, wird der Fund im Tagebuch vermerkt.
   
-  i.typ      = data[0x00]
-  i.typ2     = data[0x01]
-  i.subtyp   = data[0x02]
-  i.icon     = data[0x03] # Bild-Index oder ähnlich?
-  i.gewicht  = data[0x04]
-  i.unk1     = data[0x05] # Immer 0, außer bei einigen Rüstungen und der Sumpfrantze
-  i.preis    = data[0x08] * (data[0x07] << 8 | data[0x06])
-  i.unk2     = data[0x09] # Für die meisten Gegenstände 0, für einige Gegenstände Werte im niedrigen 2-stelligen Hex-Bereich (0x0?, 0x1?)
-  i.magic    = data[0x0A]
-  i.unk3     = data[0x0B] # Flag/Enum, ist entweder 0,1 oder 2. 2 könnte "benutzbar" sein oder so, 1 ist seltsam.
-  i.itemcode = data[0x0C] << 8 | data[0x0D]#ja
+  i.typ         = data[0x00]
+  i.typ2        = data[0x01]
+  i.subtyp      = data[0x02]
+  i.icon        = data[0x03] # Bild-Index oder ähnlich?
+  i.gewicht     = data[0x04] | (data[0x05] << 8)
+  i.preis       = data[0x08] * (data[0x07] << 8 | data[0x06])
+  i.haeufigkeit = data[0x09] # Siehe [[http://www.crystals-dsa-foren.de/showthread.php?tid=700&pid=125835]]
+  i.magic       = data[0x0A]
+  i.unk3        = data[0x0B] # Flag/Enum, ist entweder 0,1 oder 2. 2 könnte "benutzbar" sein oder so, 1 ist seltsam.
+  i.itemcode    = data[0x0C] << 8 | data[0x0D]
+
   itemlist << i
 end
 
 itemlist.each do |item|
-  printf("%04x, %s, %02x\n", item.itemcode, item.name_s, item.i_entry)
+  printf("%04x, %s, %s, %02x\n", item.itemcode, item.name_s + (item.magic==1 ? "*" : ""), item.typ_s, item.unk3)
 end
