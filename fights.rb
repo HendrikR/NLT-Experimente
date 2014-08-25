@@ -63,7 +63,7 @@ fightlist = Array.new()
 for i in 0...num_fights
   fight = Fight.new
 
-  fight.name = file.read(20).unpack("a*")[0]
+  fight.name = file.read(20).unpack("a*")[0].delete("\0")
   fight.id   = file.read(2).unpack("S")[0]
   for i in 0...20
     fighter = Fighter.new
