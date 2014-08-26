@@ -4,25 +4,30 @@
 
 # Insgesamt gibt es 352 Items, davon 84 Waffen und 36 Rüstungsteile.
 class Fight
-  attr_accessor :id, :name, :enemies, :players, :loot, :money
+  attr_accessor :id, :name, :enemies, :enemy_groups, :players, :loot, :money
   def initialize()
     @enemies = Array.new
     @players = Array.new
     @loot    = Array.new
+    @enemy_groups = Array.new
   end
 end
 
 class Fighter
   attr_accessor :id, :posx, :posy, :lookat, :when
+  attr_accessor :number # To group fighters by ID
 end
+
+# Funktion zum Schreiben der Singular-Form eines Namens im Singular/Plural-Format
+def name_s(name)
+  arr = name.split('.')
+  if arr.size == 1 then arr[0]
+  else arr[0]+arr[1]; end
+end
+
 
 # Item-Liste laden für die Namen der Beute-Gegenstände
 def read_items()
-  def name_s(name)
-    arr = name.split('.')
-    if arr.size == 1 then arr[0]
-    else arr[0]+arr[1]; end
-  end
   f_name = File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/ITEMS.LTX", "rb")
   
   itemlist = []
@@ -82,6 +87,19 @@ for i in 0...num_fights
     fighter.when   = file.read(1).unpack("C")[0]
     fight.players << fighter
   end
+  # Group by fighters
+  for e in fight.enemies do
+    grp = fight.enemy_groups.find{|eg|
+      eg.id == e.id  &&  eg.when == e.when
+    }
+    if grp == nil
+      fighter = e.clone
+      fighter.number = 1
+      fight.enemy_groups << fighter
+    else
+      grp.number += 1
+    end
+  end
   for i in 0...30
     fight.loot << file.read(2).unpack("S")[0]
   end
@@ -93,14 +111,18 @@ end
 
 for fight in fightlist
   puts "#{fight.name}: #{fight.enemies.size} fighters:"
-  for e in fight.enemies
-    puts "   - #{monlist[e.id]}[#{e.id}]"
+  for eg in fight.enemy_groups
+    puts "   - #{eg.number} x #{monlist[eg.id]}[#{eg.id}] in round #{eg.when}"
   end
+#  for e in fight.enemies
+#    puts "   - #{monlist[e.id]}[#{e.id}]"
+#  end
   
-  puts " Loot: #{fight.money} Heller"
-  for l in fight.loot
-    puts "   - #{itemlist[l]}"
-  end
+#  puts " Loot: #{fight.money} Heller"
+#  for l in fight.loot
+#    puts "   - #{itemlist[l]}"
+#  end
 end
 
 file.close
+p monlist.size
