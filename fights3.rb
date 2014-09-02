@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 # Kampf-Viewer für DSA2/RoA2: Sternenschweif (FIGHT.LST, SCENARIO.LST)
 
-# Insgesamt gibt es 352 Items, davon 84 Waffen und 36 Rüstungsteile.
 class Fight
   attr_accessor :id, :name, :enemies, :enemy_groups, :players, :loot, :money
   def initialize()

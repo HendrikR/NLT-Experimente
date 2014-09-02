@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 # Kampf-Viewer für DSA2/RoA2: Sternenschweif (FIGHT.LST, SCENARIO.LST)
 
-# Insgesamt gibt es 352 Items, davon 84 Waffen und 36 Rüstungsteile.
 class Fight
   attr_accessor :id, :name, :enemies, :enemy_groups, :players, :loot, :money
   def initialize()
@@ -87,6 +86,13 @@ for i in 0...num_fights
     fighter.when   = file.read(1).unpack("C")[0]
     fight.players << fighter
   end
+  for i in 0...30
+    fight.loot << file.read(2).unpack("S")[0]
+  end
+  fight.loot.delete(0)
+  mdata = file.read(6).unpack("SSS")
+  fight.money = mdata[2] + 10*(mdata[1] + 10*mdata[0])
+
   # Group by fighters
   for e in fight.enemies do
     grp = fight.enemy_groups.find{|eg|
@@ -100,12 +106,7 @@ for i in 0...num_fights
       grp.number += 1
     end
   end
-  for i in 0...30
-    fight.loot << file.read(2).unpack("S")[0]
-  end
-  fight.loot.delete(0)
-  mdata = file.read(6).unpack("SSS")
-  fight.money = mdata[2] + 10*(mdata[1] + 10*mdata[0])
+
   fightlist << fight
 end
 
@@ -125,4 +126,4 @@ for fight in fightlist
 end
 
 file.close
-p monlist.size
+
