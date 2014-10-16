@@ -113,7 +113,7 @@ while(data = f_data.read(14))
   i.fk_index    = data[0x05] # Index in eine andere Tabelle (RÃ¼stungs- oder Waffenwerte, ...)
   i.gewicht     = data[0x06] | (data[0x07] << 8)
   i.preis       = data[0x0A] * (data[0x09] << 8 | data[0x08])
-  i.haeufigkeit = data[0x0B] # Siehe [[http://www.crystals-dsa-foren.de/showthread.php?tid=700&pid=125835]]
+  i.haeufigkeit = data[0x0B] # Siehe [[http://www.crystals-dsa-foren.de/showthread.php?tid=700&pid=125835#pid125835]]
   i.magic       = data[0x0C]
   i.genus       = data[0x0D] # Grammatikalisches Geschlecht (im Deutschen): 0=m, 1=f, 2=n
 
@@ -131,8 +131,11 @@ puts "<tr><th>Index</th><th>Name</th><th>Item-Typ</th><th>Gewicht (U)</th><th>HÃ
 def d(val)
   puts "<td>#{val.to_s}</td>"
 end
+itemlist.sort_by{|i| i.fk_index}
 itemlist.each do |item|
-  #printf("%04x, %s, %s, %02x\n", item.icon, item.name_s + (item.magic==1 ? "*" : ""), item.typ_s, item.unk3)
+  if item.typ & 0x02 == 0 then next; end
+  printf("%s: %02x\n", item.name_s + (item.magic==1 ? "*" : ""), item.fk_index)
+=begin
   puts "<tr>"
   d sprintf("%x", item.index)
   d sprintf("<img src='item-S00I%03d.png' width='32'>", item.icon) + " " +
@@ -144,5 +147,6 @@ itemlist.each do |item|
   d (item.magic==1 ? "M" : "&nbsp;") + (item.i_entry==1 ? "T" : "&nbsp;")
   d sprintf("%x", item.fk_index)
   puts "</tr>"
+=end
 end
 puts "</table></body></html>"
