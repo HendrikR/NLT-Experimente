@@ -28,9 +28,9 @@ def read_items()
   f_name.close
 end
   
-# Waffen-Blacklisten nach Charaktertyp
+# Item-Blacklisten nach Charaktertyp
 TYPUS = ["Gaukler", "Jäger", "Krieger", "Streuner", "Thorwaler", "Zwerg", "Hexe", "Druide", "Magier", "Auelf", "Firnelf", "Waldelf"]
-def weapon_blacklist(file, version)
+def item_blacklist(file, version)
   offsets = {:o100 => 0x280EF, :c100 => 0x299A1, :c102 => 0x299A3, :c200 => 0x277FF}
   file.seek(offsets[version])
 
@@ -147,8 +147,8 @@ file_exe = File.open(ARGV[0])
 read_items()
 version = get_version(file_exe)
 =begin
-weapon_blacklist = weapon_blacklist(file_exe, version)
-weapon_blacklist.each_pair do |key,list|
+item_blacklist = item_blacklist(file_exe, version)
+item_blacklist.each_pair do |key,list|
   puts "    #### #{key}:"
   for id in list
     printf("- %s [%04x]\n", $items[id], id)
