@@ -3,9 +3,14 @@
 # Itemviewer für DSA2/RoA2: Sternenschweif (ITEMS.DAT)
 
 
+FILE_ITEMS = "/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/ITEMS.DAT"
+FILE_NAMES = "/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/ITEMS.LTX"
+FILE_DIARY = "/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/I_ENTRY.DAT"
+FILE_EXE   = "/home/hendrik/sandkasten/dosbox/crpg/RoA2/STAR.EXE"
+
 # Insgesamt gibt es 352 Items, davon 84 Waffen und 36 Rüstungsteile.
 class Item
-  attr_accessor :index, :name, :icon, :typ, :typ2, :subtyp, :gewicht, :fk_index, :preis, :magic, :i_entry, :haeufigkeit, :genus
+  attr_accessor :index, :name, :icon, :typ, :typ2, :subtyp, :gewicht, :fk_index, :preis, :magic, :i_entry, :sortiment, :genus
   def name_s
     arr = @name.split('.')
     if arr.size == 1 then arr[0]
@@ -93,11 +98,26 @@ class Item
     @fk_index    = data[0x05] # Index in eine andere Tabelle (Rüstungs- oder Waffenwerte, ...)
     @gewicht     = data[0x06] | (data[0x07] << 8)
     @preis       = data[0x0A] * (data[0x09] << 8 | data[0x08])
-    @haeufigkeit = data[0x0B] # Siehe [[http://www.crystals-dsa-foren.de/showthread.php?tid=700&pid=125835#pid125835]]
+    @sortiment   = data[0x0B] # Siehe [[http://www.crystals-dsa-foren.de/showthread.php?tid=700&pid=125835#pid125835]]
     @magic       = data[0x0C]
     @genus       = data[0x0D] # Grammatikalisches Geschlecht (im Deutschen): 0=m, 1=f, 2=n
   end
   def write()
+    #f_data = File.open(FILE_ITEMS, "wb")
+    #f_name = File.open(FILE_NAMES, "rb")
+    #f_diary= File.open(FILE_DIARY, "rb")
+    #f_exe  = File.open(FILE_EXE,   "rb")
+    preis_mul = 1
+    preis_val = preis
+    if (preis_val > 100) then preis_val /= 10; preis_mul *= 10; end
+    if (preis_val > 100) then preis_val /= 10; preis_mul *= 10; end
+    data = [@icon, @typ, @typ2, @subtyp, @fk_index, @gewicht, preis_val, preis_mul, @sortiment, @magic, @genus].pack("SCCCCSSCCC")
+    p data
+    #f_data.seek(14*@index)
+    #TODO so richtig?: f_data.write(data)
+    #TODO while((c = f_name.read(1)) != "\0") do name+=c; end
+    #f_diary.seek(@index)
+    #f_diary.writebyte(@i_entry)
   end
   def fk_object()
     # Read extra info from .EXE, if necessary
@@ -112,10 +132,10 @@ class Item
 end
 
 def read_items
-  f_data = File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/ITEMS.DAT", "rb")
-  f_name = File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/ITEMS.LTX", "rb")
-  f_entry= File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/I_ENTRY.DAT", "rb")
-  f_exe  = File.open("/home/hendrik/sandkasten/dosbox/crpg/RoA2/STAR.EXE", "rb")
+  f_data = File.open(FILE_ITEMS, "rb")
+  f_name = File.open(FILE_NAMES, "rb")
+  f_diary= File.open(FILE_DIARY, "rb")
+  f_exe  = File.open(FILE_EXE,   "rb")
   exe_version = get_version(f_exe)
   $armor_list  = read_armor_list(f_exe, exe_version)
   $weapon_list = read_weapon_list(f_exe, exe_version)
@@ -131,8 +151,9 @@ def read_items
     name = ""
     while((c = f_name.read(1)) != "\0") do name+=c; end
     diary_entry = 0
-    if not f_entry.eof?
-      diary_entry  = f_entry.readbyte # Wenn i_entry==1, wird der Fund im Tagebuch vermerkt.
+    if not f_diary.eof?
+      diary_entry  = f_diary.readbyte # Wenn i_entry==1, wird der Fund im Tagebuch vermerkt.
+      #puts index if diary_entry != 0
     end
     # read the rest
     i = Item.new
@@ -141,6 +162,10 @@ def read_items
     index+= 1
   end
   itemlist.pop # Das letzte Item, "Dukaten", hat keinen sinnvollen Eintrag.
+  f_data.close
+  f_name.close
+  f_diary.close
+  f_exe.close
   return itemlist
 end
 
