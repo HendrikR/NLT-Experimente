@@ -1,0 +1,852 @@
+* Thema: Elfen (ELVES)
+** Fragen (4):
+- Sagt - könnt Ihr uns etwas über Elfen erzählen?
+- Was wißt Ihr über Elfen?
+- Wie sieht es aus? Gibt's was Neues von den Elfen?
+- Habt Ihr etwas über die Elfen gehört?
+** gute Antworten (8):
+- In einigen Städten des Nordens gibt es Elfen, in Lowangen sind es mehrere tausend.
+- Elfen besaßen einst großes Wissen über den Bergbau, weil sie es aber nicht niedergeschrieben haben, ist dieses Wissen für immerdar verloren.
+- Man sagt, daß die Heimat der Elfen die Salamandersteine sind, es mag aber auch sein, daß sie sich nur dorthin zurückgezogen haben.
+- Wer etwas über das Leben der Elfen erfahren möchte, der sollte sich in Kvirasim umsehen; in den Salamandersteinen dulden die Elfen keine Fremden oder gar Zwerge.
+- In grauer Vorzeit gab es einen starken Bund zwischen Elfen und Zwergen, gemeinsam kämpften sie gegen die Orkenbrut.
+- Was im Kopf eines Elfen vor sich geht, wird den anderen Völkern wohl auf ewig ein Rätsel bleiben.
+- Früher siedelten die Elfen überall im Norden, doch in zahlreichen Kriegen wurden sie von den Orks in die Salamandersteine vertrieben.
+- Elfen sind wißbegierig, aber so manches werden sie wohl nie verstehen.
+** schlechte Antworten (8):
+- Spitzohren! Die können meinetwegen da hingehen, wo sie hergekommen sind!
+- Elfen, Elfen! Immer höre ich nur Elfen!
+- Von den Bäumen sind die Elfen heruntergestiegen, und dort gehören sie auch wieder hin - am besten baumelnd!
+- Das hinterhältige Elfenpack kann mir gestohlen bleiben!
+- Auf das Wort eines Elfen kann man nicht zählen, Elfen geben leichtfertig Versprechungen, die sie nicht einhalten.
+- Die Elfen arbeiten mit den Orks Hand in Hand, die Orks sollen die Drecksarbeit machen, damit die Elfen hernach die Herrschaft über die anderen antreten können!
+- In Wehrheim hat man Elfen schon mit den Ohren an Scheunentore genagelt.
+- Elfen haben eine recht merkwürdige Einstellung zum Eigentum, sowohl zu ihrem eigenen, als auch zu dem anderer Leute.
+* Thema: Zwerge (DWARVES)
+** Fragen (4):
+- Was gibt's denn Neues von der Zwergenfront?
+- Habt Ihr in letzter Zeit irgendetwas Neues über die Zwerge gehört?
+- Was hat sich bei den Zwergen denn so getan in letzter Zeit?
+- Mich würde etwas über Zwerge interessieren.
+** gute Antworten (8):
+- Hier im Norden ist der Einfluß der Zwerge nur sehr gering.
+- Im Norden gibt es mehr Zwerge, als die meisten vermuten. Früher gab es im Thasch und im Finsterkamm mehrere Minen, aber die Erzvorräte dort sind erschöpft, und so haben sich viele Zwerge in den Städten am Svellt niedergelassen.
+- Im Finsterkamm gibt es unterirdische Städte der Zwerge. Die wollen aber kaum etwas mit Fremden zu tun haben.
+- Die Zwerge gehören neben den Elfen zu den Ureinwohnern Aventuriens.
+- In grauer Vorzeit gab es einen starken Bund zwischen Zwergen und Elfen, gemeinsam kämpften sie gegen die Orkenbrut.
+- Man traut es den Zwergen kaum zu, aber sie können genausogut kämpfen, wie sie schmieden.
+- Wenn Ihr wirklich etwas über Zwerge erfahren wollt, müßt Ihr Euch in den unterirdischen Städten umschauen - falls sie Euch da reinlassen!
+- Die Zwerge sind das stärkste Volk Aventuriens.
+** schlechte Antworten (8):
+- Für Gold und Diamanten würden Zwerge sogar ihren besten Freund verraten.
+- Die Zwerge graben und graben was das Zeug hält. Eines Tages bricht uns noch der Boden unter den Füßen zusammen!
+- Was interessieren mich die Zwerge, denen sind die anderen Völker doch auch egal.
+- Wer ein Loch gräbt, muß sich nicht wundern, wenn ihm plötzlich ein Zwerg von der anderen Seite entgegenkommt.
+- Lichtscheues Gesindel. Die stecken in ihren Höhlen, und keiner weiß, was sie da eigentlich treiben.
+- Hinterhältiges Volk, die machen doch mit den Orks gemeinsame Sache.
+- Zwerge?! Elendige Verräter! Wie sind die Orks denn in Tjolmar über den Svellt gelangt, doch nur mit Hilfe des Zwergenpacks.
+- Eigentlich sind Zwerge ja ganz nett, wenn sie nur nicht so stinken würden!
+* Thema: Orks (ORCS)
+** Fragen (4):
+- Wie wäre es mit einem Gespräch über Orks?
+- Wißt Ihr etwas über die Orks, das wir nicht wissen?
+- Erzähl doch mal was über die Orks.
+- Wollen wir ein wenig über Orks plaudern?
+** gute Antworten (8):
+- Die Orks haben die Feste Greifenfurt genommen, bald wird auch Lowangen fallen.
+- Ein Teil des Orkenheeres ist in den Finsterkamm gezogen und macht dort die Gegend unsicher.
+- Ein Großteil des Orkenheers lagert am rechtssvelltschen Ufer vor Lowangen.
+- Alle Kämpfer der Orks wurden für den großen Feldzug rekrutiert - ihre Städte sind ohne Schutz zurückgeblieben.
+- Tiefhusen ist von den Orks gebrandschatzt worden.
+- Es gibt einen Orkengeneral, der sein Hauptquartier irgendwo im Rorwhed aufgeschlagen hat.
+- In den Blutzinnen gibt es eine große, unterirdische Stadt der Orks.
+- Sie verehren nicht die Zwölfgötter, sondern Brazoragh und Tairach.
+** schlechte Antworten (8):
+- Orks haben keine Kultur und kein Staatswesen, sie greifen für gewöhnlich nur in kleinen Gruppen an, die sich zufällig zusammenfinden. Finstere Mächte halten beim Feldzug der Orks die Fäden in der Hand.
+- Götter sind den Orks fremd, die Orkenbrut ist vielmehr eine Strafe der Götter.
+- Die Schwarzpelze werden die Belagerung Lowangens aufgeben müssen, denn der Widerstand der Stadt ist ungebrochen.
+- Im Norden kann man sich vor den Orks nirgendwo mehr sicher fühlen, überall lauern sie und greifen ohne Rücksicht auf Verluste an!
+- Wo es Schwarzpelze gibt, da hat es zumeist auch Oger.
+- Neulich habe ich noch einen getroffen - genau zwischen die Schulterblätter.
+- Vor Magie haben die Orks eine abergläubische Ehrfurcht, aber man hört immer öfter von Schwarzpelzen, die mutig genug sind, um magische Amulette zu tragen.
+- Mit Orks kann man nicht verhandeln, wenn sie überlegen sind, sollte man klein beigeben und das beste hoffen, ansonsten sollte man mit dem hinterlistigen Gesindel nicht lange fackeln.
+* Thema: Wetter (WEATHER)
+** Fragen (4):
+- Was meint Ihr zum Wetter heute?
+- Was sagt Euer Wetterfrosch? Wie wird's?
+- Wollen wir ein wenig über das Wetter plaudern?
+- Das Wetter ist auch nicht mehr das, was es einmal war, findet Ihr nicht auch?
+** gute Antworten (8):
+- Wir haben schon Wettermacher aus dem Regenwald kommen lassen, aber das nutzt alles nichts.
+- Vom einen auf den anderen Tag kann das Wetter umschlagen, und selbst begnadeten Hellsehern kann man nicht trauen, wenn sie etwas über das Wetter erzählen.
+- Früher gab es wenigstens noch richtige Jahreszeiten, aber der letzte Sommer, das war doch kein Sommer!
+- Schlimm, nicht wahr?!
+- Gutes Wetter, da hoffe ich schon lange nicht mehr drauf.
+- Laßt uns lieber das Thema wechseln.
+- Wozu noch große Worte verlieren?!
+- Wetter! Wetter! Alle reden nur vom Wetter!
+** schlechte Antworten (0):
+* Thema: Unterkunft (LODGE)
+** Fragen (4):
+- Gibt's hier irgendwo eine schnuckelige Unterkunft für ein paar rumgekommene Abenteurer wie uns?
+- Kennt Ihr hier in der Gegend eine Übernachtungsmöglichkeit?
+- Kann man hier irgendwo für eine Nacht unterkommen?
+- Wo kann man hier in der Nähe nächtigen?
+** gute Antworten (8):
+- Nicht, daß ich etwas gegen Fremde habe, aber mein Haus ist leider zu klein, um Gäste darin unterbringen zu können.
+- Meine bescheidene Hütte reicht gerade für mich und meine Familie - schaut Euch doch einfach nach einer Herberge um.
+- Ein Dach über dem Kopf ist Gold wert! Ich kann Euch da nicht helfen.
+- Für eine Reisegruppe Eurer Größe bietet sich einen Herberge an. Da müßtet Ihr Euch einfach im Ort umhören.
+- Vielleicht findet Ihr im Ort jemanden, der Euch für einen Nacht im Stall Unterkunft gewährt.
+- Eine Unterkunft solltet Ihr Euch schon besorgen - es kann in dieser Gegend nachts sehr kalt werden, da ist ein gemütliches Bett der Übernachtung im Freien allemal vorzuziehen.
+- Wenn Ihr keine Herberge findet, solltet Ihr mal in einer Taverne nachfragen, gegen gutes Geld stellt ein Wirt bisweilen sogar das eigene Bett zur Verfügung.
+- Hier ist es schwer etwas zu finden, nicht wahr?! Ich predige ja schon immer, daß ein oder zwei Herbergen für unseren Ort sicherlich von Nutzen wären.
+** schlechte Antworten (0):
+* Thema: Essen & Trinken (FOOD)
+** Fragen (4):
+- Wo kann man denn hier was zu essen bekommen?
+- Gibt's hier was zu essen?
+- Können wir hier irgendwo unseren Hunger stillen?
+- Wie wär's wenn Ihr mal was zu kauen rüberrutschen würdet?
+** gute Antworten (8):
+- Wenn Ihr betteln wollt, geht woanders hin, ich habe selbst nicht genug.
+- Leider kann ich Euch von dem bißchen, das mir bleibt, nichts abgeben.
+- Versucht es lieber in einer Taverne oder Herberge!
+- Das ist nun wirklich nicht das passende Thema für diesen Ort.
+- Mir scheint, mit Euren Waffen solltet Ihr Euch in den Wäldern etwas beschaffen können. Ob Ork oder Bär, geröstet sind sie alle gleich!
+- Ihr seht nicht so aus, als könntet Ihr Euch nicht selbst versorgen.
+- Ora et labora. Wer arbeitet, der hat - den Göttern sei Dank - auch stets zu essen.
+- Wo Blumen und Wälder grünen, dort werdet Ihr finden, wonach Euch gelüstet.
+** schlechte Antworten (0):
+* Thema: Reisen (TRAVEL)
+** Fragen (4):
+- Habt Ihr ein paar Tips für uns? Wir wollen ein wenig herumreisen.
+- Könntet Ihr uns sagen, was man beim Reisen in dieser Gegend beachten sollte?
+- Der Reisende hat nicht gerade alle Annehmlichkeiten des Lebens auf seiner Seite, oder?
+- Welche Regeln sollte der Reisende Eurer Meinung nach beachten?
+** gute Antworten (8):
+- Bevor man sich auf eine Reise begibt, sollte man die passende Ausrüstung und genügend Proviant besorgen.
+- So komfortabel wie in anderen Gegenden ist das Reisen in den nördlichen Landen nicht, aber wo ein Wille ist, ist auch ein Weg.
+- Früher bin ich viel gereist, aber heute wollen die Beine nicht mehr so.
+- Beim Reisen ist es wichtig, das Wetter im Auge zu behalten.
+- Reisen? Zu diesem Thema kann ich Euch mangels eigener Erfahrung nichts sagen.
+- Ja, wo wollt Ihr denn bloß hin, wo doch überall die Orks lauern. Also Reisen kann man da nicht so einfach.
+- Bevor Ihr einfach so loszieht, solltet Ihr Euch nach dem Weg erkundigen.
+- Reisen? Was habe ich davon? Es lungert doch allerorten nur übles Volk am Wegesrand. Nein, nein - da bleibe ich lieber in meinem Städtchen.
+** schlechte Antworten (0):
+* Thema: Kvirasim (KVIRASIM)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Gashok (GASHOK)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Lowangen (LOWANGEN)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (8):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+- Sicherlich gibt es noch eine Menge interessanten Gesprächsstoffs, aber für\nheute haben wir ja wirklich schon genug geredet.
+- Nun laßt es mal gut sein mit Eurer Fragerei, ich weiß ohnehin nicht viel.
+- Wenn Ihr ein längeres Schwätzchen halten wollt, dann geht doch einfach zu Asgrimm Thurboldsson nach Breida.
+- Was wollt Ihr denn noch alles wissen? Jetzt ist es genug!
+** schlechte Antworten (0):
+* Thema: Tiefhusen (TIEFHUSEN)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (8):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+- Sicherlich gibt es noch eine Menge interessanten Gesprächsstoffs, aber für\nheute haben wir ja wirklich schon genug geredet.
+- Nun laßt es mal gut sein mit Eurer Fragerei, ich weiß ohnehin nicht viel.
+- Wenn Ihr ein längeres Schwätzchen halten wollt, dann geht doch einfach zu Asgrimm Thurboldsson nach Breida.
+- Was wollt Ihr denn noch alles wissen? Jetzt ist es genug!
+** schlechte Antworten (0):
+* Thema: Tjolmar (TJOLMAR)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Finsterkoppen (FINSTERKOPPEN)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Ansvell (ANSVELL)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Salamandersteine (SALAMANDERSTEINE)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Finsterkamm (FINSTERKAMM)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (8):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+- Sicherlich gibt es noch eine Menge interessanten Gesprächsstoffs, aber für\nheute haben wir ja wirklich schon genug geredet.
+- Nun laßt es mal gut sein mit Eurer Fragerei, ich weiß ohnehin nicht viel.
+- Wenn Ihr ein längeres Schwätzchen halten wollt, dann geht doch einfach zu Asgrimm Thurboldsson nach Breida.
+- Was wollt Ihr denn noch alles wissen? Jetzt ist es genug!
+** schlechte Antworten (0):
+* Thema: Svellttal (SVELLTTAL)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (16):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+- Sicherlich gibt es noch eine Menge interessanten Gesprächsstoffs, aber für\nheute haben wir ja wirklich schon genug geredet.
+- Nun laßt es mal gut sein mit Eurer Fragerei, ich weiß ohnehin nicht viel.
+- Wenn Ihr ein längeres Schwätzchen halten wollt, dann geht doch einfach zu Asgrimm Thurboldsson nach Breida.
+- Was wollt Ihr denn noch alles wissen? Jetzt ist es genug!
+- Jetzt haben wir aber genug Zeit mit Gerede vertrödelt. Also lebt wohl.
+- Meine Geduld ist am Ende, die Tür findet Ihr sicherlich alleine!
+- Ihr könnt wohl nie ein Ende finden?! Aber ich!
+- Belästigt jemand anderen mit Euren Fragen, aber nicht mich.
+- Liebe Leute, nichts gegen einen kleinen Plausch, aber einmal muß Schluß sein.
+- Man kann es auch übertreiben mit der Plauderei - nicht wahr?!
+- Also - jetzt wollen wir mal zu einem Ende kommen!
+- Seid gegrüßt, werte Reisende!
+** schlechte Antworten (0):
+* Thema: Svelltsümpfe (SVELLTSUEMPFE)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (8):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+- Sicherlich gibt es noch eine Menge interessanten Gesprächsstoffs, aber für\nheute haben wir ja wirklich schon genug geredet.
+- Nun laßt es mal gut sein mit Eurer Fragerei, ich weiß ohnehin nicht viel.
+- Wenn Ihr ein längeres Schwätzchen halten wollt, dann geht doch einfach zu Asgrimm Thurboldsson nach Breida.
+- Was wollt Ihr denn noch alles wissen? Jetzt ist es genug!
+** schlechte Antworten (0):
+* Thema: Thasch (THASCH)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (8):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+- Sicherlich gibt es noch eine Menge interessanten Gesprächsstoffs, aber für\nheute haben wir ja wirklich schon genug geredet.
+- Nun laßt es mal gut sein mit Eurer Fragerei, ich weiß ohnehin nicht viel.
+- Wenn Ihr ein längeres Schwätzchen halten wollt, dann geht doch einfach zu Asgrimm Thurboldsson nach Breida.
+- Was wollt Ihr denn noch alles wissen? Jetzt ist es genug!
+** schlechte Antworten (0):
+* Thema: Blutzinnen (BLUTZINNEN)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Rorwhed (RORWHED)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (8):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+- Sicherlich gibt es noch eine Menge interessanten Gesprächsstoffs, aber für\nheute haben wir ja wirklich schon genug geredet.
+- Nun laßt es mal gut sein mit Eurer Fragerei, ich weiß ohnehin nicht viel.
+- Wenn Ihr ein längeres Schwätzchen halten wollt, dann geht doch einfach zu Asgrimm Thurboldsson nach Breida.
+- Was wollt Ihr denn noch alles wissen? Jetzt ist es genug!
+** schlechte Antworten (0):
+* Thema: Handel (TRADING)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Kräuter (HERBS)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (20):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+- Sicherlich gibt es noch eine Menge interessanten Gesprächsstoffs, aber für\nheute haben wir ja wirklich schon genug geredet.
+- Nun laßt es mal gut sein mit Eurer Fragerei, ich weiß ohnehin nicht viel.
+- Wenn Ihr ein längeres Schwätzchen halten wollt, dann geht doch einfach zu Asgrimm Thurboldsson nach Breida.
+- Was wollt Ihr denn noch alles wissen? Jetzt ist es genug!
+- Jetzt haben wir aber genug Zeit mit Gerede vertrödelt. Also lebt wohl.
+- Meine Geduld ist am Ende, die Tür findet Ihr sicherlich alleine!
+- Ihr könnt wohl nie ein Ende finden?! Aber ich!
+- Belästigt jemand anderen mit Euren Fragen, aber nicht mich.
+- Liebe Leute, nichts gegen einen kleinen Plausch, aber einmal muß Schluß sein.
+- Man kann es auch übertreiben mit der Plauderei - nicht wahr?!
+- Also - jetzt wollen wir mal zu einem Ende kommen!
+- Seid gegrüßt, werte Reisende!
+- Den Zwölfen zum Gruße!
+- Was kann ich für Euch tun?
+- Wenn ich Euch irgendwie behilflich sein kann, laßt es mich nur wissen. Ich erfülle Euch... fast jeden Wunsch!
+- Aber Hallo! Ihr hier? Was kann ich für Euch tun?
+** schlechte Antworten (0):
+* Thema: Waffen (WEAPONS)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (15):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+- Sicherlich gibt es noch eine Menge interessanten Gesprächsstoffs, aber für\nheute haben wir ja wirklich schon genug geredet.
+- Nun laßt es mal gut sein mit Eurer Fragerei, ich weiß ohnehin nicht viel.
+- Wenn Ihr ein längeres Schwätzchen halten wollt, dann geht doch einfach zu Asgrimm Thurboldsson nach Breida.
+- Was wollt Ihr denn noch alles wissen? Jetzt ist es genug!
+- Jetzt haben wir aber genug Zeit mit Gerede vertrödelt. Also lebt wohl.
+- Meine Geduld ist am Ende, die Tür findet Ihr sicherlich alleine!
+- Ihr könnt wohl nie ein Ende finden?! Aber ich!
+- Belästigt jemand anderen mit Euren Fragen, aber nicht mich.
+- Liebe Leute, nichts gegen einen kleinen Plausch, aber einmal muß Schluß sein.
+- Man kann es auch übertreiben mit der Plauderei - nicht wahr?!
+- Also - jetzt wollen wir mal zu einem Ende kommen!
+** schlechte Antworten (0):
+* Thema: Krankheiten (DISEASES)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (10):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+- Sicherlich gibt es noch eine Menge interessanten Gesprächsstoffs, aber für\nheute haben wir ja wirklich schon genug geredet.
+- Nun laßt es mal gut sein mit Eurer Fragerei, ich weiß ohnehin nicht viel.
+- Wenn Ihr ein längeres Schwätzchen halten wollt, dann geht doch einfach zu Asgrimm Thurboldsson nach Breida.
+- Was wollt Ihr denn noch alles wissen? Jetzt ist es genug!
+- Jetzt haben wir aber genug Zeit mit Gerede vertrödelt. Also lebt wohl.
+- Meine Geduld ist am Ende, die Tür findet Ihr sicherlich alleine!
+** schlechte Antworten (0):
+* Thema: Gifte (POISONS)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (8):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+- Sicherlich gibt es noch eine Menge interessanten Gesprächsstoffs, aber für\nheute haben wir ja wirklich schon genug geredet.
+- Nun laßt es mal gut sein mit Eurer Fragerei, ich weiß ohnehin nicht viel.
+- Wenn Ihr ein längeres Schwätzchen halten wollt, dann geht doch einfach zu Asgrimm Thurboldsson nach Breida.
+- Was wollt Ihr denn noch alles wissen? Jetzt ist es genug!
+** schlechte Antworten (0):
+* Thema: Schmiedekunst (SMITHERY)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Jagd (HUNT)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (6):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+- Sicherlich gibt es noch eine Menge interessanten Gesprächsstoffs, aber für\nheute haben wir ja wirklich schon genug geredet.
+- Nun laßt es mal gut sein mit Eurer Fragerei, ich weiß ohnehin nicht viel.
+** schlechte Antworten (0):
+* Thema: Praios (PRAIOS)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Rondra (RONDRA)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Efferd (EFFERD)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Travia (TRAVIA)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Boron (BORON)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Hesinde (HESINDE)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Firun (FIRUN)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Tsa (TSA)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Phex (PHEX)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Peraine (PERAINE)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Ingerimm (INGERIMM)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Rahja (RAHJA)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Swafnir (SWAFNIR)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Ifirn (IFIRN)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Zwergenbinge (ZWERGENBINGE)
+** Fragen (1):
+- Habt Ihr Kenntnis von der Zwergenbinge?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Salamanderstein (SALAMANDERSTEIN)
+** Fragen (1):
+- Wißt Ihr, was der Salamanderstein ist?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Ingramosch (INGRAMOSCH)
+** Fragen (1):
+- Könnt Ihr mir sagen, wer Ingramosch ist?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Sternenschweif (STERNENSCHWEIF)
+** Fragen (1):
+- Wißt Ihr etwas über Sternenschweif?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: A. Siebenquell (SIEBENQUELL)
+** Fragen (1):
+- Was könnt Ihr uns über Siebenquell sagen?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: V. Egelbronn (EGELBRONN)
+** Fragen (1):
+- Könnt Ihr uns etwas über Egelbronn sagen?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Gavron (GAVRON)
+** Fragen (1):
+- Wir suchen Gavron. Könnt Ihr uns helfen?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Artherion (ARTHERION)
+** Fragen (1):
+- Was wißt Ihr über Artherion?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Hensger (HENSGER)
+** Fragen (1):
+- Wo können wir Hensger finden?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Bannstrahler (BANNSTRAHLER)
+** Fragen (1):
+- Könnt Ihr uns etwas über die Bannstrahler erzählen?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Vermummte (VERMUMMTE)
+** Fragen (1):
+- Was hat es mit den vermummten Gestalten auf sich, die nachts auf dem Marktplatz seltsame Rituale vollführen?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Attentat (ATTEMPT)
+** Fragen (1):
+- Wißt Ihr etwas über den Armbrustbolzen, der aus dem Hinterhalt auf uns abgeschossen wurde?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Aschehaufen (ASHES)
+** Fragen (1):
+- Könnt Ihr uns den Aschehaufen auf dem Marktplatz erklären?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Auswärtige (FOREIGNER)
+** Fragen (1):
+- Könnt Ihr uns sagen, welche Einwohner Gashoks in letzter Zeit zugezogen sind?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: V. H. von Kuslik (KUSLIK)
+** Fragen (1):
+- Ihr wißt nicht zufällig, wo dieser Herr von Kuslik zu finden ist?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Mühle (MILL)
+** Fragen (1):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+** gute Antworten (4):
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+** schlechte Antworten (0):
+* Thema: Schwarzmagier (SCHWARZMAGIER)
+** Fragen (1):
+- Ist hier in letzter Zeit eine größere Gruppe Reisender vorbeigekommen?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema:  (DUMMY2)
+** Fragen (0):
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema:  (DUMMY3)
+** Fragen (0):
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema:  (DUMMY4)
+** Fragen (0):
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema:  (DUMMY5)
+** Fragen (0):
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema:  (DUMMY6)
+** Fragen (0):
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema:  (DUMMY7)
+** Fragen (0):
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema:  (DUMMY8)
+** Fragen (0):
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema:  (DUMMY9)
+** Fragen (0):
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema:  (DUMMY10)
+** Fragen (0):
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema:  (DUMMY11)
+** Fragen (0):
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema:  (DUMMY12)
+** Fragen (0):
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema:  (DUMMY13)
+** Fragen (0):
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema:  (DUMMY14)
+** Fragen (0):
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Rogolan (ROGOLAN)
+** Fragen (1):
+- Was bitte ist Rogolan?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Flüchtlinge (FLUECHTLINGE)
+** Fragen (1):
+- Von welchen Flüchtlingen redet Ihr?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Echsenmenschen (ECHSENMENSCHEN)
+** Fragen (1):
+- Wißt Ihr mehr über die Echsenmenschen?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Stadtmauer (STADTMAUER)
+** Fragen (1):
+- Die Stadtmauer?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Fluchttunnel (FLUCHTTUNNEL)
+** Fragen (1):
+- Wißt Ihr mehr über diesen Fluchttunnel?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Arsingen (ARSINGEN)
+** Fragen (1):
+- Arsingen?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Sibra (SIBRA)
+** Fragen (1):
+- Sibra?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Traviatempel (TRAVIATEMPEL)
+** Fragen (1):
+- Und wo können wir den Traviatempel finden?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Roglima (ROGLIMA)
+** Fragen (1):
+- Wie kommen wir zu Roglima?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Berman (BERMAN)
+** Fragen (1):
+- Wo finden wir Berman?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Vistella (VISTELLA)
+** Fragen (1):
+- Und wo ist Vistella zu finden?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Orkentod (ORKENTOD)
+** Fragen (1):
+- Orkentod?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Vormtann (VORMTANN)
+** Fragen (1):
+- Und wo können wir Meister Vormtann finden?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Farmion (FARMION)
+** Fragen (1):
+- Wo hat dieser Farmion seinen Laden?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Desdira (DESDIRA)
+** Fragen (1):
+- Wo ist der Laden dieser Desdira?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Svelltjepalast (SVELLTJEPALAST)
+** Fragen (1):
+- Könnt Ihr uns den Weg zum Svelltjepalast beschreiben?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Thorescha (THORESCHA)
+** Fragen (1):
+- Wo müssen wir denn lang, wenn wir zu Thorescha wollen?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Pakt (PAKT)
+** Fragen (1):
+- Zeitigt dieser Pakt schon Ergebnisse?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Vinsalter (VINSALTER)
+** Fragen (1):
+- Vinsalter?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Akademien (AKADEMIEN)
+** Fragen (1):
+- Wo sind diese Akademien?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Meisterschmiede (MEISTERSCHMIEDE)
+** Fragen (1):
+- Könnt Ihr uns etwas über diese Meisterschmiede erzählen?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Zaskia (ZASKIA)
+** Fragen (1):
+- Gerne, vielen Dank! - Wenn Ihr uns noch sagen könntet, wo Zaskias Haus liegt?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Kysira (KYSIRA)
+** Fragen (1):
+- Und wo finden wir Kysira?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Sumpfrantzen (SUMPFRANTZEN)
+** Fragen (1):
+- Was sind Sumpfrantzen?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Geheimausgang (GEHEIMAUSGANG)
+** Fragen (1):
+- Was war das für ein Geheimausgang?
+** gute Antworten (0):
+** schlechte Antworten (0):
+* Thema: Gesprächsende (GETOFF)
+** Fragen (0):
+** gute Antworten (16):
+- Ich will ja nicht unfreundlich sein, aber meine Zeit ist kostbar.
+- Ihr seid doch sicherlich nicht böse, wenn ich unsere kleine Konversation\njetzt beende?!
+- Nun denn, es war wirklich nett, sich mit Euch unterhalten zu haben.
+- Nichts für ungut, aber leider muß ich mich jetzt von Euch verabschieden - die Pflicht ruft.
+- Genug geplaudert, der Ernst des Lebens ruft.
+- Sicherlich gibt es noch eine Menge interessanten Gesprächsstoffs, aber für\nheute haben wir ja wirklich schon genug geredet.
+- Nun laßt es mal gut sein mit Eurer Fragerei, ich weiß ohnehin nicht viel.
+- Wenn Ihr ein längeres Schwätzchen halten wollt, dann geht doch einfach zu Asgrimm Thurboldsson nach Breida.
+- Was wollt Ihr denn noch alles wissen? Jetzt ist es genug!
+- Jetzt haben wir aber genug Zeit mit Gerede vertrödelt. Also lebt wohl.
+- Meine Geduld ist am Ende, die Tür findet Ihr sicherlich alleine!
+- Ihr könnt wohl nie ein Ende finden?! Aber ich!
+- Belästigt jemand anderen mit Euren Fragen, aber nicht mich.
+- Liebe Leute, nichts gegen einen kleinen Plausch, aber einmal muß Schluß sein.
+- Man kann es auch übertreiben mit der Plauderei - nicht wahr?!
+- Also - jetzt wollen wir mal zu einem Ende kommen!
+** schlechte Antworten (0):
+* Thema: Begrüßung (INTRO)
+** Fragen (0):
+** gute Antworten (16):
+- Seid gegrüßt, werte Reisende!
+- Den Zwölfen zum Gruße!
+- Was kann ich für Euch tun?
+- Wenn ich Euch irgendwie behilflich sein kann, laßt es mich nur wissen. Ich erfülle Euch... fast jeden Wunsch!
+- Aber Hallo! Ihr hier? Was kann ich für Euch tun?
+- Haben wir uns nicht schon mal gesehen? Wie stets mit dem werten Befinden?
+- Nun denn? Was ist von Interesse?
+- Ihr erinnert mich an ein paar Abenteurer, die vor kurzem mal hier waren.
+- Wenn Ihr etwas wissen wollt, macht schnell. Ich hab' noch was vor heute!
+- Was ich weiß, soll auch Euch nicht vorenthalten bleiben. Also - laßt hören.
+- Schießt los. Es gibt keine dummen Fragen.
+- Schweigen ist Silber. Reden ist Gold. Huldigen wir dem Edelerze!
+- Was kann ich für Euch tun?
+- Seid gegrüßt. Mal sehen, ob ich Euch behilflich sein kann.
+- Wie kann ich Euch helfen, edle Reisende?
+- Abenteurer haben immer viele Fragen. Ihr auch?
+** schlechte Antworten (0):
+* Thema:  (IGNORANCE)
+** Fragen (0):
+** gute Antworten (16):
+- Dazu kann ich nichts sagen!
+- Leider reicht mein Wissen hierzu nicht aus, um Euch weiterzuhelfen.
+- Da müßt Ihr anderswo nachfragen!
+- Fragt andere danach, aber nicht mich.
+- Komisch, wie Ihr auf die Idee gekommen seid, ausgerechnet mich danach zu fragen.
+- Das fragt Ihr ausgerechnet mich?
+- Ich habe nicht die leiseste Ahnung.
+- Da kenne ich mich überhaupt nicht aus.
+- Tut mir leid, davon habe ich keine Ahnung!
+- Tja, was soll ich dazu sagen?
+- Laßt uns lieber ein anderes Thema wählen.
+- Ich fürchte, jetzt ist ein Themenwechsel angesagt, davon weiß ich nichts!
+- Da kann ich Euch leider nicht weiterhelfen.
+- Da muß ich leider passen.
+- Habt Ihr auch noch andere Interessen?
+- Da seid Ihr bei mir an der falschen Adresse.
+** schlechte Antworten (0):
