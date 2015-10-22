@@ -32,8 +32,7 @@ f_topics.each {|str|
 }
 
 
-#for i in 0...topics.size
-i = 57
+for i in 0...topics.size
   topic = topics[i]
   dialog = dialogs[i]
   puts "* Thema: #{topic[1]} (#{topic[0]})"
@@ -49,4 +48,4 @@ i = 57
   for i in 0...dialog.num_badanswers do
     puts "- " + texts[dialog.badanswer+i]
   end
-#end
+end

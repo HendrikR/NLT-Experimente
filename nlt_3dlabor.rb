@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-f = File.open("TENT.3D", mode="rb")
+f = File.open(ARGV[0], mode="rb")
 points = []
 while not f.eof
-  z = f.read(4).unpack("l")[0]
+  # Die Daten weisen auf int16 als Datentyp hin.
+  z = f.read(2).unpack("s")[0]
   break if z == nil
-  fixpt = z / (2**31).to_f
+  fixpt = z / (2**15).to_f
   points.push(fixpt)
 end
 points.shift
@@ -16,9 +17,9 @@ require 'glu'
 require 'glut'
 
 $preshift = 0
+$postshift = 0
 $inshift = 0
 $intershift = 0
-$postshift = 0
 $corners = 3
 $variant = GL::POINTS
 display = Proc.new {
@@ -30,10 +31,10 @@ display = Proc.new {
   GL.Begin($variant)
   i = 0
   while p.size > 0
-    GL.Color3f(1.0, i/100.0, 0.0)
+    GL.Color3f(1.0, p.size/points.size.to_f, 0.0)
     x = p.shift
     y = p.shift
-    z = p.shift
+    z = 0#p.shift
     break if z==nil
     GL.Vertex3f(x, y, z)
     $inshift.times do p.shift end
@@ -55,7 +56,7 @@ reshape = Proc.new{|width, height|
   GLU.Perspective(90.0, 4/3.0, -2, 0)
   GL.MatrixMode(GL::MODELVIEW)
   GL.LoadIdentity
-  GLU.LookAt(0, 0, -1.5,   0, 0, 0,   0, 1, 0)
+  GLU.LookAt(0, 0, -1.5,   0, 0, 0,   0, -1, 0)
   $width = width
   $height= height
 }
@@ -64,7 +65,7 @@ motion = Proc.new{|x,y|
   GL.LoadIdentity
   GLU.LookAt((2.0*x)/$width-1.0,  (2.0*y)/$height-1.0,  -1.5,
              0, 0, 0,
-             0, 1, 0)
+             0, -1, 0)
   GLUT.PostRedisplay
 }
 
