@@ -39,17 +39,18 @@ def wuerfel_to_str(wdata)
 end
 
 # Monster-Liste laden
-f_name = File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/MONNAMES.LTX", "rb")
-f_data = File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/MONSTER.DAT", "rb")
+f_name = File.open("MONNAMES.LTX", "rb:CP850:utf-8")
+f_data = File.open("MONSTER.DAT", "rb")
 monsters = []
 index = 0
 
-until f_name.eof?
+
+monnames = []
+f_name.each("\0"){|n| monnames << n}
+
+until monnames.empty?
   m = Monster.new
-  name = ""
-  while((c = f_name.read(1)) != "\0") do name+=c; end
-  m.name      = name_s(name)
-  
+  m.name      = name_s(monnames.shift)
   m.id        = f_data.read(1).unpack("C")[0]
   m.sprite_id = f_data.read(1).unpack("C")[0]
 

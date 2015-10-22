@@ -26,41 +26,18 @@ end
 
 
 # Item-Liste laden für die Namen der Beute-Gegenstände
-def read_items()
-  f_name = File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/ITEMS.LTX", "rb")
-  
-  itemlist = []
-  index = 0
-  until f_name.eof?
-    name = ""
-    while((c = f_name.read(1)) != "\0") do name+=c; end
-    itemlist << name_s(name)
-    index+= 1
-  end
-  f_name.close
-  return itemlist
+def read_ltx(name)
+  file = File.open(name, "rb:CP850:utf-8")
+  list = file.read.split("\0")
+  list = list.inject([]) {|arr,i| arr << name_s(i)}
+  file.close
+  return list
 end
 
-# Monster-Liste laden für die Namen der Gegner
-def read_monsters()
-  f_name = File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/MONNAMES.LTX", "rb")
-  
-  monsters = []
-  index = 0
-  until f_name.eof?
-    name = ""
-    while((c = f_name.read(1)) != "\0") do name+=c; end
-    monsters << name_s(name)
-    index+= 1
-  end
-  f_name.close
-  return monsters
-end
+itemlist = read_ltx("ITEMS.LTX")
+monlist  = read_ltx("MONNAMES.LTX")
 
-itemlist = read_items
-monlist  = read_monsters
-
-file = File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/FIGHT.LST", "rb")
+file = File.open("FIGHT.LST", "rb")
 num_fights = file.read(2).unpack("S<")[0]
 puts "Datei enthält #{num_fights} Kämpfe."
 fightlist = Array.new()
@@ -111,18 +88,18 @@ for i in 0...num_fights
 end
 
 for fight in fightlist
-  puts "#{fight.name}: #{fight.enemies.size} fighters:"
+  puts "#{fight.name}: #{fight.enemies.size} Gegner:"
   for eg in fight.enemy_groups
-    puts "   - #{eg.number} x #{monlist[eg.id]}[#{eg.id}] in round #{eg.when}"
+    puts "   - #{eg.number} x #{monlist[eg.id]}[#{eg.id}] in Runde #{eg.when}"
   end
 #  for e in fight.enemies
 #    puts "   - #{monlist[e.id]}[#{e.id}]"
 #  end
   
-#  puts " Loot: #{fight.money} Heller"
-#  for l in fight.loot
-#    puts "   - #{itemlist[l]}"
-#  end
+  puts " Beute: #{fight.money} Heller"
+  for l in fight.loot
+    puts "   - #{itemlist[l]}"
+  end
 end
 
 file.close

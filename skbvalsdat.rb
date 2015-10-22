@@ -20,7 +20,13 @@ end
 werte.each do |typus,skills|
   puts "==== #{typus} ===="
   for i in 0...52 do
-    puts "#{names_skill[i]}: #{skills[i]}"
+    print " #{names_skill[i]}: #{skills[i]}"
+    if i==8 or i==18 or i==25 or i==31 or i==49 or i==51
+      print "\n"
+    else
+      print ","
+    end
   end
+  puts
 end
 f.close

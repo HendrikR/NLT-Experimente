@@ -21,7 +21,7 @@ end
 
 def read_items()
   # Namen der Items einlesen
-  f_name = File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/ITEMS.LTX", "rb", :encoding => "CP437")
+  f_name = File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/ITEMS.LTX", "rb:CP850:utf-8")
   
   $items = f_name.read.split("\0")
   $items = $items.inject([]) {|arr,i| arr << name_s(i)}

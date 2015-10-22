@@ -83,22 +83,21 @@ class Item
   end
 end
 
-f_data = File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/ITEMS.DAT", "rb")
-f_name = File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/ITEMS.LTX", "rb")
-f_entry= File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/I_ENTRY.DAT", "rb")
+f_data = File.open("ITEMS.DAT", "rb")
+f_name = File.open("ITEMS.LTX", "rb:CP850:utf-8")
+f_entry= File.open("I_ENTRY.DAT", "rb")
 
 itemlist = []
+itemnames= f_name.read.split("\0")
+
 #f_data.read(2)
 #f_data.read(14) # Dummy-Item
 index = 0
 while(data = f_data.read(14))
   break if data.size < 14
-  break if f_name.eof?
   data = data.bytes
-  name = ""
-  while((c = f_name.read(1)) != "\0") do name+=c; end
   i = Item.new
-  i.name = name
+  i.name = itemnames.shift
   if not f_entry.eof?
     i.i_entry  = f_entry.readbyte # Wenn i_entry==1, wird der Fund im Tagebuch vermerkt.
   else

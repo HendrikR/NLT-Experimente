@@ -21,10 +21,10 @@ f = File.new("SCHOOL.DAT", "rb")
 schools = ["Antimagie", "Beherrschung", "Beschwörung", "Bewegung", "Heilung", "Hellsicht", "Kampf", "Verwandlung", "Veränderung"]
 boni = Array.new(9)
 for school in 0...9 do
-  printf "%x\n" % f.tell
+  #printf "%x\n" % f.tell
   keys = []; vals = []
   anz_boni = f.read(1).bytes[0]
-  puts "Schule #{school} hat #{anz_boni} boni."
+  #puts "Schule #{school} hat #{anz_boni} boni."
   for i in 0...anz_boni
     data = f.read(2).bytes
     keys << data[0] + (data[1] << 8)
