@@ -2,12 +2,11 @@
 
 # Ermittle die Version der .exe
 def get_version(file_exe)
-  file_exe.seek(0x28775)
-  version = file_exe.read(5)
-  if    version == "O1.00" then return :o100 # Deutsch
-  elsif version == "C1.00" then return :c100 # Deutsch
-  elsif version == "C1.02" then return :c102 # Deutsch
-  elsif version == "C2.00" then return :c200 # Englisch
+  def readv(file, ofs); file.seek(ofs); file.read(5); end
+  if    readv(file_exe, 0x2A96D) == "C1.02" then return :c102 # Deutsch
+  elsif readv(file_exe, 0x28775) == "C2.00" then return :c200 # Englisch
+  #elsif readv(file_exe, ???) == "O1.00" then return :o100 # Deutsch
+  #elsif readv(file_exe, ???) == "C1.00" then return :c100 # Deutsch
   else  raise "Fehler: Unbekannte Sternenschweif-Version »#{version}«"
   end
 end
@@ -19,7 +18,7 @@ def name_s(name)
     else arr[0]+arr[1]; end
 end
 
-def read_items()
+def read_item_names()
   # Namen der Items einlesen
   f_name = File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/ITEMS.LTX", "rb:CP850:utf-8")
   
@@ -30,6 +29,10 @@ end
   
 # Item-Blacklisten nach Charaktertyp
 TYPUS = ["Gaukler", "Jäger", "Krieger", "Streuner", "Thorwaler", "Zwerg", "Hexe", "Druide", "Magier", "Auelf", "Firnelf", "Waldelf"]
+# TODO: Direkt vor den Item-Blacklisten sind noch 2 andere, merkwürdige Listen, die genauso aufgebaut sind.
+# Die 1. Liste enthält die meisten Flüssigkeiten (Gifte, Öl, Wein, Gegengift); dazu 3 Rüstungen (Leder, Kette, Platte), Schmuckhalsbänder, Lobpreisungen, Pergamente.
+# Die 2. Liste enthält: Dietrich, div. Schuhwerk, Bonbons, Lobpreisungen, div. Juwelen und Münzen (grün, rot, bunt).
+# Denkbar, dass diese Indices in andere Listen (Kämpfe?) zeigen -- aber angesichts der Aufzählungen z.B. von Gift oder Schmuck (mit unzusammenhängenden Itemnummern) können das eigentlich nur Items sein.
 def item_blacklist(file, version)
   offsets = {:o100 => 0x280EF, :c100 => 0x299A1, :c102 => 0x299A3, :c200 => 0x277FF}
   file.seek(offsets[version])
@@ -144,9 +147,10 @@ end
 
 
 file_exe = File.open(ARGV[0])
-read_items()
+read_item_names()
 version = get_version(file_exe)
-=begin
+puts "Sternenschweif .EXE Version #{version}"
+
 item_blacklist = item_blacklist(file_exe, version)
 item_blacklist.each_pair do |key,list|
   puts "    #### #{key}:"
@@ -155,16 +159,19 @@ item_blacklist.each_pair do |key,list|
   end
 end
 
+=begin
 armor_list = armor_list(file_exe, version)
 armor_list.each_with_index do |a,i|
   puts "Rüstung ##{i}: RS #{a.rs} BE #{a.be}"
 end
 =end
 
+=begin
 weapon_list = weapon_list(file_exe, version)
 weapon_list.each_with_index do |w,i|
   puts w if w.unk2 == 2
 end
+=end
 
 =begin
 rezept_list = rezept_list(file_exe, version)
