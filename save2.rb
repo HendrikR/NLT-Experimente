@@ -124,7 +124,7 @@ class Chunk_CHAR < Chunk
     when 10; @sex==0 ? "Auelf"     : "Auelfe"  
     when 11; @sex==0 ? "Firnelf"   : "Firnelfe"
     when 12; @sex==0 ? "Waldelf"   : "Waldelfe"
-    else @typus.to_s;
+    else "Ungültiger Typus (#{@typus.to_s})";
     end
   end
   def to_s
@@ -187,6 +187,25 @@ class Chunk_PLAY < Chunk
   end
 end
 
+class Chunk_TEMP < Chunk
+  def read_data
+    @filename = @data[0..12].unpack("Z*")[0]
+    @unk1 = @data[13..13].unpack("C")[0]
+    @content = @data[14..-1]
+  end
+  def to_s
+    "Temp file #{@filename} (#{@length-14} bytes): #{@unk1}"
+  end
+end
+
+class Chunk_GLOB < Chunk
+  def read_data
+  end
+  def to_s
+    @data.unpack("C*").to_s
+  end
+end
+
 chunks = []
 f = File.new(ARGV[0])
 pos = 0x114 # DESC-Chunk ohne Längenangabe überspringen
@@ -204,5 +223,4 @@ while not f.eof?
 end
 
 
-chunks.select{|c| c.type == "PLAY"}.each { |x| puts x }
-
+chunks.select{|c| c.type == "PLAY"}.each { |c| puts c.type.to_s + ":  " + c.to_s }
