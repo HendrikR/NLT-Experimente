@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+require_relative "common.rb"
+
+
 # Ermittle die Version der .exe
 def get_version(file_exe)
   def readv(file, ofs); file.seek(ofs); file.read(5); end
@@ -7,28 +10,11 @@ def get_version(file_exe)
   elsif readv(file_exe, 0x28775) == "C2.00" then return :c200 # Englisch
   #elsif readv(file_exe, ???) == "O1.00" then return :o100 # Deutsch
   #elsif readv(file_exe, ???) == "C1.00" then return :c100 # Deutsch
-  else  raise "Fehler: Unbekannte Sternenschweif-Version »#{version}«"
+  else  raise "Fehler: Unbekannte Sternenschweif-Version"
   end
 end
 
-# Hilfsfunktionen
-def name_s(name)
-  arr = name.split('.')
-  if arr.size == 1 then arr[0]
-    else arr[0]+arr[1]; end
-end
-
-def read_item_names()
-  # Namen der Items einlesen
-  f_name = File.open("/home/hendrik/repos/BrightEyes/tools/nltpack/out-roa2/ITEMS.LTX", "rb:CP850:utf-8")
-  
-  $items = f_name.read.split("\0")
-  $items = $items.inject([]) {|arr,i| arr << name_s(i)}
-  f_name.close
-end
-  
 # Item-Blacklisten nach Charaktertyp
-TYPUS = ["Gaukler", "Jäger", "Krieger", "Streuner", "Thorwaler", "Zwerg", "Hexe", "Druide", "Magier", "Auelf", "Firnelf", "Waldelf"]
 # TODO: Direkt vor den Item-Blacklisten sind noch 2 andere, merkwürdige Listen, die genauso aufgebaut sind.
 # Die 1. Liste enthält die meisten Flüssigkeiten (Gifte, Öl, Wein, Gegengift); dazu 3 Rüstungen (Leder, Kette, Platte), Schmuckhalsbänder, Lobpreisungen, Pergamente.
 # Die 2. Liste enthält: Dietrich, div. Schuhwerk, Bonbons, Lobpreisungen, div. Juwelen und Münzen (grün, rot, bunt).
@@ -44,7 +30,7 @@ def item_blacklist(file, version)
     loop do
       id = file.read(2).unpack("S<")[0]
       break if id == 0xFFFF
-      #printf("- %s [%04x]\n", $items[id], id)
+      #printf("- %s [%04x]\n", ITEMNAMES[id], id)
       list[TYPUS[i]] << id
     end
   end
@@ -60,18 +46,18 @@ def armor_list(file, version)
   file.seek(offsets[version])
 
   list = []
-  loop do
+  for i in 0...27 do
     a = Armor.new
-    a.rs = file.read(1).unpack("C")[0]
-    a.be = file.read(1).unpack("C")[0]
+    a.rs, a.be = file.read(2).unpack("CC")
     break if a.rs == 0xFF && a.be == 0xFF
     list << a
   end
+  p file.tell.to_s(16)
   return list
 end
 
 class Weapon
-  attr_accessor :id, :tp_w6, :tp_add, :kk_zuschlag, :bf, :unk1, :mod_at, :mod_pa, :unk2
+  attr_accessor :id, :tp_w6, :tp_add, :kk_zuschlag, :bf, :unk1, :mod_at, :mod_pa, :anim_type
   def initialize(id, data)
     @id          = id
     @tp_w6       = data[0].unpack("C")[0]
@@ -81,7 +67,7 @@ class Weapon
     @unk1        = data[4].unpack("C")[0] # Scheint ein weiterer Fremdschlüssel für Fernwaffen zu sein (Entfernungstabelle?). Für den Schneidzahn allerdings ist der Wert 0xff.
     @mod_at      = data[5].unpack("c")[0]
     @mod_pa      = data[6].unpack("c")[0]
-    @unk2        = data[7].unpack("C")[0] # Waffengattung (evtl. für die Auswahl der Animation auf dem Kampfbildschirm?)
+    @anim_type   = data[7].unpack("C")[0] # Waffengattung (für die Animation auf dem Kampfbildschirm)
     # Werte von 0 bis 6.
     # 0: Messer, Dolch, Obsidiandolch, Wolfsmesser, Asthenilmesser, Asthenildolch {kleine Stichwaffen}
     # 1: Knüppel, Morgenstern, Pike, Streitkolben, Kampfstab, Peitsche, Kriegshammer, Hellebarde, Dreschflegel, Ochsenherde, Rabenschnabel, Brabakbengel, Hexenbesen, Streitkolben* {Hieb-Waffen}
@@ -92,8 +78,8 @@ class Weapon
     # 6: Speer, Speer*
   end
   def to_s
-    "Waffe #%02x: #{@tp_w6}W+#{@tp_add} TP, KK-Zuschlag #{@kk_zuschlag},\tAT/PA % 2d/% 2d, BF #{@bf},\tunk: %x, %x" \
-    % [@id, @mod_at, @mod_pa, @unk1, @unk2]
+    "Waffe #%02x: #{@tp_w6}W+#{@tp_add} TP, KK-Zuschlag #{@kk_zuschlag},\tAT/PA % 2d/% 2d, BF #{@bf},\tdist: %x, anim %x" \
+    % [@id, @mod_at, @mod_pa, @unk1, @anim_type]
   end
 end
 def weapon_list(file, version)
@@ -126,10 +112,10 @@ class Rezept
     @kosten_TH = data[27].unpack("C")[0]
   end
   def to_s
-    ret  = $items[@id_recipe] + ": "
-    @zutaten.each_pair{|z,num| ret += "#{num} #{$items[z]}, "}
+    ret  = ITEMNAMES[@id_recipe] + ": "
+    @zutaten.each_pair{|z,num| ret += "#{num} #{ITEMNAMES[z]}, "}
     ret += "#{@kosten_ae} AE und %02d Stunden " % [@kosten_TH]
-    ret += "ergibt #{$items[@id_result]} [#{@kosten_TM}]"
+    ret += "ergibt #{ITEMNAMES[@id_result]} [#{@kosten_TM}]"
     ret += "\n"
     return ret
   end
@@ -146,18 +132,70 @@ def rezept_list(file, version)
 end
 
 
+def spell_list(file, version)
+  # hat vermutlich irgendwas mit Zaubersprüchen zu tun: es gibt genau 86 Einträge à 8 Bytes.
+  # Die letzten 4 Bytes sind immer 0, Byte 3 immer 36, Byte 2 wächst von 12 bis 47
+  # - Zusammen ergeben die 4 ersten Bytes eine monoton steigende Folge.
+  #   x steigt immer um je 5 bis zu einem bestimmten Wert, dann wird x 'rückgesetzt' auf eine kleine Zahl und zugleich y um 8,9 oder 10 erhöht.
+  # - sieht ein wenig nach Koordinaten (y,x) aus, ergibt aber dargestellt wenig Sinn.
+  #   Die Darstellung ergibt zwar eine Tabelle, aber die Spalten sind vertikal nicht aneinander ausgerichtet.
+  #   Außerdem wechselt die Spalte oft mitten in der Gruppe.
+  # - Mit den Zaubergruppen stimmt es auch nicht überein
+  # - Die Zauber-Sounds scheinen auch nach Gruppe gewählt zu sein, das ist es wohl auch nicht.
+  # - ...
+  offsets = {:c102 => 0x28A80 }
+  file.seek(offsets[version])
+  list = []
+  #puts "<svg xmlns=\"http://www.w3.org/2000/svg\"><g transform='scale(0.6)'>"
+  for i in 0...86
+    data = file.read(8).unpack("S<CCL<")
+    puts SPELL[i].ljust(30) + data.to_s #if data[2] != 36
+    #puts "<text x='#{20*data[1]}' y='#{5*data[0]-100}'>#{SPELL[i]}</text>"
+  end
+  #puts "</g></svg>"
+end
+
+def start_inventory(file, version)
+  offsets = {:c102 => 0x2C8C6 }
+  file.seek(offsets[version])
+  typus2 = ["Allgemein"]+TYPUS
+  for i in 0...13
+    if i == 0 then count = 5
+    else           count = 4; end
+    items = file.read(count*2).unpack("S<*")
+    print typus2[i] + ": "
+    items.each{|x| print " " + ITEMNAMES[x] unless x==0xFFFF}
+    puts
+  end
+end
+
+def mohr(file, version)
+  offsets = {:c102 => 0x2A0D1 }
+  file.seek(offsets[version])
+  count = 12
+  items = file.read(count*2).unpack("S<*")
+  items.each{|x| print " " + ITEMNAMES[x] unless x==0xFFFF}
+  puts
+end
+
 file_exe = File.open(ARGV[0])
 read_item_names()
 version = get_version(file_exe)
-puts "Sternenschweif .EXE Version #{version}"
+#puts "Sternenschweif .EXE Version #{version}"
+spell_list(file_exe, version)
+#start_inventory(file_exe, version)
+#armor_list(file_exe, version)
+#mohr(file_exe,version)
 
+=begin
 item_blacklist = item_blacklist(file_exe, version)
 item_blacklist.each_pair do |key,list|
   puts "    #### #{key}:"
   for id in list
-    printf("- %s [%04x]\n", $items[id], id)
+    printf("- %s [%04x]\n", ITEMNAMES[id], id)
   end
 end
+=end
 
 =begin
 armor_list = armor_list(file_exe, version)
