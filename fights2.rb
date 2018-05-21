@@ -90,7 +90,7 @@ end
 for fight in fightlist
   puts "#{fight.name}: #{fight.enemies.size} Gegner:"
   for eg in fight.enemy_groups
-    puts "   - #{eg.number} x #{monlist[eg.id]}[#{eg.id}] in Runde #{eg.when}"
+    puts "   - #{eg.number} x #{monlist[eg.id]}[0x#{eg.id.to_s 16}] in Runde #{eg.when}"
   end
 #  for e in fight.enemies
 #    puts "   - #{monlist[e.id]}[#{e.id}]"

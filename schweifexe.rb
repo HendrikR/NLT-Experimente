@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-require_relative "common.rb"
+require_relative "_common.rb"
 
 
 # Ermittle die Version der .exe
@@ -39,7 +39,15 @@ end
 
 
 class Armor
-  attr_accessor :rs, :be
+  attr_accessor :id, :rs, :be
+  def initialize(id, data)
+    @id = id
+    @rs, @be = data.unpack("CC")
+  end
+
+  def to_s
+    "Rüstung #%02x:\tRS #{@rs}, BE #{@be}\n" % @id
+  end
 end
 def armor_list(file, version)
   offsets = {:o100 => 0x287E7, :c100 => 0x2A099, :c102 => 0x2A09B, :c200 => 0x27EF7}
@@ -47,8 +55,7 @@ def armor_list(file, version)
 
   list = []
   for i in 0...27 do
-    a = Armor.new
-    a.rs, a.be = file.read(2).unpack("CC")
+    a = Armor.new(i, file.read(2))
     break if a.rs == 0xFF && a.be == 0xFF
     list << a
   end
@@ -179,12 +186,13 @@ def mohr(file, version)
 end
 
 file_exe = File.open(ARGV[0])
-read_item_names()
 version = get_version(file_exe)
 #puts "Sternenschweif .EXE Version #{version}"
 spell_list(file_exe, version)
 #start_inventory(file_exe, version)
-#armor_list(file_exe, version)
+#puts armor_list(file_exe, version)
+#puts weapon_list(file_exe, version)
+#puts rezept_list(file_exe, version)
 #mohr(file_exe,version)
 
 =begin
@@ -197,24 +205,4 @@ item_blacklist.each_pair do |key,list|
 end
 =end
 
-=begin
-armor_list = armor_list(file_exe, version)
-armor_list.each_with_index do |a,i|
-  puts "Rüstung ##{i}: RS #{a.rs} BE #{a.be}"
-end
-=end
-
-=begin
-weapon_list = weapon_list(file_exe, version)
-weapon_list.each_with_index do |w,i|
-  puts w if w.unk2 == 2
-end
-=end
-
-=begin
-rezept_list = rezept_list(file_exe, version)
-rezept_list.each_with_index do |r,i|
-  puts r
-end
-=end
 file_exe.close
