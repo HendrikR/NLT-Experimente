@@ -1,0 +1,13 @@
+nlt_game: 1
+nlt_version: "C2.0"
+nlt_format: "NVF"
+nvf:
+  compression: ["NONE", "RLE", "PowerPack"]
+  subimg_uniform: true
+  has_header: true
+  width: 60
+  height: 60
+  subimage_size: 1
+  subimages:
+    - bla: blubb
+
