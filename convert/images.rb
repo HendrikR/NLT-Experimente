@@ -2,22 +2,41 @@ class File
   def write32(x); self.write [x].pack("L<"); end
   def write16(x); self.write [x].pack("S<"); end
   def write08(x); self.write [x].pack("C"); end
-  def read32(); self.read(4).unpack1("L<"); end
-  def read16(); self.read(2).unpack1("S<"); end
-  def read08(); self.read(1).unpack1("C"); end
+  # TODO: use unpack1() when available
+  def read32(); self.read(4).unpack("L<")[0]; end
+  def read16(); self.read(2).unpack("S<")[0]; end
+  def read08(); self.read(1).unpack("C")[0]; end
 end
 
 class Palette
   attr_accessor :r, :g, :b
-  def initialize(r_,g_,b_)
-    r = r_
-    g = g_
-    b = b_
+  def initialize(r,g,b)
+    @r = r
+    @g = g
+    @b = b
+  end
+
+  def ==(o)
+    @r == o.r && @g == o.g && @b == o.b
   end
 end
 
 class Rect
   attr_accessor :x0, :y0, :width, :height
+  def initialize(x0, y0, width, height)
+    @x0     = x0
+    @y0     = y0
+    @width  = width
+    @height = height
+  end
+
+  def size
+    @width * @height
+  end
+
+  def ==(o)
+    @x0 == o.x0 && @y0 == o.y0 && @width = o.width && @height == o.height
+  end
 end
 
 class Image
@@ -26,10 +45,10 @@ class Image
 
   def sanity_checks
     pre = "sanity check failed: "
-    data_size = @dimensions.width + @dimensions.height
-    raise(pre + "image should have #{data_size} pixels, but has #{@data.size} instead") if @data.size != data_size
-    raise(pre + "invalid palette size: should be 256, is #{@palette.size}") if @palette_size != 256
+    raise(pre + "image should have #{@dimensions.size} pixels, but has #{@data.size} instead") if @data.size != @dimensions.size
+    raise(pre + "invalid palette size: should be 256, is #{@palette.size}") if @palette.size != 256
     # TODO: more sanity checks, also for the other classes
+    return true
   end
 end
 

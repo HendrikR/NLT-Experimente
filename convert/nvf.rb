@@ -26,27 +26,26 @@ class NVF < ImageList
   end
 
   def compress_rle(data)
-    # TODO: testinng
+    # TODO: testing
+    out       = []
     last_byte = data[0]
     seq_len   = 0
+    i         = 0
     while i < data.size
       c = data[i]
-      if c == last_byte
+      if c == last_byte && seq_len < 0x80
         seq_len += 1
       else
         if seq_len < 2
           seq_len.times{ out << c }
         else
-          while seq_len > 0 do
-            seq_max = seq_len > 255 ? 255 : seq_len
-            out << 0x7F << seq_max << last_byte
-            seq_len -= seq_max
-          end
+          out << seq_len+0x80 << last_byte
         end
         last_byte = c
         seq_len = 1
       end
     end
+    return out
   end
 
   def decompress_rle(data)
@@ -61,6 +60,7 @@ class NVF < ImageList
         i += 1
       end
     end
+    return out
   end
 
   def decompress_pp(data)
