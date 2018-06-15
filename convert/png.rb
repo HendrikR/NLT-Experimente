@@ -1,4 +1,4 @@
 # saves data as .png + .json/.yaml for the metadata
 
-class PNG < Format
+class PNG < Image
 end

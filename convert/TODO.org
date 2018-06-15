@@ -1,0 +1,21 @@
+* Architecture [0/2]
+** TODO [#A] move all format-specific fields into images.rb (for common treatment of metadata)
+** TODO [#B] command-line options
+* Testing [0/5]
+** PEND [#A] add more test files
+** TODO [#A] enable all disabled test cases ("notest_...")
+** TODO [#B] more sanity checks
+** TODO [#B] bidirectional conversion tests (e.g. from NVF to TGA/YAML and back again)
+** TODO [#C] have an automated test for whole directories of files (i.e. to test for every ACE/NVF/... in the games)
+* NLT format support [0/5]
+** PEND [#A] NVF support
+** PEND ACE support
+** PEND BOB support (new format)
+** PEND BOB support (old format)
+** TODO [#D] ULI support
+* Common format support [0/5]
+** PEND [#A] Metadata: YAML support
+** PEND [#A] TGA support
+** TODO [#C] Metadata: JSON support
+** PEND [#C] PNG support
+** TODO [#C] GIF support
