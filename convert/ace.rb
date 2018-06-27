@@ -1,4 +1,6 @@
+# coding: utf-8
 require './images.rb'
+require './compression.rb'
 
 
 COMPRESSIONS = {:raw => 0, :rle1 => 1, :rle2 => 2, :pp => 50 }
@@ -8,8 +10,9 @@ class ACE < ImageGroup
 
   def compression_mode(subformat)
     # mode 0: no compression
+    # mode 1: RLE (Variante 1/NVF: 0x7F als RLE-Marker)
+    # mode 2: RLE (Variante 2/TGA: Werte > 0x80 als RLE-Marker & Lauflänge)
     # mode 50: Amiga PowerPack 2.0
-    # mode 2: RLE
     case subformat
     when 0; :raw
     when 1; :rle1
@@ -17,50 +20,6 @@ class ACE < ImageGroup
     when 50; :pp
     else raise("unknown ACE mode #{subformat}")
     end
-  end
-
-  def decompress( compressed, subformat )
-    case compression_mode(subformat)
-    when :raw  then return compressed
-    when :pp   then return decompress_pp( compressed )
-    when :rle1 then return decompress_rle1( compressed )
-    when :rle2 then return decompress_rle2( compressed )
-    else raise("unknown ACE mode #{subformat}")
-    end
-  end
-
-  def compress( decompressed, subformat )
-    case compression_mode(subformat)
-    when :raw  then return decompressed
-    when :pp   then return compress_pp( decompressed )
-    when :rle1 then return compress_rle1( decompressed )
-    when :rle2 then return compress_rle2( decompressed )
-    else raise("unknown ACE mode #{subformat}")
-    end
-  end
-
-  def compress_pp( raw )
-    raise "Error: Amiga PowerPacker compression not implemented yet" # TODO
-  end
-
-  def decompress_pp( raw )
-    raise "Error: Amiga PowerPacker decompression not implemented yet" # TODO
-  end
-
-  def compress_rle1( raw )
-    raise "Error: RLE1 compression not implemented yet" # TODO
-  end
-
-  def decompress_rle1( raw )
-    raise "Error: RLE1 decompression not implemented yet" # TODO
-  end
-
-  def compress_rle2( raw )
-    raise "Error: RLE2 compression not implemented yet" # TODO
-  end
-
-  def decompress_rle2( raw )
-    raise "Error: RLE2 decompression not implemented yet" # TODO
   end
 
   def read(filename)
@@ -108,7 +67,7 @@ class ACE < ImageGroup
         subformat = file.read08
         file.read08 # TODO: add action-button to image
         img.compressed_data = file.read(compressed_size)
-        img.data = decompress( img.compressed_data, subformat )
+        img.data = decompress( img.compressed_data, compression_mode(subformat) )
       end
     end
 
@@ -165,7 +124,7 @@ class ACE < ImageGroup
         file.write16 image.dimensions.y0
         file.write16 image.dimensions.width
         file.write16 image.dimensions.height
-        file.write08 @subformat
+        file.write08 @subformat # TODO: undefined/unset var
         file.write08 0 # TODO: Action-Button
         file.write image.compressed_data
       end

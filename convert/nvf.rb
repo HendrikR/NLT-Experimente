@@ -1,4 +1,5 @@
 require './images.rb'
+require './compression.rb'
 
 class NVF < ImageList
   def uniform_resolution?
@@ -10,80 +11,12 @@ class NVF < ImageList
   def compression_mode
     # modes 0,1: no compression
     # modes 2,3: Amiga PowerPack 2.0
-    # modes 4,5: RLE
+    # modes 4,5: RLE (Variante 1: 0x7F als RLE-Marker)
     case @subformat / 2
     when 0; :raw
-    when 1; :powerpack
-    when 2; :rle
+    when 1; :pp
+    when 2; :rle1
     else raise("unknown NVF mode #{@subformat}")
-    end
-  end
-
-  def compress_raw(data)
-    return data
-  end
-
-  def compress_rle(data)
-    out       = []
-    last_byte = data[0]
-    seq_len   = 0
-    for i in 0...data.size do
-      c = data[i]
-      if c == last_byte && seq_len < 0x80
-        seq_len += 1
-      else
-        if seq_len < 2
-          seq_len.times{ out << c }
-        else
-          out << seq_len+0x80 << last_byte
-        end
-        last_byte = c
-        seq_len = 1
-      end
-    end
-    return out
-  end
-
-  def decompress_rle(data)
-    out = []
-    i   = 0
-    while i < data.size
-      c = data[i]
-      if c == 0x7F
-        data[i+1].times{ out << data[i+2] }
-        i += 3
-      else
-        out << c
-        i += 1
-      end
-    end
-    return out
-  end
-
-  def decompress_pp(data)
-    raise("PowerPack decompression not supported yet")
-    # TODO
-  end
-
-  def decompress(data)
-    case(compression_mode)
-    when :raw then data
-    when :powerpack then decompress_pp(data)
-    when :rle then decompress_rle(data)
-    else raise("unknown compression #{compression_mode}")
-    end
-  end
-
-  def compress_pp(data) # TODO
-    raise("PowerPack compression not supported yet")
-  end
-
-  def compress(data)
-    case(compression_mode)
-    when :raw then data
-    when :powerpack then compress_pp(data)
-    when :rle then compress_rle(data)
-    else raise("unknown compression #{compression_mode}")
     end
   end
 
@@ -92,7 +25,7 @@ class NVF < ImageList
     file.write08 @subformat
     file.write16 @images.size
 
-    for img in @images do img.compressed_data = compress(img.data); end
+    for img in @images do img.compressed_data = compress(img.data, compression_mode); end
     if uniform_resolution?
       file.write16 @dimensions.width
       file.write16 @dimensions.height
@@ -149,7 +82,7 @@ class NVF < ImageList
     for img in @images do
       img.compressed_data = file.read( img.data ).unpack("C*")
       raise("reading failed") if img.compressed_data.size != img.data
-      img.data = decompress( img.compressed_data )
+      img.data = decompress( img.compressed_data, compression_mode )
     end
 
     # Read color palette

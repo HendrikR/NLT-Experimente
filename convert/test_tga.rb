@@ -1,4 +1,5 @@
 require './tga.rb'
+require './compression.rb'
 require 'test/unit'
 require './test_images.rb'
 
@@ -21,17 +22,17 @@ class TestTGA < Test::Unit::TestCase
     assert_true(img.sanity_checks)
   end
 
-  def test_recompress_rle
+  def test_recompress_rle2
     tga = TGA.new
     data = generate_random_pixels(234, 123)
-    comp = tga.compress_rle(data)
-    dcmp = tga.decompress_rle(comp)
+    comp = compress_rle2(data)
+    dcmp = decompress_rle2(comp)
     assert_equal( data, dcmp )
   end
 
   def test_readwrite_raw
     img_in = TGA.new()
-    img_in.compression = :raw
+    img_in.subformat = img_in.compression_mode_id :raw
     img_in.name = "Dieses Bild hat einen langen Namen, aber nicht zu lang."
     img_in.dimensions = Rect.new(0, 0, 300, 200)
     img_in.palette = []; 256.times{ |i| img_in.palette << Palette.new(i, 255-i, 0x77) }
@@ -48,7 +49,7 @@ class TestTGA < Test::Unit::TestCase
 
   def test_readwrite_rle
     img_in = TGA.new()
-    img_in.compression = :rle
+    img_in.subformat = img_in.compression_mode_id :rle2
     img_in.name = "Dieses Bild hat einen langen Namen, aber nicht zu lang."
     img_in.dimensions = Rect.new(0, 0, 300, 200)
     img_in.palette = []; 256.times{ |i| img_in.palette << Palette.new(i, 255-i, 0x77) }

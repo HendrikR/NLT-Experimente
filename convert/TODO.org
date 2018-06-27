@@ -1,7 +1,7 @@
-* Architecture [0/2]
+* Architecture [1/3]
 ** TODO [#A] move all format-specific fields into images.rb (for common treatment of metadata)
 ** TODO [#B] command-line options
-** TODO [#B] factor out compression algorithms into own file
+** DONE [#B] factor out compression algorithms into own file
 * Testing [0/5]
 ** PEND [#A] add more test files [/]
 GOAL: all (de-)compression algos should be tested

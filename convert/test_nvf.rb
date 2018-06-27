@@ -27,9 +27,9 @@ class TestNVF < Test::Unit::TestCase
     assert_true( img_out.sanity_checks )
   end
 
-  def make_basic_nvf(testfile, nvf_type)
+  def make_basic_nvf(testfile, subformat)
     imgs_in = NVF.new()
-    imgs_in.nvf_type = nvf_type
+    imgs_in.subformat = subformat
     imgs_in.dimensions = Rect.new(0, 0, 0, 0) # Type 1 image lists have per-image dimensions -- this should (hopefully) be ignored (but we need the values to match with img[0].dimensions for the test to pass)
     imgs_in.palette = []; 256.times{ |i| imgs_in.palette << Palette.new(i, 255-i, 0x77) }
     imgs_in.images = []
