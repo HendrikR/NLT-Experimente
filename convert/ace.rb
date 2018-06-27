@@ -4,14 +4,72 @@ require './images.rb'
 COMPRESSIONS = {:raw => 0, :rle1 => 1, :rle2 => 2, :pp => 50 }
 
 class ACE < ImageGroup
-  attr_accessor :anim_speed
+  attr_accessor :anim_speed # TODO: factor out into ImageGroup
+
+  def compression_mode(subformat)
+    # mode 0: no compression
+    # mode 50: Amiga PowerPack 2.0
+    # mode 2: RLE
+    case subformat
+    when 0; :raw
+    when 1; :rle1
+    when 2; :rle2
+    when 50; :pp
+    else raise("unknown ACE mode #{subformat}")
+    end
+  end
+
+  def decompress( compressed, subformat )
+    case compression_mode(subformat)
+    when :raw  then return compressed
+    when :pp   then return decompress_pp( compressed )
+    when :rle1 then return decompress_rle1( compressed )
+    when :rle2 then return decompress_rle2( compressed )
+    else raise("unknown ACE mode #{subformat}")
+    end
+  end
+
+  def compress( decompressed, subformat )
+    case compression_mode(subformat)
+    when :raw  then return decompressed
+    when :pp   then return compress_pp( decompressed )
+    when :rle1 then return compress_rle1( decompressed )
+    when :rle2 then return compress_rle2( decompressed )
+    else raise("unknown ACE mode #{subformat}")
+    end
+  end
+
+  def compress_pp( raw )
+    raise "Error: Amiga PowerPacker compression not implemented yet" # TODO
+  end
+
+  def decompress_pp( raw )
+    raise "Error: Amiga PowerPacker decompression not implemented yet" # TODO
+  end
+
+  def compress_rle1( raw )
+    raise "Error: RLE1 compression not implemented yet" # TODO
+  end
+
+  def decompress_rle1( raw )
+    raise "Error: RLE1 decompression not implemented yet" # TODO
+  end
+
+  def compress_rle2( raw )
+    raise "Error: RLE2 compression not implemented yet" # TODO
+  end
+
+  def decompress_rle2( raw )
+    raise "Error: RLE2 decompression not implemented yet" # TODO
+  end
+
   def read(filename)
     file = File.open(filename, IO::BINARY)
     magic   = file.read(4).unpack("a*")
     version = file.read16
     part_count = file.read08
     @anim_speed = file.read08
-    imglist_offset = [] # TODO: use this variable later
+    imglist_offset = []
 
     if part_count == 1
       @parts << ImageList.new
@@ -36,17 +94,21 @@ class ACE < ImageGroup
 
     # TODO: Images
     for i in 0...part_count
-      file.seek(imglist_offset[i])
+      #file.seek(imglist_offset[i])
+      #imglist_data_size = ( ( i < part_count-1 ) ? imglist_offset[i+1] : (file.size - 256*3)  -  imglist_offset[i]  )
+      raise "Error: broken file offset: #{imglist_offset[i]} is not #{file.tell}" if file.tell != imglist_offset[i]
+      #file.read( imglist_data_size )
       for img in @parts[i].images
         # TODO: how long do i need to read here for a single image?
-        if i < part_count-1
-          img.compressed_data = file.read( imglist_offset[i+1] - imglist_offset[i] )
-        else
-          img.compressed_data = file.read( (file.size - 256*3) - imglist_offset[i] )
-        end
-        img.dimensions = @parts[i].dimensions
-        img.palette = @parts[i].palette
-        img.data = Array.new(@parts[i].dimensions.size, 0) #img.compressed_data # TODO
+        #img.dimensions = @parts[i].dimensions
+        #img.palette = @parts[i].palette
+        #img.data = Array.new(@parts[i].dimensions.size, 0) #img.compressed_data # TODO
+        compressed_size = file.read32
+        img.dimensions = Rect.new( file.read16, file.read16, file.read16, file.read16 )
+        subformat = file.read08
+        file.read08 # TODO: add action-button to image
+        img.compressed_data = file.read(compressed_size)
+        img.data = decompress( img.compressed_data, subformat )
       end
     end
 
@@ -55,6 +117,7 @@ class ACE < ImageGroup
       rgb = file.read(3).unpack("CCC")
       @palette << Palette.new(rgb[0], rgb[1], rgb[2])
     end
+    puts file.tell
 
     # Infer global dimensions from local parts
     global_w, global_h = @parts.inject([0,0]){|acc, part|
@@ -81,8 +144,9 @@ class ACE < ImageGroup
       file.write08 part.images.size
       file.write08 0 # TODO: Abspielmodus
     else
+      aniheader_ofs = file.tell + @parts.size * (4 + 2 + 4*2 + 1 + 1)
       for part in @parts do
-        file.write32 # TODO: offset of first img
+        file.write32 aniheader_ofs # offset of first img
         file.write16 part.name.to_i # id number
         file.write16 part.dimensions.width
         file.write16 part.dimensions.height
@@ -90,6 +154,7 @@ class ACE < ImageGroup
         file.write16 part.dimensions.y0
         file.write08 part.images.size
         file.write08 0 # TODO: Abspielmodus
+        part.images.each{ |image| aniheader_ofs += image.compressed_data.size }
       end
     end
 
@@ -100,7 +165,7 @@ class ACE < ImageGroup
         file.write16 image.dimensions.y0
         file.write16 image.dimensions.width
         file.write16 image.dimensions.height
-        file.write08 image.compression_mode
+        file.write08 @subformat
         file.write08 0 # TODO: Action-Button
         file.write image.compressed_data
       end

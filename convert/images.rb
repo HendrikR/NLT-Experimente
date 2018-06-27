@@ -52,7 +52,7 @@ end
 
 class Image
   # A single image with a palette and minimal metadata
-  attr_accessor :name, :dimensions, :palette, :data, :compressed_data, :parent
+  attr_accessor :name, :dimensions, :palette, :data, :compressed_data, :parent, :subformat
 
   def initialize
     @name = ""
@@ -61,6 +61,7 @@ class Image
     @data = []
     @compressed_data = []
     @parent = nil
+    @subformat = 0
   end
 
   def sanity_checks
@@ -88,7 +89,7 @@ class ImageList
   # A flat list of images, with some metadata
   attr_accessor :name, :dimensions, :palette, :images, :parent
 
-  attr_accessor :playmode # TODO: sync this with all formats
+  attr_accessor :playmode, :subformat # TODO: sync this with all formats
 
   def initialize
     @name = ""
@@ -96,6 +97,9 @@ class ImageList
     @palette = []
     @images = []
     @parent = nil
+
+    @playmode = 0
+    @subformat = 0
   end
 
   def sanity_checks
@@ -132,13 +136,14 @@ end
 
 class ImageGroup
   # A group containing named lists of images
-  attr_accessor :name, :dimensions, :palette, :parts
+  attr_accessor :name, :dimensions, :palette, :parts, :subformat
 
   def initialize
     @name = ""
     @dimensions = Rect.new(0,0, 0,0)
     @parts = []
     @palette = []
+    @subformat = 0
   end
 
   def sanity_checks

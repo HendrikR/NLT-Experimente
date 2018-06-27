@@ -1,23 +1,21 @@
 require './images.rb'
 
 class NVF < ImageList
-  attr_accessor :nvf_type
-
   def uniform_resolution?
     # formats 0, 2, 4 have the same resolution for all subimages.
     # formats 1, 3, 5 have their own resolutions for subimages.
-    return @nvf_type % 2 == 0
+    return @subformat % 2 == 0
   end
 
   def compression_mode
     # modes 0,1: no compression
     # modes 2,3: Amiga PowerPack 2.0
     # modes 4,5: RLE
-    case @nvf_type / 2
+    case @subformat / 2
     when 0; :raw
     when 1; :powerpack
     when 2; :rle
-    else raise("unknown NVF mode #{@nvf_type}")
+    else raise("unknown NVF mode #{@subformat}")
     end
   end
 
@@ -26,12 +24,10 @@ class NVF < ImageList
   end
 
   def compress_rle(data)
-    # TODO: testing
     out       = []
     last_byte = data[0]
     seq_len   = 0
-    i         = 0
-    while i < data.size
+    for i in 0...data.size do
       c = data[i]
       if c == last_byte && seq_len < 0x80
         seq_len += 1
@@ -93,7 +89,7 @@ class NVF < ImageList
 
   def write(filename)
     file =  File.open(filename, IO::CREAT | IO::WRONLY | IO::TRUNC | IO::BINARY)
-    file.write08 @nvf_type
+    file.write08 @subformat
     file.write16 @images.size
 
     for img in @images do img.compressed_data = compress(img.data); end
@@ -123,14 +119,14 @@ class NVF < ImageList
 
   def read(filename)
     file =  File.open(filename, IO::BINARY)
-    @nvf_type = file.read08
+    @subformat = file.read08
     raise("invalid NVF compression mode") if compression_mode == nil
     img_size = file.read16
     raise("Error: Empty NVF image") if img_size == 0
     @images  = []
     @palette = []
 
-    puts "reading mode #{@nvf_type} NVF with #{img_size} images"
+    puts "reading mode #{@subformat} NVF with #{img_size} images"
     if uniform_resolution?
       @dimensions = Rect.new(0,0, file.read16, file.read16)
       img_size.times do

@@ -24,6 +24,7 @@ class TestACE < Test::Unit::TestCase
   def make_basic_ace(testfile, ace_variant)
     # TODO: something with the variant ...
     ace = ACE.new()
+    ace.anim_speed = 1
     ace.dimensions = Rect.new(0, 0, 0, 0) # Type 1 image lists have per-image dimensions -- this should (hopefully) be ignored (but we need the values to match with img[0].dimensions for the test to pass)
     ace.palette = []; 256.times{ |i| ace.palette << Palette.new(i, 255-i, 0x77) }
     ace.parts = [ ImageList.new, ImageList.new ]
@@ -41,11 +42,11 @@ class TestACE < Test::Unit::TestCase
     return ace
   end
 
-  def notest_readwrite_mode1
+  def test_readwrite_mode1
     imgs_in = make_basic_ace($testfiles['rw_rle'], 0)
 
     imgs_out = ACE.new()
-    imgs_out.read($testfiles['rw_mode1'])
+    imgs_out.read($testfiles['rw_rle'])
 
     assert_equal(imgs_in, imgs_out)
   end
