@@ -12,11 +12,12 @@ GOAL: all (de-)compression algos should be tested
 ** TODO [#B] more sanity checks
 ** TODO [#C] inter-format conversion tests (e.g. from NVF to TGA/YAML and back again)
 ** TODO [#D] have an automated test for whole directories of files (i.e. to test for every ACE/NVF/... in the games)
-* NLT format support [1/5]
-** DONE [#A] NVF support
-** PEND ACE support
+* NLT format support [1/6]
+** PEND [#A] NVF support
+** DONE ACE support
 ** PEND BOB support (new format)
 ** PEND BOB support (old format)
+** PEND AIF support
 ** TODO [#D] ULI support
 * Common format support [1/5]
 ** PEND [#A] Metadata: YAML support

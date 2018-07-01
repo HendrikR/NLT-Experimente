@@ -76,7 +76,7 @@ class Image
     return false if @name != other.name
     return false if @dimensions != other.dimensions
     return false if @palette != other.palette
-    return false if @data[0] != other.data[0]
+    return false if @data != other.data
     return true
   end
 
