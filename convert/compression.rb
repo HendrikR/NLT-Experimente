@@ -29,22 +29,26 @@ def compress_rle1(data)
   last_byte = data[0]
   seq_len   = 0
   for c in data do
-    if c == last_byte
+    if c == last_byte && seq_len < 255
       seq_len += 1
     else
-      if seq_len < 2
-        seq_len.times{ out << c }
+      if seq_len < 3 && last_byte != 0x7F
+        seq_len.times{ out << last_byte }
       else
-        while seq_len > 0 do
-          seq_max = seq_len > 255 ? 255 : seq_len
-          out << 0x7F << seq_max << last_byte
-          seq_len -= seq_max
-        end
+        out << 0x7F << seq_len << last_byte
       end
       last_byte = c
       seq_len = 1
     end
   end
+  # don't forget the last sequence
+  if seq_len < 3 && c != 0x7F
+    seq_len.times{ out << last_byte }
+  else
+    out << 0x7F << seq_len << last_byte
+  end
+
+  return out
 end
 
 

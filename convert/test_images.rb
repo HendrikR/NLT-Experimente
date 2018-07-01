@@ -15,6 +15,6 @@ def generate_rle_pixels(width, height)
   10.times{|x| out << 200+x }; points -= 10  # 10 pixels of colors >= 0x80
   (points-(20*width)).times{ out << rand(128) } # random stuff
   (20*width).times{ out << 12 } # finish off with 2 lines of same-colored pixels
-  return out
+  return out[0..(width*height)]
 end
 

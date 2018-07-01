@@ -37,7 +37,7 @@ class TestNVF < Test::Unit::TestCase
         img.name = ""
         img.dimensions = imgs_in.dimensions
         img.palette = imgs_in.palette
-        img.data = generate_random_pixels(img.dimensions.width, img.dimensions.height)
+        img.data = generate_rle_pixels(img.dimensions.width, img.dimensions.height)
         imgs_in.images << img
       }
     else
@@ -49,7 +49,7 @@ class TestNVF < Test::Unit::TestCase
         img.name = ""
         img.dimensions = Rect.new(0,0, 40*i, 30*i)
         img.palette = imgs_in.palette
-        img.data = generate_random_pixels(img.dimensions.width, img.dimensions.height)
+        img.data = generate_rle_pixels(img.dimensions.width, img.dimensions.height)
         imgs_in.images << img
       }
     end
