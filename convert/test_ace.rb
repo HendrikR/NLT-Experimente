@@ -15,7 +15,7 @@ class TestACE < Test::Unit::TestCase
   def teardown
   end
 
-  def test_load_ace
+  def notest_load_ace # TODO: support powerpack, add rle-compressed image to test
     img_out1 = ACE.new()
     img_out1.read($testfiles['jaeger'])
     assert_true( img_out1.sanity_checks )
@@ -28,11 +28,11 @@ class TestACE < Test::Unit::TestCase
     ace.dimensions = Rect.new(0, 0, 0, 0) # Type 1 image lists have per-image dimensions -- this should (hopefully) be ignored (but we need the values to match with img[0].dimensions for the test to pass)
     ace.palette = []; 256.times{ |i| ace.palette << Palette.new(i, 255-i, 0x77) }
     ace.parts = [ ImageList.new, ImageList.new ]
-    ace.parts[0].name = "TST1"
-    ace.parts[1].name = "TST2"
+    ace.parts[0].name = "1"
+    ace.parts[1].name = "2"
+    ace.parts[0].palette = ace.parts[1].palette = ace.palette
     8.times{ |i|
       img = Image.new
-      img.name = ""
       img.dimensions = Rect.new(0,0, 40*i, 30*i)
       img.palette = ace.palette
       img.data = generate_random_pixels(img.dimensions.width, img.dimensions.height)

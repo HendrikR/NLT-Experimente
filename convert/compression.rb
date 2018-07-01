@@ -25,25 +25,28 @@ end
 
 def compress_rle1(data)
   # RLE (Variante 1/NVF: 0x7F als RLE-Marker)
-  out       = []
+  out = []
   last_byte = data[0]
   seq_len   = 0
-  for i in 0...data.size do
-    c = data[i]
-    if c == last_byte && seq_len < 0x80
+  for c in data do
+    if c == last_byte
       seq_len += 1
     else
       if seq_len < 2
         seq_len.times{ out << c }
       else
-        out << seq_len+0x80 << last_byte
+        while seq_len > 0 do
+          seq_max = seq_len > 255 ? 255 : seq_len
+          out << 0x7F << seq_max << last_byte
+          seq_len -= seq_max
+        end
       end
       last_byte = c
       seq_len = 1
     end
   end
-  return out
 end
+
 
 def decompress_rle1(data)
   # RLE (Variante 1/NVF: 0x7F als RLE-Marker)
@@ -87,12 +90,12 @@ def compress_rle2(data)
   while i < data.size
     col = data[i]
     seq_len = 1
-    while seq_len < 128 && i+seq_len < data.size && data[i+seq_len] == col do seq_len+=1; end
+    while seq_len < 0x80 && i+seq_len < data.size && data[i+seq_len] == col do seq_len+=1; end
     if seq_len > 1
       out << ((seq_len-1) | 0x80)
       out << col
     else # raw pixels
-      seq_len = i+128 < data.size ? 128 : (data.size-i)
+      seq_len = i+0x80 < data.size ? 0x80 : (data.size-i)
       out << seq_len - 1
       seq_len.times { |j| out << data[i+j] }
     end
@@ -101,13 +104,12 @@ def compress_rle2(data)
   return out
 end
 
-def decompress_pp(data)
-  raise("PowerPack decompression not supported yet")
-  # TODO
+def decompress_pp(data) # TODO
+  raise "PowerPack decompression not supported yet"
 end
 
 def compress_pp(data) # TODO
-  raise("PowerPack compression not supported yet")
+  raise "PowerPack compression not supported yet"
 end
 
 

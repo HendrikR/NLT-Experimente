@@ -30,17 +30,29 @@ class TestNVF < Test::Unit::TestCase
   def make_basic_nvf(testfile, subformat)
     imgs_in = NVF.new()
     imgs_in.subformat = subformat
-    imgs_in.dimensions = Rect.new(0, 0, 0, 0) # Type 1 image lists have per-image dimensions -- this should (hopefully) be ignored (but we need the values to match with img[0].dimensions for the test to pass)
-    imgs_in.palette = []; 256.times{ |i| imgs_in.palette << Palette.new(i, 255-i, 0x77) }
-    imgs_in.images = []
-    3.times{ |i|
-      img = Image.new
-      img.name = ""
-      img.dimensions = Rect.new(0,0, 40*i, 30*i)
-      img.palette = imgs_in.palette
-      img.data = generate_random_pixels(img.dimensions.width, img.dimensions.height)
-      imgs_in.images << img
-    }
+    if imgs_in.uniform_resolution?
+      imgs_in.dimensions = Rect.new(0,0, 40, 30)
+      3.times{ |i|
+        img = Image.new
+        img.name = ""
+        img.dimensions = imgs_in.dimensions
+        img.palette = imgs_in.palette
+        img.data = generate_random_pixels(img.dimensions.width, img.dimensions.height)
+        imgs_in.images << img
+      }
+    else
+      imgs_in.dimensions = Rect.new(0, 0, 0, 0) # Type 1 image lists have per-image dimensions -- this should (hopefully) be ignored (but we need the values to match with img[0].dimensions for the test to pass)
+      imgs_in.palette = []; 256.times{ |i| imgs_in.palette << Palette.new(i, 255-i, 0x77) }
+      imgs_in.images = []
+      3.times{ |i|
+        img = Image.new
+        img.name = ""
+        img.dimensions = Rect.new(0,0, 40*i, 30*i)
+        img.palette = imgs_in.palette
+        img.data = generate_random_pixels(img.dimensions.width, img.dimensions.height)
+        imgs_in.images << img
+      }
+    end
     imgs_in.write(testfile)
     return imgs_in
   end

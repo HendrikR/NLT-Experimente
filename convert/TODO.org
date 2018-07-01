@@ -24,3 +24,6 @@ GOAL: all (de-)compression algos should be tested
 ** TODO [#C] Metadata: JSON support
 ** PEND [#C] PNG support
 ** TODO [#C] GIF support
+* Additional features
+** TODO [#C] configurable compression modes
+** TODO [#C] automatically choose best (i.e. smallest) compression mode for a file

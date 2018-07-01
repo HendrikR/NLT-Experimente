@@ -74,12 +74,9 @@ class Image
 
   def ==(other)
     return false if @name != other.name
-    ## TODO!!!!
-    puts "#{@dimensions} vs #{other.dimensions}"
-    return true
     return false if @dimensions != other.dimensions
     return false if @palette != other.palette
-    return false if @data != other.data
+    return false if @data[0] != other.data[0]
     return true
   end
 

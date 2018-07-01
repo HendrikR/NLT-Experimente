@@ -24,7 +24,8 @@ class ACE < ImageGroup
 
   def read(filename)
     file = File.open(filename, IO::BINARY)
-    magic   = file.read(4).unpack("a*")
+    magic   = file.read(4).unpack("a*")[0]
+    raise "Error: invalid ACE format identifier '#{magic}'" if magic != "ACE\x00"
     version = file.read16
     part_count = file.read08
     @anim_speed = file.read08
@@ -35,48 +36,47 @@ class ACE < ImageGroup
       @parts.last.dimensions = Rectangle.new(0,0, file.read16, file.read16)
       @parts.last.images = Array.new( file.read08 )
       @parts.last.play_mode = file.read08
+      @parts.last.palette = @palette
     else
       for i in 0...part_count
-        @parts << ImageList.new
+        @parts << part = ImageList.new
         imglist_offset << file.read32
 
-        @parts.last.name = file.read16.to_s
-        @parts.last.dimensions.width  = file.read16
-        @parts.last.dimensions.height = file.read16
-        @parts.last.dimensions.x0     = file.readS16 # TODO: is signed correct here?
-        @parts.last.dimensions.y0     = file.readS16
-        @parts.last.images = Array.new( file.read08 ){ Image.new }
-        @parts.last.playmode = file.read08 # TODO: Abspielmodus
-        @parts.last.palette = @palette
+        part.name = file.read16.to_s
+        part.dimensions.width  = file.read16
+        part.dimensions.height = file.read16
+        part.dimensions.x0     = file.readS16 # TODO: is signed correct here?
+        part.dimensions.y0     = file.readS16
+        part.images = Array.new( file.read08 ){ Image.new }
+        part.playmode = file.read08 # TODO: Abspielmodus
+        part.palette = @palette
+        puts "part #{part.name} dims: #{@parts.last.dimensions}"
       end
     end
 
-    # TODO: Images
     for i in 0...part_count
-      #file.seek(imglist_offset[i])
-      #imglist_data_size = ( ( i < part_count-1 ) ? imglist_offset[i+1] : (file.size - 256*3)  -  imglist_offset[i]  )
-      raise "Error: broken file offset: #{imglist_offset[i]} is not #{file.tell}" if file.tell != imglist_offset[i]
-      #file.read( imglist_data_size )
+      imglist_data_size = ( ( i < part_count-1 ) ? imglist_offset[i+1] : (file.size - 256*3)  -  imglist_offset[i]  )
+      #raise "Error: broken file offset: #{imglist_offset[i]} is not #{file.tell}" if file.tell != imglist_offset[i]
+      #file.seek(imglist_offset[i]) # TODO: this is probably wrong
       for img in @parts[i].images
-        # TODO: how long do i need to read here for a single image?
-        #img.dimensions = @parts[i].dimensions
-        #img.palette = @parts[i].palette
-        #img.data = Array.new(@parts[i].dimensions.size, 0) #img.compressed_data # TODO
         compressed_size = file.read32
-        img.dimensions = Rect.new( file.read16, file.read16, file.read16, file.read16 )
+        dims = file.read(8).unpack("SSSS")
+        img.dimensions = Rect.new( dims[0], dims[1], dims[3], dims[2] ) # width/height in swapped order
         subformat = file.read08
         file.read08 # TODO: add action-button to image
-        img.compressed_data = file.read(compressed_size)
+        img.compressed_data = file.read(compressed_size).unpack("C*")
         img.data = decompress( img.compressed_data, compression_mode(subformat) )
+        img.palette = @palette
       end
     end
+
+    raise "Error: palette size invalid: #{file.size - file.tell} bytes before end, should be 768" if file.size-file.tell != 3*256
 
     # Palette
     256.times do
       rgb = file.read(3).unpack("CCC")
       @palette << Palette.new(rgb[0], rgb[1], rgb[2])
     end
-    puts file.tell
 
     # Infer global dimensions from local parts
     global_w, global_h = @parts.inject([0,0]){|acc, part|
@@ -89,11 +89,18 @@ class ACE < ImageGroup
   end
 
   def write(filename)
+    # compress all the images (needs to be done before writing headers so we know the sizes / offsets
+    for part in @parts do
+      for image in part.images do
+        image.compressed_data = compress(image.data, :raw) # TODO: support other subformats
+      end
+    end
+
     file =  File.open(filename, IO::CREAT | IO::WRONLY | IO::TRUNC | IO::BINARY)
     file.write("ACE\0") # magic number
     file.write16 0x0001 # version number
     file.write08 @parts.size
-    file.write16 @anim_speed # TODO
+    file.write08 @anim_speed # TODO
 
     # Animation sequences
     if @parts.size == 1
@@ -105,6 +112,7 @@ class ACE < ImageGroup
     else
       aniheader_ofs = file.tell + @parts.size * (4 + 2 + 4*2 + 1 + 1)
       for part in @parts do
+        puts "part #{part.name} dims: #{@parts.last.dimensions}"
         file.write32 aniheader_ofs # offset of first img
         file.write16 part.name.to_i # id number
         file.write16 part.dimensions.width
@@ -113,20 +121,21 @@ class ACE < ImageGroup
         file.write16 part.dimensions.y0
         file.write08 part.images.size
         file.write08 0 # TODO: Abspielmodus
-        part.images.each{ |image| aniheader_ofs += image.compressed_data.size }
+        aniheader_ofs += part.images.inject(0){ |sum, img| sum += img.compressed_data.size }
       end
     end
 
+    # write all the single images
     for part in @parts do
       for image in part.images do
-        file.write32 image.compressed_data.size
-        file.write16 image.dimensions.x0
-        file.write16 image.dimensions.y0
-        file.write16 image.dimensions.width
-        file.write16 image.dimensions.height
-        file.write08 @subformat # TODO: undefined/unset var
-        file.write08 0 # TODO: Action-Button
-        file.write image.compressed_data
+        file.write32 image.compressed_data.size # +4=4
+        file.write16 image.dimensions.x0        # +2=6
+        file.write16 image.dimensions.y0        # +2=8
+        file.write16 image.dimensions.height    # +2=10
+        file.write16 image.dimensions.width     # +2=12
+        file.write08 image.subformat            # +1=13
+        file.write08 0 # TODO: Action-Button    # +1=14
+        file.write image.compressed_data.pack("C*")        # +0=14
       end
     end
 
