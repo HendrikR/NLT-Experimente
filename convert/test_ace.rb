@@ -3,7 +3,7 @@ require 'test/unit'
 require './test_images.rb'
 
 $testfiles = {'jaeger' => 'test_data/JAEGER.ACE',
-              # TODO: add more, diverse test images.
+              # TODO: add more, diverse test images. (e.g. RLE-packed image)
               'rw_rle' => 'test_data/out_rle.ace',
              }
 
@@ -15,15 +15,15 @@ class TestACE < Test::Unit::TestCase
   def teardown
   end
 
-  def notest_load_ace # TODO: support powerpack, add rle-compressed image to test
+  def test_load_ace
     img_out1 = ACE.new()
     img_out1.read($testfiles['jaeger'])
     assert_true( img_out1.sanity_checks )
   end
 
   def make_basic_ace(testfile, ace_variant)
-    # TODO: something with the variant ...
     ace = ACE.new()
+    ace.subformat = ace_variant
     ace.anim_speed = 1
     ace.dimensions = Rect.new(0, 0, 0, 0) # Type 1 image lists have per-image dimensions -- this should (hopefully) be ignored (but we need the values to match with img[0].dimensions for the test to pass)
     ace.palette = []; 256.times{ |i| ace.palette << Palette.new(i, 255-i, 0x77) }

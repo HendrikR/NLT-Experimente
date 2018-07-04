@@ -108,12 +108,84 @@ def compress_rle2(data)
   return out
 end
 
+class ReverseBitReader
+  def initialize(data)
+    @data    = data
+    raise "Error: wrong input (should be byte array)" if not (data.class == Array && data.first.class == Fixnum)
+    @offset  = @data.size-1
+    @bitpos  = 8
+    @current_byte = @data[@offset]
+  end
+  def read1
+    read(1)
+  end
+  def read(num)
+    raise "Error: End of bitstream reached" if eof?
+    out = 0
+    for i in 0...num do
+      if @bitpos == 0
+        @offset -= 1
+        @bitpos = 8
+        @current_byte = @data[@offset]
+      end
+      @bitpos -= 1
+      #out = out << 1 | (@current_byte & 0x01)
+      #@current_byte >>= 1 # TODO: this code is wrong, but corrected, it might be faster. or not?
+      out = out << 1 | ((@current_byte >> @bitpos) & 0x01)
+    end
+    return out
+  end
+
+  def eof?
+    @offset <= 0 && @bitpos == 0
+  end
+end
+
 def decompress_pp(data) # TODO
+  out = []
+  bits = ReverseBitReader.new(data)
+  bits.read(4*8) # skip first 4 bytes # TODO: its not that simple, cf. g105de_seg004.cpp in BrightEyes
+  offset_lens = Array.new(4) { bits.read(8) }
+
+  while not bits.eof? do
+    if bits.read1 == 0 # literal sequence
+      len = 0
+      begin b = bits.read(2); len+= b; end until b < 3 # read length of sequence
+      puts "pp writing #{len} literal bytes"
+      len.times { out << bits.read(8) }
+      break if bits.eof?
+    end
+    # TODO/PEND: the interesting part of PP
+    x = bits.read(2)
+    offs_bitlen = offset_lens[x]
+    puts "offset lens ##{x}: #{offs_bitlen} bits"
+    todo = x+2
+    if x==3
+      # TODO: While this might be part of PP, the NLT does not use this fancy variable offset lens I think.
+      x = bits.read1
+      offs_bitlen = 7 if x==0
+      offset=bits.read(offs_bitlen) # TODO: brighteyes has some really weird logic here. seems offset_lens[1] is actually "read the offs_bitlen from the stream"
+      puts "strangecase says lens is #{offs_bitlen} bits and offset is #{offset}"
+      while x==7 do
+        x=bits.read(3)
+        todo += x
+      end
+    else
+      offset=bits.read(offs_bitlen)
+    end
+    puts "reading #{todo} bytes from #{offset} bytes far away"
+    todo.times{ out << out[out.size-offset] }
+  end
+  return out
   raise "PowerPack decompression not supported yet"
 end
 
 def compress_pp(data) # TODO
+
   raise "PowerPack compression not supported yet"
 end
+
+
+
 
 
