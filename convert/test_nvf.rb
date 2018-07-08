@@ -12,9 +12,8 @@ $testfiles = {'rw_mode0' => 'test_data/out_mode0.nvf',
              }
 
 class TestNVF < Test::Unit::TestCase
-
-
   def setup
+    @nvf = NVF.new
     # TODO maybe delete leftover test files
   end
 
@@ -22,15 +21,14 @@ class TestNVF < Test::Unit::TestCase
   end
 
   def test_load_nvf
-    img_out = NVF.new()
-    img_out.read($testfiles['horse0'])
+    img_out = @nvf.read($testfiles['horse0'])
     assert_true( img_out.sanity_checks )
   end
 
-  def make_basic_nvf(testfile, subformat)
-    imgs_in = NVF.new()
+  def make_basic_nvf(subformat)
+    imgs_in = ImageList.new()
     imgs_in.subformat = subformat
-    if imgs_in.uniform_resolution?
+    if @nvf.uniform_resolution?(imgs_in)
       imgs_in.dimensions = Rect.new(0,0, 40, 30)
       3.times{ |i|
         img = Image.new
@@ -53,62 +51,61 @@ class TestNVF < Test::Unit::TestCase
         imgs_in.images << img
       }
     end
-    imgs_in.write(testfile)
     return imgs_in
   end
 
   def test_readwrite_mode0
-    imgs_in = make_basic_nvf($testfiles['rw_mode0'], 0)
+    imgs_in = make_basic_nvf(0)
+    @nvf.write($testfiles['rw_mode0'], imgs_in)
 
-    imgs_out = NVF.new()
-    imgs_out.read($testfiles['rw_mode0'])
+    imgs_out = @nvf.read($testfiles['rw_mode0'])
 
     assert_equal(imgs_in, imgs_out)
   end
 
   def test_readwrite_mode1
-    imgs_in = make_basic_nvf($testfiles['rw_mode1'], 1)
+    imgs_in = make_basic_nvf(1)
+    @nvf.write($testfiles['rw_mode1'], imgs_in)
 
-    imgs_out = NVF.new()
-    imgs_out.read($testfiles['rw_mode1'])
+    imgs_out = @nvf.read($testfiles['rw_mode1'])
 
     assert_equal(imgs_in, imgs_out)
   end
 
   # TODO: enable once pp (de-)compression is supported
   def notest_readwrite_mode2
-    imgs_in = make_basic_nvf($testfiles['rw_mode2'], 2)
+    imgs_in = make_basic_nvf(2)
+    @nvf.write($testfiles['rw_mode2'], imgs_in)
 
-    imgs_out = NVF.new()
-    imgs_out.read($testfiles['rw_mode2'])
+    imgs_out = @nvf.read($testfiles['rw_mode2'])
 
     assert_equal(imgs_in, imgs_out)
   end
 
   # TODO: enable once pp (de-)compression is supported
   def notest_readwrite_mode3
-    imgs_in = make_basic_nvf($testfiles['rw_mode3'], 3)
+    imgs_in = make_basic_nvf(3)
+    @nvf.write($testfiles['rw_mode3'], imgs_in)
 
-    imgs_out = NVF.new()
-    imgs_out.read($testfiles['rw_mode3'])
+    imgs_out = @nvf.read($testfiles['rw_mode3'])
 
     assert_equal(imgs_in, imgs_out)
   end
 
   def test_readwrite_mode4
-    imgs_in = make_basic_nvf($testfiles['rw_mode4'], 4)
+    imgs_in = make_basic_nvf(4)
+    @nvf.write($testfiles['rw_mode4'], imgs_in)
 
-    imgs_out = NVF.new()
-    imgs_out.read($testfiles['rw_mode4'])
+    imgs_out = @nvf.read($testfiles['rw_mode4'])
 
     assert_equal(imgs_in, imgs_out)
   end
 
   def test_readwrite_mode5
-    imgs_in = make_basic_nvf($testfiles['rw_mode5'], 5)
+    imgs_in = make_basic_nvf(5)
+    @nvf.write($testfiles['rw_mode5'], imgs_in)
 
-    imgs_out = NVF.new()
-    imgs_out.read($testfiles['rw_mode5'])
+    imgs_out = @nvf.read($testfiles['rw_mode5'])
 
     assert_equal(imgs_in, imgs_out)
   end

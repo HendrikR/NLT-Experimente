@@ -11,6 +11,8 @@ $testfiles = {'alatz1_new' => 'test_data/ALATZ1.BOB',
 
 class TestBOB < Test::Unit::TestCase
   def setup
+    @bob_new = BOB_NEW.new
+    @bob_old = BOB_OLD.new
     # TODO maybe delete leftover test files
   end
 
@@ -18,18 +20,16 @@ class TestBOB < Test::Unit::TestCase
   end
 
   def test_load_bob_old
-    img_out = BOB_OLD.new()
-    img_out.read($testfiles['temple_old'])
+    img_out = @bob_old.read($testfiles['temple_old'])
     assert_true( img_out.sanity_checks )
   end
 
   def test_load_bob_new
-    img_out = BOB_NEW.new()
-    img_out.read($testfiles['alatz1_new'])
+    img_out = @bob_new.read($testfiles['alatz1_new'])
     assert_true( img_out.sanity_checks )
   end
 
-  def make_bob(testfile, bob_variant)
+  def make_bob(bob_variant)
     case bob_variant
     when :old then bobby = BOB_OLD.new
     when :new then bobby = BOB_NEW.new
@@ -49,11 +49,16 @@ class TestBOB < Test::Unit::TestCase
       img.data = generate_random_pixels(img.dimensions.width, img.dimensions.height)
       bobby.parts[i%2].images << img
     }
-    bobby.write(testfile)
     return bobby
   end
 
-  def test_readwrite_new
+  def notest_readwrite_new
+    imgs_in = make_basic_bob(:new)
+    @bob_new.write($testfiles['rw_new'], imgs_in)
+
+    imgs_out = @bob_new.read($testfiles['rw_new'])
+
+    assert_equal(imgs_in, imgs_out)
     # TODO
   end
 

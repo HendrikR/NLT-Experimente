@@ -134,6 +134,7 @@ end
 class ImageGroup
   # A group containing named lists of images
   attr_accessor :name, :dimensions, :palette, :parts, :subformat
+  attr_accessor :anim_speed # for ACE
 
   def initialize
     @name = ""
@@ -173,3 +174,12 @@ class ImageGroup
   end
 end
 
+class ImageHandler
+  def read(filename)
+    raise "Abstract class, must derive subclass"
+  end
+
+  def write(filename, img)
+    raise "Abstract class, must derive subclass"
+  end
+end

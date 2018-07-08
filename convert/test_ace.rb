@@ -9,6 +9,7 @@ $testfiles = {'jaeger' => 'test_data/JAEGER.ACE',
 
 class TestACE < Test::Unit::TestCase
   def setup
+    @ace = ACE.new
     # TODO maybe delete leftover test files
   end
 
@@ -16,13 +17,12 @@ class TestACE < Test::Unit::TestCase
   end
 
   def test_load_ace
-    img_out1 = ACE.new()
-    img_out1.read($testfiles['jaeger'])
+    img_out1 = @ace.read($testfiles['jaeger'])
     assert_true( img_out1.sanity_checks )
   end
 
-  def make_basic_ace(testfile, ace_variant)
-    ace = ACE.new()
+  def make_basic_ace(ace_variant)
+    ace = ImageGroup.new()
     ace.subformat = ace_variant
     ace.anim_speed = 1
     ace.dimensions = Rect.new(0, 0, 0, 0) # Type 1 image lists have per-image dimensions -- this should (hopefully) be ignored (but we need the values to match with img[0].dimensions for the test to pass)
@@ -38,15 +38,14 @@ class TestACE < Test::Unit::TestCase
       img.data = generate_random_pixels(img.dimensions.width, img.dimensions.height)
       ace.parts[i%2].images << img
     }
-    ace.write(testfile)
     return ace
   end
 
   def test_readwrite_mode1
-    imgs_in = make_basic_ace($testfiles['rw_rle'], 0)
+    imgs_in = make_basic_ace(0)
+    @ace.write($testfiles['rw_rle'], imgs_in)
 
-    imgs_out = ACE.new()
-    imgs_out.read($testfiles['rw_rle'])
+    imgs_out = @ace.read($testfiles['rw_rle'])
 
     assert_equal(imgs_in, imgs_out)
   end
