@@ -48,7 +48,7 @@ class ACE < ImageHandler
         part.images = Array.new( file.read08 ){ Image.new }
         part.playmode = file.read08 # TODO: Abspielmodus
         part.palette = ace.palette
-        puts "part #{part.name} dims: #{ace.parts.last.dimensions}"
+        ##puts "part #{part.name} dims: #{ace.parts.last.dimensions}, #{part.images.size} pics"
       end
     end
 
@@ -58,12 +58,13 @@ class ACE < ImageHandler
       #file.seek(imglist_offset[i]) # TODO: this is probably wrong
       for img in ace.parts[i].images
         compressed_size = file.read32
-        dims = file.read(8).unpack("SSSS")
-        img.dimensions = Rect.new( dims[0], dims[1], dims[3], dims[2] ) # width/height in swapped order
-        subformat = file.read08
+        #dims = file.read(8).unpack("SSSS")
+        #img.dimensions = Rect.new( dims[0], dims[1], dims[3], dims[2] ) # width/height in swapped order. TODO!!: oder nicht?
+        img.dimensions = Rect.new( file.read16, file.read16, file.read16, file.read16 )
+        img.subformat = file.read08
         file.read08 # TODO: add action-button to image
         img.compressed_data = file.read(compressed_size).unpack("C*")
-        img.data = decompress( img.compressed_data, compression_mode(subformat) )
+        img.data = decompress( img.compressed_data, compression_mode(img.subformat) )
         img.palette = ace.palette
       end
     end
@@ -73,7 +74,7 @@ class ACE < ImageHandler
     # Palette
     256.times do
       rgb = file.read(3).unpack("CCC")
-      ace.palette << Palette.new(rgb[0], rgb[1], rgb[2])
+      ace.palette << Palette.new(rgb[0] << 2, rgb[1] << 2, rgb[2] << 2)
     end
 
     # Infer global dimensions from local parts
@@ -128,19 +129,19 @@ class ACE < ImageHandler
     # write all the single images
     for part in ace.parts do
       for image in part.images do
-        file.write32 image.compressed_data.size # +4=4
-        file.write16 image.dimensions.x0        # +2=6
-        file.write16 image.dimensions.y0        # +2=8
-        file.write16 image.dimensions.height    # +2=10
-        file.write16 image.dimensions.width     # +2=12
-        file.write08 image.subformat            # +1=13
-        file.write08 0 # TODO: Action-Button    # +1=14
-        file.write image.compressed_data.pack("C*")        # +0=14
+        file.write32 image.compressed_data.size
+        file.write16 image.dimensions.x0
+        file.write16 image.dimensions.y0
+        file.write16 image.dimensions.width
+        file.write16 image.dimensions.height
+        file.write08 image.subformat
+        file.write08 0 # TODO: Action-Button
+        file.write image.compressed_data.pack("C*")
       end
     end
 
     for pal in ace.palette do
-      file.write( [ pal.r, pal.g, pal.b ].pack("CCC") )
+      file.write( [ pal.r >> 2, pal.g >> 2, pal.b >> 2 ].pack("CCC") )
     end
     file.close
   end

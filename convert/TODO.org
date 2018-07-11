@@ -21,11 +21,13 @@ GOAL: all (de-)compression algos should be tested
 ** PEND BOB support (new format)
 ** PEND BOB support (old format)
 ** TODO [#D] ULI support
-* Compression algorithms [/]
+** TODO [#D] RAW support
+* Compression algorithms [4/7]
 ** DONE Raw
 ** DONE RLE1 (nvf-style)
 ** DONE RLE2 (pcx/tga-style)
-** TODO Amiga PowerPack
+** DONE Amiga PowerPack (decomp)
+** TODO Amiga PowerPack (comp)
 ** TODO AIF 0x02 mode
 ** TODO ULI compression mode(s)
 ** TODO more tests for compression algorithms
@@ -35,6 +37,6 @@ GOAL: all (de-)compression algos should be tested
 ** TODO [#C] Metadata: JSON support
 ** PEND [#C] PNG support
 ** TODO [#C] GIF support
-* Additional features
+* Additional features [0/2]
 ** TODO [#C] configurable compression modes
 ** TODO [#C] automatically choose best (i.e. smallest) compression mode for a file

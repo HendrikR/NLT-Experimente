@@ -45,7 +45,7 @@ class NVF < ImageHandler
     # Color Palette
     file.write16 nvf.palette.size
     nvf.palette.each{|c|
-      file.write [c.r, c.g, c.b].pack("CCC")
+      file.write [c.r >> 2, c.g >> 2, c.b >> 2].pack("CCC")
     }
     file.close
   end
@@ -91,7 +91,7 @@ class NVF < ImageHandler
     raise "Error: invalid palette size #{palette_size}" if palette_size > 256
     palette_size.times do
       rgb = file.read(3).unpack("CCC")
-      nvf.palette << Palette.new(rgb[0], rgb[1], rgb[2])
+      nvf.palette << Palette.new(rgb[0] << 2, rgb[1] << 2, rgb[2] << 2)
     end
     file.close
     return nvf
