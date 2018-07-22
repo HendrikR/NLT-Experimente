@@ -67,7 +67,7 @@ class Image
   def sanity_checks
     pre = "sanity check failed: "
     raise(pre + "image should have #{@dimensions.size} pixels, but has #{@data.size} instead") if @data.size != @dimensions.size
-    raise(pre + "invalid palette size: should be 256, is #{@palette.size}") if @palette == nil || @palette.size != 256
+    raise(pre + "invalid palette size: should be =<256, is #{@palette.size}") if @palette == nil || @palette.size > 256
     # TODO: more sanity checks
     return true
   end
