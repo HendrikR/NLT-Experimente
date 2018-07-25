@@ -31,10 +31,11 @@ class ACE < ImageHandler
 
     if part_count == 1
       ace.parts << ImageList.new
-      ace.parts.last.dimensions = Rectangle.new(0,0, file.read16, file.read16)
-      ace.parts.last.images = Array.new( file.read08 )
-      ace.parts.last.play_mode = file.read08
+      ace.parts.last.dimensions = Rect.new(0,0, file.read16, file.read16)
+      ace.parts.last.images = Array.new( file.read08 ) { Image.new }
+      ace.parts.last.playmode = file.read08
       ace.parts.last.palette = ace.palette
+      imglist_offset << file.tell
     else
       for i in 0...part_count
         ace.parts << part = ImageList.new

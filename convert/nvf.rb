@@ -63,19 +63,24 @@ class NVF < ImageHandler
     puts "reading mode #{nvf.subformat} NVF with #{img_size} images"
     if uniform_resolution?(nvf)
       nvf.dimensions = Rect.new(0,0, file.read16, file.read16)
+      puts "uniform image resolution of #{nvf.dimensions}"
       img_size.times do
         img = Image.new
         img.dimensions = nvf.dimensions
         img.palette = nvf.palette
         img.data = file.read32 # misuse the nvf.data field for the size of compressed data
+        # TODO: does not always work, e.g. for NATURE.NVF, this is always 0
+        if compression_mode(nvf) == :raw then img.data = img.dimensions.size; end
         nvf.images << img
       end
     else
       img_size.times do
         img = Image.new
         img.dimensions = Rect.new(0,0, file.read16, file.read16)
+        p img.dimensions
         img.palette = nvf.palette
         img.data = file.read32 # misuse the nvf.data field for the size of compressed data
+        if compression_mode(nvf) == :raw then img.data = img.dimensions.size; end
         nvf.images << img
       end
       nvf.dimensions = nvf.images[0].dimensions
@@ -87,6 +92,7 @@ class NVF < ImageHandler
     end
 
     # Read color palette
+    file.seek(file.size - 3*256-2)
     palette_size = file.read16
     raise "Error: invalid palette size #{palette_size}" if palette_size > 256
     palette_size.times do

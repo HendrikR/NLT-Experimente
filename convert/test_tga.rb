@@ -61,7 +61,6 @@ class TestTGA < Test::Unit::TestCase
     img_out = @tga.read($testfiles['readwrite_rle'])
     assert_true(img_out.sanity_checks)
 
-    rng = 59998..60005
-    assert_equal(img_in.data[rng], img_out.data[rng]) # todo
+    assert_equal(img_in, img_out)
   end
 end

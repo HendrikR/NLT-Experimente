@@ -2,7 +2,7 @@
 def decompress( compressed, compression_mode )
   case compression_mode
   when :raw  then return compressed
-  when :pp   then return decompress_pp( compressed )
+  when :pp   then return decompress_pp(   compressed )
   when :rle1 then return decompress_rle1( compressed )
   when :rle2 then return decompress_rle2( compressed )
   else raise("unknown compression mode #{compression_mode}")
