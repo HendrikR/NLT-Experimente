@@ -1,6 +1,7 @@
 # TODO: should do basic sanity checks from images.rb somewhere
 
 require './images.rb'
+require './compression.rb'
 
 class TGA < ImageHandler
   def compression_mode(tga)
@@ -49,19 +50,19 @@ class TGA < ImageHandler
   def read(filename)
     tga = Image.new
     file = File.open(filename, IO::BINARY)
-    tga_name_len       = file.read08()
-    tga_pal_type       = file.read08()
+    tga_name_len          = file.read08()
+    tga_pal_type          = file.read08()
     tga.subformat         = file.read08()
-    tga_pal_ofs        = file.read16()
-    tga_pal_len        = file.read16()
-    tga_pal_bits       = file.read08()
+    tga_pal_ofs           = file.read16()
+    tga_pal_len           = file.read16()
+    tga_pal_bits          = file.read08()
     tga.dimensions        = Rect.new(0,0,0,0)
     tga.dimensions.x0     = file.read16()
     tga.dimensions.y0     = file.read16()
     tga.dimensions.width  = file.read16()
     tga.dimensions.height = file.read16()
-    bits_per_pixel     = file.read08()
-    tga_attribs        = file.read08()
+    bits_per_pixel        = file.read08()
+    tga_attribs           = file.read08()
 
     raise("TGA images without palette not supported") if tga_pal_type != 1
     raise("Only 8-bit indexed images with 24-bit palette supported") if tga_pal_bits != 24 or bits_per_pixel != 8

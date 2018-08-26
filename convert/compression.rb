@@ -5,6 +5,7 @@ def decompress( compressed, compression_mode )
   when :pp   then return decompress_pp(   compressed )
   when :rle1 then return decompress_rle1( compressed )
   when :rle2 then return decompress_rle2( compressed )
+  when :uli  then return decompress_uli(  compressed )
   else raise("unknown compression mode #{compression_mode}")
   end
 end
@@ -12,9 +13,10 @@ end
 def compress( decompressed, compression_mode )
   case compression_mode
   when :raw  then return decompressed
-  when :pp   then return compress_pp( decompressed )
+  when :pp   then return compress_pp(   decompressed )
   when :rle1 then return compress_rle1( decompressed )
   when :rle2 then return compress_rle2( decompressed )
+  when :uli  then return compress_uli(  decompressed )
   else raise("unknown compression mode #{compression_mode}")
   end
 end
@@ -111,7 +113,7 @@ end
 class ReverseBitReaderA
   def initialize(data)
     @data    = data
-    raise "Error: wrong input (should be byte array)" if not (data.class == Array && data.first.class == Fixnum)
+    raise "Error: wrong input (should be byte array)" if not (data.class == Array && data.first.class == Integer)
     @offset  = @data.size-1
     @bitpos  = 8
     @current_byte = @data[@offset]
@@ -142,7 +144,7 @@ end
 class ReverseBitReaderB
   def initialize(data)
     @data    = data
-    raise "Error: wrong input (should be byte array)" if not (data.class == Array && data.first.class == Fixnum)
+    raise "Error: wrong input (should be byte array)" if not (data.class == Array && data.first.class == Integer)
     @offset  = @data.size-1
     @bitpos  = 0
     @current_byte = @data[@offset]
@@ -180,7 +182,7 @@ def decompress_pp(data)
   skip_bits = data.pop
   ##m_unpacked_size = data.pop(5).pack("C5").unpack("L>C")[0] & 0x00FFFFFF # TODO!! ¿NVF?
   m_unpacked_size = ("\x00"+data.pop(3).pack("C3")).unpack("L>")[0] & 0x00FFFFFF # TODO!! ¿ACE?
-  raise "Error: Powerpack packed length mismatch: should be #{packed_size}, is #{m_packed_size}" if packed_size != m_packed_size
+###  raise "Error: Powerpack packed length mismatch: should be #{packed_size}, is #{m_packed_size}" if packed_size != m_packed_size # TODO: this can actually happen, investigate.
   raise "Error: Powerpack packed size (#{packed_size}) >= unpacked size (#{m_unpacked_size})" if packed_size >= m_unpacked_size
   bits = ReverseBitReaderB.new(data)
   skipped = bits.read(skip_bits)
@@ -226,4 +228,11 @@ end
 def compress_pp(data) # TODO
 
   raise "PowerPack compression not supported yet"
+end
+
+def decompress_uli(data) # TODO
+end
+
+def compress_uli(data) # TODO
+  raise "ULI compression not supported yet"
 end

@@ -26,6 +26,10 @@ class Palette
   def ==(o)
     @r == o.r && @g == o.g && @b == o.b
   end
+
+  def to_a
+    [@r,@g,@b]
+  end
 end
 
 class Rect
@@ -100,7 +104,7 @@ class ImageList
   end
 
   def sanity_checks
-    raise "High number of subimages (#{@images.size}) seems flaky." if @images.size > 60 # TODO: this is not a good sanity check, remove it after reaching stability.
+    raise "High number of subimages (#{@images.size}) seems flaky." if @images.size > 256 # TODO: this is not a good sanity check, remove it after reaching stability.
 
     for img in @images do
       img.sanity_checks

@@ -11,7 +11,8 @@ class AIF < ImageHandler
     # mode 50: Amiga PowerPack 2.0
     case aif.subformat
     when 0; :raw
-    when 2; :unknown_aif_0x02
+    when 1; :unknown_aif_0x01 # todo
+    when 2; :unknown_aif_0x02 # todo
     when 3; :pp
     else raise("unknown AIF mode #{aif.subformat}")
     end
@@ -21,14 +22,14 @@ class AIF < ImageHandler
     aif   = Image.new
     file  = File.open(filename, IO::BINARY)
 
-    magic        = file.read(3).unpack("a*")[0]
+    magic         = file.read(3).unpack("a*")[0]
     raise "Error: invalid AIF format identifier '#{magic}'" if magic != "AIF"
-    unknown1     = file.read08 # TODO: version?
-    aif.subformat   = file.read08
-    unknown2     = file.read08
-    aif.dimensions  = Rect.new(0,0, file.read16, file.read16)
-    palette_size = file.read16
-    unknown3     = file.read(18)
+    unknown1      = file.read08 # TODO: version?
+    aif.subformat = file.read08
+    unknown2      = file.read08
+    aif.dimensions= Rect.new(0,0, file.read16, file.read16)
+    palette_size  = file.read16
+    unknown3      = file.read(18)
 
     # pixel data
     if compression_mode(aif) == :raw

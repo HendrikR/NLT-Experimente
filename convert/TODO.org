@@ -40,3 +40,4 @@ GOAL: all (de-)compression algos should be tested
 * Additional features [0/2]
 ** TODO [#C] configurable compression modes
 ** TODO [#C] automatically choose best (i.e. smallest) compression mode for a file
+** TODO Specify external palette (different palette formats, e.g. GIMP)

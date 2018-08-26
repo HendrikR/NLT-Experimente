@@ -69,21 +69,22 @@ class NVF < ImageHandler
         img.dimensions = nvf.dimensions
         img.palette = nvf.palette
         img.data = file.read32 # misuse the nvf.data field for the size of compressed data
-        # TODO: does not always work, e.g. for NATURE.NVF, this is always 0
         if compression_mode(nvf) == :raw then img.data = img.dimensions.size; end
         nvf.images << img
       end
     else
       img_size.times do
         img = Image.new
-        img.dimensions = Rect.new(0,0, file.read16, file.read16)
-        p img.dimensions
+        img.dimensions = Rect.new(0,0, file.read16, file.read16 & 0xFF)
         img.palette = nvf.palette
         img.data = file.read32 # misuse the nvf.data field for the size of compressed data
         if compression_mode(nvf) == :raw then img.data = img.dimensions.size; end
         nvf.images << img
       end
-      nvf.dimensions = nvf.images[0].dimensions
+      nvf.dimensions = Rect.new(0,0,
+                                nvf.images.map{|img| img.dimensions.width }.max,
+                                nvf.images.map{|img| img.dimensions.height}.max
+                               )
     end
     for img in nvf.images do
       img.compressed_data = file.read( img.data ).unpack("C*")

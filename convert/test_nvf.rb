@@ -1,33 +1,40 @@
+# coding: utf-8
 require './nvf.rb'
 require 'test/unit'
 require './test_images.rb'
 
-$testfiles = {'rw_mode0' => 'test_data/out_mode0.nvf',
-              'rw_mode1' => 'test_data/out_mode1.nvf',
-              'rw_mode2' => 'test_data/out_mode2.nvf',
-              'rw_mode3' => 'test_data/out_mode3.nvf',
-              'rw_mode4' => 'test_data/out_mode4.nvf',
-              'rw_mode5' => 'test_data/out_mode5.nvf',
-              'horse0'        => 'test_data/HORSE0.NVF'
-             }
+$testdir = "test_data"
+$testfiles = ['HORSE0.NVF', ## DSA2
+              'FONT.NVF',
+              'NATURE.NVF', ## DSA2: Tileset
+              'HEADS.NVF', ## DSA2: NSC-Köpfe
+              'CHEADS2.NVF', ## DSA?: SC-Köpfe (krank)
+             ]
 
 class TestNVF < Test::Unit::TestCase
   def setup
     @nvf = NVF.new
-    # TODO maybe delete leftover test files
   end
 
   def teardown
   end
 
   def test_load_nvf
-    img_out = @nvf.read($testfiles['horse0'])
-    assert_true( img_out.sanity_checks )
+    for file in $testfiles do
+      filename = $testdir + "/" + file
+      puts "  testing file #{filename}"
+      img_out = @nvf.read(filename)
+      assert_true( img_out.sanity_checks )
+    end
   end
 
   def make_basic_nvf(subformat)
     imgs_in = ImageList.new()
     imgs_in.subformat = subformat
+    # truncate palette entries to multiples of 4, because the lower two bits are lost in conversion
+    def t4(x) (x/4)*4; end
+    imgs_in.palette = []; 256.times{ |i| imgs_in.palette << Palette.new(t4(i), t4(255-i), t4(0x77)) }
+    imgs_in.images = []
     if @nvf.uniform_resolution?(imgs_in)
       imgs_in.dimensions = Rect.new(0,0, 40, 30)
       3.times{ |i|
@@ -39,9 +46,6 @@ class TestNVF < Test::Unit::TestCase
         imgs_in.images << img
       }
     else
-      imgs_in.dimensions = Rect.new(0, 0, 0, 0) # Type 1 image lists have per-image dimensions -- this should (hopefully) be ignored (but we need the values to match with img[0].dimensions for the test to pass)
-      imgs_in.palette = []; 256.times{ |i| imgs_in.palette << Palette.new(i, 255-i, 0x77) }
-      imgs_in.images = []
       3.times{ |i|
         img = Image.new
         img.name = ""
@@ -50,63 +54,58 @@ class TestNVF < Test::Unit::TestCase
         img.data = generate_rle_pixels(img.dimensions.width, img.dimensions.height)
         imgs_in.images << img
       }
+      # re-set dimensions to engulf image dimensions
+      imgs_in.dimensions = Rect.new(0, 0, 40*(3-1), 30*(3-1))
     end
     return imgs_in
   end
 
+  def readwrite_mode_test(mode)
+    filename = "#{$testdir}/out_mode#{mode}.nvf"
+    img_in = make_basic_nvf(mode)
+
+    @nvf.write(filename, img_in)
+    assert_true(img_in.sanity_checks)
+
+    img_out = @nvf.read(filename)
+    assert_true(img_out.sanity_checks)
+
+    system "rm #{filename}"
+
+    return [img_in, img_out]
+  end
+
+
+  
   def test_readwrite_mode0
-    imgs_in = make_basic_nvf(0)
-    @nvf.write($testfiles['rw_mode0'], imgs_in)
-
-    imgs_out = @nvf.read($testfiles['rw_mode0'])
-
-    assert_equal(imgs_in, imgs_out)
+    img_in, img_out = readwrite_mode_test(0)
+    assert_equal(img_in, img_out)
   end
 
   def test_readwrite_mode1
-    imgs_in = make_basic_nvf(1)
-    @nvf.write($testfiles['rw_mode1'], imgs_in)
-
-    imgs_out = @nvf.read($testfiles['rw_mode1'])
-
-    assert_equal(imgs_in, imgs_out)
+    img_in, img_out = readwrite_mode_test(1)
+    assert_equal(img_in, img_out)
   end
 
   # TODO: enable once pp (de-)compression is supported
   def notest_readwrite_mode2
-    imgs_in = make_basic_nvf(2)
-    @nvf.write($testfiles['rw_mode2'], imgs_in)
-
-    imgs_out = @nvf.read($testfiles['rw_mode2'])
-
-    assert_equal(imgs_in, imgs_out)
+    img_in, img_out = readwrite_mode_test(2)
+    assert_equal(img_in, img_out)
   end
 
   # TODO: enable once pp (de-)compression is supported
   def notest_readwrite_mode3
-    imgs_in = make_basic_nvf(3)
-    @nvf.write($testfiles['rw_mode3'], imgs_in)
-
-    imgs_out = @nvf.read($testfiles['rw_mode3'])
-
-    assert_equal(imgs_in, imgs_out)
+    img_in, img_out = readwrite_mode_test(3)
+    assert_equal(img_in, img_out)
   end
 
   def test_readwrite_mode4
-    imgs_in = make_basic_nvf(4)
-    @nvf.write($testfiles['rw_mode4'], imgs_in)
-
-    imgs_out = @nvf.read($testfiles['rw_mode4'])
-
-    assert_equal(imgs_in, imgs_out)
+    img_in, img_out = readwrite_mode_test(4)
+    assert_equal(img_in, img_out)
   end
 
   def test_readwrite_mode5
-    imgs_in = make_basic_nvf(5)
-    @nvf.write($testfiles['rw_mode5'], imgs_in)
-
-    imgs_out = @nvf.read($testfiles['rw_mode5'])
-
-    assert_equal(imgs_in, imgs_out)
+    img_in, img_out = readwrite_mode_test(5)
+    assert_equal(img_in, img_out)
   end
 end
