@@ -3,20 +3,16 @@ require './bob_old.rb'
 require 'test/unit'
 require './test_images.rb'
 
+$testdir = "test_data"
 $testfiles = {'alatz1_new' => 'test_data/ALATZ1.BOB',
+              'lana_new' => 'test_data/LANA.BOB',
               'temple_old' => 'test_data/TEMPLE.BOB',
-              'rw_new' => 'test_data/out_new.bob',
-              'rw_old' => 'test_data/out_old.bob',
              }
 
 class TestBOB < Test::Unit::TestCase
   def setup
     @bob_new = BOB_NEW.new
     @bob_old = BOB_OLD.new
-    # TODO maybe delete leftover test files
-  end
-
-  def teardown
   end
 
   def test_load_bob_old
@@ -24,8 +20,9 @@ class TestBOB < Test::Unit::TestCase
     assert_true( img_out.sanity_checks )
   end
 
-  def test_load_bob_new
-    img_out = @bob_new.read($testfiles['alatz1_new'])
+  def notest_load_bob_new
+    #img_out = @bob_new.read($testfiles['alatz1_new'])
+    img_out = @bob_new.read("test_data/ELAJA.BOB")
     assert_true( img_out.sanity_checks )
   end
 
@@ -52,15 +49,29 @@ class TestBOB < Test::Unit::TestCase
     return bobby
   end
 
-  def notest_readwrite_new
-    imgs_in = make_basic_bob(:new)
-    @bob_new.write($testfiles['rw_new'], imgs_in)
+  def readwrite_mode_test(variant)
+    handler = bob_variant == :old  ?  @bob_old  :  @bob_new
+    filename = "#{$testdir}/out_#{variant}.bob"
+    img_in = make_basic_bob(variant)
 
-    imgs_out = @bob_new.read($testfiles['rw_new'])
+    handler.write(filename, img_in)
+    assert_true(img_in.sanity_checks)
 
-    assert_equal(imgs_in, imgs_out)
-    # TODO
+    img_out = handler.read(filename)
+    assert_true(img_out.sanity_checks)
+
+    system "rm #{filename}"
+
+    return [img_in, img_out]
   end
 
-  # TODO: more tests
+  def notest_readwrite_old
+    img_in, img_out = readwrite_mode_test(:old)
+    assert_equal(img_in, img_out)
+  end
+
+  def notest_readwrite_new
+    img_in, img_out = readwrite_mode_test(:new)
+    assert_equal(img_in, img_out)
+  end
 end

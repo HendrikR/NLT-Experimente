@@ -14,20 +14,21 @@ class BOB_NEW < ImageHandler
     bob.parts = Array.new(file.read08){ ImageList.new }
     bob_unk01 = file.read16
     raise_unknown "Error: unexpected value #{bob_unk01} at offset #{file.tell-2}, should be 0x010A" if bob_unk01 != 0x010A
-    bob_unk02 = file.read(8).unpack("C*")
+    bob_unk02 = file.read(9).unpack("C*")
 
     puts "reading #{bob.parts.size} image parts"
-    for i in 0...bob.parts.size do
-      bob_part_imgs1 = file.read08
-      bob_part_imgs2 = file.read08
-      raise "Error: image counts do not match: #{bob_part_imgs1} != #{bob_part_imgs2}" if bob_part_imgs1 != bob_part_imgs2
-      bob_unk03 = file.read16
-      ###raise "Error: unexpected value #{bob_unk03} at offset #{file.tell-2}, should be 0x0000" if bob_unk03 != 0x0000
-      bob.parts[i].images = Array.new(bob_part_imgs2) { Image.new }
-    end
+    bob_something = []
+    for i in 0..bob.parts.size do bob_something << file.read08; end
+    #raise "error: no trailing zero" if file.read08 != 0x00 # remove trailing zero
 
-    ##file.seek(4*8, IO::SEEK_CUR) # TODO: both are wrong.
-    file.seek(0x141)
+    bob_something.each{|num|
+      num2 = file.read16
+      num2.times{|i|
+        file.read(4).unpack("CCS") # TODO
+      }
+      p file.read(1).unpack("C*") # TODO whatever!?
+    }
+    p file.read(16).unpack("C*") # TODO ??? sometimes its 20?
 
     for i in 0...bob.parts.size do
       puts "read part at #{file.tell}"
@@ -38,10 +39,13 @@ class BOB_NEW < ImageHandler
       bob_unk05 = file.read16
       raise "Error: unexpected value #{bob_unk05} at offset #{file.tell-2}, should be 0x0000" if bob_unk05 != 0x0000
       bob_part_imgs3 = file.read08
-      raise "Error: image counts do not match: #{bob.parts[i].images.size} != #{bob_part_imgs3}" if bob_part_imgs1 != bob_part_imgs3
-      bob_unk06_size = file.read16
-      bob_unk06 = file.read(bob_unk06_size)
-      puts "img part #{bob.parts[i].name} has #{bob.parts[i].images.size} frames size #{bob.parts[i].dimensions}"
+      #raise "Error: image counts do not match: #{bob.parts[i].images.size} != #{bob_part_imgs3}" if bob_part_imgs1 != bob_part_imgs3
+      #bob_unk06_size = file.read16
+      #bob_unk06 = file.read(bob_unk06_size)
+      bob_something[i].times{ file.read(4)}
+      bob_part_imgs3.times{ file.read(4)}
+      file.read(2)
+      puts "img part #{bob.parts[i].name} has #{bob_part_imgs3} frames size #{bob.parts[i].dimensions}"
     end
 
     for part in bob.parts do
