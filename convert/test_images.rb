@@ -1,14 +1,12 @@
-require 'test/unit'
-
 def generate_random_pixels(width, height)
-  #srand(1) # TODO!!!
+  #srand(1) # for reproduction of errors
   out = []
   (width * height).times{ out << rand(256) }
   return out
 end
 
 def generate_rle_pixels(width, height)
-  srand(1) # TODO!!!
+  # srand(1) # for reproduction of errors
   out = []
   points = width*height
   1000.times{ out << 12 }; points -= 1000  # start with 1000 same-colored pixels

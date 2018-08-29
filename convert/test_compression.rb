@@ -1,5 +1,6 @@
 require 'test/unit'
 require './compression.rb'
+require './test_images.rb' # for generating random pixels
 
 
 class TestCompression < Test::Unit::TestCase
@@ -33,5 +34,31 @@ class TestCompression < Test::Unit::TestCase
     }
     assert_equal( data_in.reverse, data_out )
   end
+
+  # r
+  def recompression_test(format)
+    data_ein = generate_rle_pixels(100+rand(100), 100+rand(100)) # generate some amount of rle-friendly data
+    data_cmp = compress(data_ein, format)    # compress it
+    data_out = decompress(data_cmp, format)  # decompress again
+
+    assert( data_cmp.size <= data_ein.size ) # result should be same as input
+    assert_equal( data_ein, data_out )       # compressed data should not be larger
+  end
+
+  def test_recompression_uli
+    recompression_test(:uli)
+  end
+
+  def test_recompression_rle1
+    recompression_test(:rle1)
+  end
+
+  def test_recompression_rle2
+    recompression_test(:rle2)
+  end
+
+  def notest_recompression_pp # todo
+    recompression_test(:p)
+  end
 end
-# TODO: more tests (compression-decompression equality under random streams for every algorithm)
+

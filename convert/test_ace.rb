@@ -1,11 +1,13 @@
+# coding: utf-8
 require './ace.rb'
 require 'test/unit'
 require './test_images.rb'
 
-$testfiles = {'jaeger' => 'test_data/JAEGER.ACE',
-              # TODO: add more, diverse test images. (e.g. RLE-packed image)
-              'rw_rle' => 'test_data/out_rle.ace',
-             }
+$testdir = "test_data"
+$testfiles = ['JAEGER.ACE', ## DSA2: Kampfanimationen Jäger
+              'A1_5_BOA.ACE', ## DSA3: Ruderboot-Animationsbildchen, subformat 1(rle)
+              'FEUERGEI.ACE', ## DSA3: Kampfanimationen, subformat 50(pp)
+             ]
 
 class TestACE < Test::Unit::TestCase
   def setup

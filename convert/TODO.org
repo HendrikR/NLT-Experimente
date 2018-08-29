@@ -4,16 +4,18 @@
 ** TODO [#B] unify make_<format> from test files into a single function (for Image/ImageList/ImageGroup)
 ** TODO [#B] command-line options
 ** DONE [#B] factor out compression algorithms into own file
-* Testing [0/5]
-** PEND [#A] add more test files [/]
+* Testing [2/5]
+** DONE [#A] add more test files [/]
 GOAL: all (de-)compression algos should be tested
 *** PEND ACE subformats
 *** PEND NVF subformats
 *** PEND BOB subformats
+*** PEND ULI formats with different palette sizes (especially <16)
+*** PEND AIF subformats
 ** TODO [#A] enable all disabled test cases ("notest_...")
 ** TODO [#B] more sanity checks
 ** TODO [#C] inter-format conversion tests (e.g. from NVF to TGA/YAML and back again)
-** TODO [#D] have an automated test for whole directories of files (i.e. to test for every ACE/NVF/... in the games)
+** DONE [#D] have an automated test for whole directories of files (i.e. to test for every ACE/NVF/... in the games)
 * NLT format support [2/6]
 ** DONE [#A] NVF support
 ** DONE ACE support

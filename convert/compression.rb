@@ -230,9 +230,59 @@ def compress_pp(data) # TODO
   raise "PowerPack compression not supported yet"
 end
 
-def decompress_uli(data) # TODO
+def decompress_uli(data)
+  i = 0
+  out = []
+  while i < data.size
+    len = data[i]
+    i+= 1
+    if len < 0x80
+      color = data[i]
+      len.times{ out << color }
+      i += 1
+    else
+      len -= 0x80
+      len.times{
+        out << data[i]
+        i+= 1
+      }
+    end
+  end
+  return out
 end
 
 def compress_uli(data) # TODO
-  raise "ULI compression not supported yet"
+  # RLE (Variante 3/ULI: Werte > 0x80 als RLE-Marker & Lauflänge)
+  out = []
+  # 3 pointers / indices:
+  ptr_done = 0 # first byte that is not yet encoded
+  ptr_same = 0 # first byte of last sequence of same-valued bytes
+  ptr_head = 1 # first byte that is not yet analyzed
+
+
+  loop do
+    # Encode if at end of stream, or unencoded part gets too long
+    if (ptr_head == data.size) or (ptr_head - ptr_done >= 0x7F)
+      # Encode inhomogenous data as >=0x80 prefix + vector of bytes
+      len = ptr_same - ptr_done
+      if len > 0
+        out << (len + 0x80)
+        out.concat( data[ptr_done...ptr_same] )
+      end
+      # Encode same-valued data as < 0x80 prefix + value
+      len = ptr_head - ptr_same
+      if len > 0
+        out << len
+        out << data[ptr_same]
+      end
+      # set pointers
+      ptr_done = ptr_same = ptr_head
+    end
+    break if ptr_head == data.size
+    # prepare for next round: increment pointer(s)
+    if data[ptr_same] != data[ptr_head] then ptr_same = ptr_head; end
+    ptr_head += 1
+  end
+  #puts "head at #{ptr_head}, ending compr with #{out}"
+  return out
 end
