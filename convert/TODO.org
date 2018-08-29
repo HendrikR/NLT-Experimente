@@ -5,12 +5,12 @@
 ** TODO [#B] command-line options
 ** DONE [#B] factor out compression algorithms into own file
 * Testing [2/5]
-** DONE [#A] add more test files [/]
+** DONE [#A] add more test files [1/5]
 GOAL: all (de-)compression algos should be tested
 *** PEND ACE subformats
 *** PEND NVF subformats
 *** PEND BOB subformats
-*** PEND ULI formats with different palette sizes (especially <16)
+*** DONE ULI formats with different palette sizes (especially <16)
 *** PEND AIF subformats
 ** TODO [#A] enable all disabled test cases ("notest_...")
 ** TODO [#B] more sanity checks

@@ -25,9 +25,8 @@ class TestULI < Test::Unit::TestCase
     img_out = @uli.read(filename)
     assert_true(img_out.sanity_checks)
 
-    #assert_equal(img_in, img_out) # todo
-    #system "rm #{filename}"
-
+    assert_equal(img_in, img_out) # todo
+    system "rm #{filename}"
   end
 
   def test_load_uli_1bit # ULI file with 1-bit palette (black/white), uses smaller compression variant
