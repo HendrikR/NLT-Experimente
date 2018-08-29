@@ -2,6 +2,20 @@
 
 require_relative "_common.rb"
 
+=begin
+Liste von Offsets in der Schweif.exe (Version C1.02)
+rezept_list    offsets = {:start => 0x2881A, :len => 14*28, :end => 0x289A2}
+something1     offsets = {:start => 0x289A2, :len => ???,   :end => 0x28A80}
+?spell_list    offsets = {:start => 0x28A80, :len => 86*8,  :end => 0x28D30}
+something3     offsets = {:start => 0x28D30, :len => ???,   :end => 0x2925D}
+something*     offsets = {:start => 0x2925D, :len => ???,   :end => 0x299A3}
+item_blacklist offsets = {:start => 0x299A3, :len => var  , :end => 0x29D9B}
+something      offsets = {:start => 0x29D9B, :len => var  , :end => 0x29E2B}
+weapon_list    offsets = {:start => 0x29E2B, :len => 77*8 , :end => 0x2A093}
+#dummy-waffe 8 bytes
+armor_list     offsets = {:start => 0x2A09B, :len => 27*2 , :end => 0x2A0D1}
+startinv       offsets = {:start => 0x2C8C6, :len => 12*4 , :end => 0x2C930}
+=end
 
 # Ermittle die Version der .exe
 def get_version(file_exe)
@@ -13,6 +27,26 @@ def get_version(file_exe)
   else  raise "Fehler: Unbekannte Sternenschweif-Version"
   end
 end
+
+def item_something(file, version)
+  #offsets = {:c102 => 0x28D30}
+
+  #offsets = {:c102 => 0x29989} # Schuhwerk, Münzen, Dietriche, Bonbons, Lobpreisungen. Hmm - alles Mehrzahl?
+  #offsets = {:c102 => 0x29945} # viele 0en, dann Süßkram, Gifte, Öle, Lobpreisungen, Rüst-Zeug, Schmuck. Hm.
+  offsets = {:c102 => 0x292FD} # ID=06-45. Div. Waffen, Kletterkram, Schuppenpanzer, Decke, Schaufel.
+  file.seek(offsets[version])
+  
+
+  list = []
+
+  loop do
+    id = file.read(2).unpack("S<")[0]
+    break if id == 0xFFFF
+    list << id
+  end
+  return list
+end
+
 
 # Item-Blacklisten nach Charaktertyp
 # TODO: Direkt vor den Item-Blacklisten sind noch 2 andere, merkwürdige Listen, die genauso aufgebaut sind.
@@ -59,7 +93,7 @@ def armor_list(file, version)
     break if a.rs == 0xFF && a.be == 0xFF
     list << a
   end
-  p file.tell.to_s(16)
+  #p file.tell.to_s(16)
   return list
 end
 
@@ -156,10 +190,11 @@ def spell_list(file, version)
   #puts "<svg xmlns=\"http://www.w3.org/2000/svg\"><g transform='scale(0.6)'>"
   for i in 0...86
     data = file.read(8).unpack("S<CCL<")
-    puts SPELL[i].ljust(30) + data.to_s #if data[2] != 36
+    #puts SPELL[i].ljust(30) + data.to_s #if data[2] != 36
     #puts "<text x='#{20*data[1]}' y='#{5*data[0]-100}'>#{SPELL[i]}</text>"
   end
   #puts "</g></svg>"
+  return list
 end
 
 def start_inventory(file, version)
@@ -188,7 +223,7 @@ end
 file_exe = File.open(ARGV[0])
 version = get_version(file_exe)
 #puts "Sternenschweif .EXE Version #{version}"
-spell_list(file_exe, version)
+#spell_list(file_exe, version)
 #start_inventory(file_exe, version)
 #puts armor_list(file_exe, version)
 #puts weapon_list(file_exe, version)
@@ -205,4 +240,12 @@ item_blacklist.each_pair do |key,list|
 end
 =end
 
+item_something(file_exe, version).each do |id|
+  printf("- %s [%04x]\n", SPELL[id], id)
+end
 file_exe.close
+
+
+=begin
+
+=end
