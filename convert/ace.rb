@@ -56,7 +56,7 @@ class ACE < ImageHandler
     for i in 0...part_count
       imglist_data_size = ( ( i < part_count-1 ) ? imglist_offset[i+1] : (file.size - 256*3)  -  imglist_offset[i]  )
       ## TODO: Something is off with this offset. File position seems okay, but what is the offset for, then?
-      ##puts "File is at #{file.tell}, offset says it should be #{imglist_offset[i]}. Hm."
+      puts "File is at #{file.tell}, offset says it should be #{imglist_offset[i]}. Hm."
       #raise "Error: broken file offset: #{imglist_offset[i]} is not #{file.tell}" if file.tell != imglist_offset[i]
       #file.seek(imglist_offset[i]) # TODO: this is probably wrong
       for img in ace.parts[i].images

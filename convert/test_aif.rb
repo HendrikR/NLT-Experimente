@@ -26,7 +26,7 @@ class TestAIF < Test::Unit::TestCase
     img_in.subformat = subformat
     img_in.dimensions = Rect.new(0, 0, 30, 20)
     def t4(x) (x/4)*4; end
-    img_in.palette = []; 256.times{ |i| img_in.palette << Palette.new(t4(i), t4(255-i), t4(0x77)) }
+    imgs_in.palette = []; 256.times{ |i| imgs_in.palette << Palette.new(t4(i), t4(255-i), t4(0x77)) }
     img_in.data = generate_random_pixels(img_in.dimensions.width, img_in.dimensions.height)
     return img_in
   end

@@ -7,13 +7,4 @@ require './raw.rb'
 require './tga.rb'
 require './uli.rb'
 
-$EXTENSION_HANDLERS = {
-#  "ACE" => ACE.new,
-#  "AIF" => AIF.new,
-#  "BOB" => BOB.new,
-#  "NVF" => NVF.new,
-#  "RAW" => RAW.new,
-  "TGA" => TGA.new,
-  "ULI" => ULI.new
-}
-
+require './yaml_group.rb'
