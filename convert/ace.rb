@@ -55,6 +55,8 @@ class ACE < ImageHandler
 
     for i in 0...part_count
       imglist_data_size = ( ( i < part_count-1 ) ? imglist_offset[i+1] : (file.size - 256*3)  -  imglist_offset[i]  )
+      ## TODO: Something is off with this offset. File position seems okay, but what is the offset for, then?
+      ##puts "File is at #{file.tell}, offset says it should be #{imglist_offset[i]}. Hm."
       #raise "Error: broken file offset: #{imglist_offset[i]} is not #{file.tell}" if file.tell != imglist_offset[i]
       #file.seek(imglist_offset[i]) # TODO: this is probably wrong
       for img in ace.parts[i].images
@@ -65,6 +67,7 @@ class ACE < ImageHandler
         img.subformat = file.read08
         file.read08 # TODO: add action-button to image
         img.compressed_data = file.read(compressed_size).unpack("C*")
+        #puts "decomp #{compressed_size} bytes of mode #{img.subformat}"
         img.data = decompress( img.compressed_data, compression_mode(img.subformat) )
         img.palette = ace.palette
       end
@@ -94,7 +97,7 @@ class ACE < ImageHandler
     # compress all the images (needs to be done before writing headers so we know the sizes / offsets
     for part in ace.parts do
       for image in part.images do
-        image.compressed_data = compress(image.data, :raw) # TODO: support other subformats
+        image.compressed_data = compress(image.data, compression_mode(image.subformat)) # TODO: support other subformats
       end
     end
 
@@ -114,7 +117,7 @@ class ACE < ImageHandler
     else
       aniheader_ofs = file.tell + ace.parts.size * (4 + 2 + 4*2 + 1 + 1)
       for part in ace.parts do
-        puts "part #{part.name} dims: #{ace.parts.last.dimensions}"
+        ##puts "part #{part.name} dims: #{ace.parts.last.dimensions}"
         file.write32 aniheader_ofs # offset of first img
         file.write16 part.name.to_i # id number
         file.write16 part.dimensions.width
