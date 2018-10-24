@@ -6,13 +6,12 @@ require './compression.rb'
 class AIF < ImageHandler
   def compression_mode(aif)
     # mode 0: no compression
-    # mode 1: RLE (Variante 1/NVF: 0x7F als RLE-Marker)
-    # mode 2: RLE (Variante 2/TGA: Werte > 0x80 als RLE-Marker & Lauflänge)
+    # mode 2: RLE (Variante 3/AIF: Lauflänge (< oder >= 0x80))
     # mode 50: Amiga PowerPack 2.0
     case aif.subformat
     when 0; :raw
     when 1; :unknown_aif_0x01 # todo
-    when 2; :unknown_aif_0x02 # todo
+    when 2; :rle3
     when 3; :pp
     else raise("unknown AIF mode #{aif.subformat}")
     end
@@ -36,14 +35,17 @@ class AIF < ImageHandler
       aif.compressed_data = file.read(aif.dimensions.size).unpack("C*")
     elsif compression_mode(aif) == :pp
       comp_size = file.read32
-      aif.compressed_data = file.read(comp_size).unpack("C*")
-      uncomp_size = file.read32
-      raise "Error: decompressed data size mismatch: should be #{aif.dimensions.size}, but file says #{uncomp_size}" if aif.dimensions.size != uncomp_size
+      file.seek(comp_size, IO::SEEK_CUR)
+      uncomp_size = arr_read24be(file.read(3).unpack("C3"))
+      file.seek(-4-3-comp_size, IO::SEEK_CUR)
+      aif.compressed_data = file.read(comp_size+4+3+1).unpack("C*")
     else
-      # TODO: unknown format
-      raise "Error: AIF subformat 0x02 not yet supported"
+      comp_size = file.size - 0x1E - palette_size*3
+      aif.compressed_data = file.read(comp_size).unpack("C*")
     end
+
     aif.data = decompress(aif.compressed_data, compression_mode(aif))
+    raise "size mismatch #{aif.data.size} != #{aif.dimensions.size}" if aif.data.size != aif.dimensions.size
 
     # Palette
     palette_size.times do

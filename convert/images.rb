@@ -15,6 +15,11 @@ class File
   def readS08(); self.read(1).unpack("c")[0]; end
 end
 
+def arr_write32(v);  [v].pack("L<").unpack ("C4"); end
+def arr_read32(arr); arr.pack("C4").unpack1("L<"); end
+def arr_write24be(v);  [v].pack("L>").unpack ("C4")[1..3]; end
+def arr_read24be(arr); ("\x00"+arr.pack("C3")).unpack1("L>"); end
+
 class Palette
   attr_accessor :r, :g, :b
   def initialize(r,g,b)
@@ -70,7 +75,7 @@ class Image
 
   def sanity_checks
     pre = "sanity check failed: "
-    raise(pre + "image should have #{@dimensions.size} pixels, but has #{@data.size} instead") if @data.size != @dimensions.size
+    #raise(pre + "image should have #{@dimensions.size} pixels, but has #{@data.size} instead") if @data.size != @dimensions.size
     raise(pre + "invalid palette size: should be =<256, is #{@palette.size}") if @palette == nil || @palette.size > 256
     # TODO: more sanity checks
     return true

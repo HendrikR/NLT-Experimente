@@ -1,10 +1,14 @@
 # coding: utf-8
+
+# TODO: careful optimization can yield great performance improvements here.
+
 def decompress( compressed, compression_mode )
   case compression_mode
   when :raw  then return compressed
   when :pp   then return decompress_pp(   compressed )
   when :rle1 then return decompress_rle1( compressed )
   when :rle2 then return decompress_rle2( compressed )
+  when :rle3 then return decompress_rle3( compressed )
   when :uli  then return decompress_uli(  compressed )
   else raise("unknown compression mode #{compression_mode}")
   end
@@ -16,6 +20,7 @@ def compress( decompressed, compression_mode )
   when :pp   then return compress_pp(   decompressed )
   when :rle1 then return compress_rle1( decompressed )
   when :rle2 then return compress_rle2( decompressed )
+  when :rle3 then return compress_rle3( decompressed )
   when :uli  then return compress_uli(  decompressed )
   else raise("unknown compression mode #{compression_mode}")
   end
@@ -110,38 +115,29 @@ def compress_rle2(data)
   return out
 end
 
-class ReverseBitReaderA
-  def initialize(data)
-    @data    = data
-    raise "Error: wrong input (should be byte array)" if not (data.class == Array && data.first.class == Integer)
-    @offset  = @data.size-1
-    @bitpos  = 8
-    @current_byte = @data[@offset]
-  end
-  def read1
-    read(1)
-  end
-  def read(num)
-    return 0 if eof?
-    ##raise "Error: End of bitstream reached" if eof?
-    out = 0
-    for i in 0...num do
-      if @bitpos == 0
-        @offset -= 1
-        @bitpos = 8
-        @current_byte = @data[@offset]
-      end
-      @bitpos -= 1
-      out = out << 1 | ((@current_byte >> @bitpos) & 0x01)
+
+def decompress_rle3(data)
+  # RLE (Variant 3/AIF: value > 0x7F: rle length; < 0x80: raw byte length)
+  out = []
+  i = 0
+  while i < data.size
+    block_len = (data[i] & 0x80 == 0)  ?  data[i] + 1  :  257-data[i]
+    if data[i] < 0x80 # < 0x80: raw block of *block_len* pixels
+      block_len.times{  out << data[i += 1]  }
+    else # >= 0x80 -- repeat next pixel (
+      val = data[i += 1]
+      block_len.times{  out << val  }
     end
-    return out
+    i += 1
   end
-  def eof?
-    @offset <= 0 && @bitpos == 0
-  end
+  return out
 end
 
-class ReverseBitReaderB
+def compress_rle3(data)
+  raise "not supported yet"
+end
+
+class ReverseBitReader
   def initialize(data)
     @data    = data
     raise "Error: wrong input (should be byte array)" if not (data.class == Array && data.first.class == Integer)
@@ -172,19 +168,63 @@ class ReverseBitReaderB
   end
 end
 
+class ReverseBitWriter
+  attr_reader :bitpos
+
+  def initialize
+    @data    = []
+    @bitpos  = 8
+    @current_byte = 0
+  end
+
+  def write0; write(1, 0); end
+  def write1; write(1, 1); end
+  def write8(bits); write(8, bits); end
+  def writeSeq(*arr); writeArr(arr); end
+
+  # TODO: Bad performance. Shifts bits around twice, is this necessary?
+  def write(num, dat)
+    bitarr = []
+    for i in 0...num do
+      bitarr << (dat & 0b1)
+      dat >>= 1
+    end
+    writeArr(bitarr)
+  end
+  
+  def writeArr(bits)
+    num = bits.size
+    for b in bits do
+      if @bitpos == 8
+        @bitpos = 0
+        @data.unshift(0) # shift in a new, emtpy byte
+      end
+      @data[0] |= (b & 0b1) << @bitpos
+      @bitpos += 1
+    end
+  end
+  
+  def getStream; @data; end
+  def bytes; @data.size; end
+end
+
 def decompress_pp(data)
   out = []
-  packed_size = data.size
-  m_packed_size = data.shift(4).pack("C4").unpack("L<")[0]  # first 4 bytes are runlength # TODO: its not that simple, cf. g105de_seg004.cpp in BrightEyes
+  # PP starts with 4 bytes packed size, ends with 3 bytes (bigendian) unpacked size
+  packed_size = data.size - 3
+  m_packed_size = arr_read32(data.shift(4))  # first 4 bytes are runlength # TODO: its not that simple, cf. g105de_seg004.cpp in BrightEyes
   offset_lens = data.shift(4) # next 4 bytes are offset lenses
 
   # Get skip bits and unpacked size; sanity checks
   skip_bits = data.pop
-  ##m_unpacked_size = data.pop(5).pack("C5").unpack("L>C")[0] & 0x00FFFFFF # TODO!! ¿NVF?
-  m_unpacked_size = ("\x00"+data.pop(3).pack("C3")).unpack("L>")[0] & 0x00FFFFFF # TODO!! ¿ACE?
-###  raise "Error: Powerpack packed length mismatch: should be #{packed_size}, is #{m_packed_size}" if packed_size != m_packed_size # TODO: this can actually happen, investigate.
-  raise "Error: Powerpack packed size (#{packed_size}) >= unpacked size (#{m_unpacked_size})" if packed_size >= m_unpacked_size
-  bits = ReverseBitReaderB.new(data)
+  m_unpacked_size = arr_read24be(data.pop(3)) # TODO!! ¿ACE?
+
+
+  if packed_size-4 != m_packed_size && packed_size-5 != m_packed_size
+    # -5 for aif, -4 for everything else
+    raise "Error: Powerpack packed length mismatch: should be #{packed_size-4}, is #{m_packed_size}"
+  end
+  bits = ReverseBitReader.new(data)
   skipped = bits.read(skip_bits)
   ##puts "skipped #{skip_bits} bits: %0#{skip_bits}b" % skipped
   ##puts "offset lenses are #{offset_lens}; skipping #{skip_bits} bits. Depacking from #{m_packed_size} to #{m_unpacked_size} bytes"
@@ -222,12 +262,69 @@ def decompress_pp(data)
       out << w
     }
   end
+  # Seems to be necessary, otherwise data is 2 pixels too long and images shifted right by 2 pixels
+  2.times{ out.pop }
   return out.reverse
 end
 
-def compress_pp(data) # TODO
+def compress_pp_proper(data)
+  # TODO/PEND
+  out = []
+  bits = ReverseBitWriter.new
+  # TODO: Lenses as seen in sample pictures. Check if another pattern is better.
+  offset_lens = [9,10,10,10]
 
-  raise "PowerPack compression not supported yet"
+  # build byte index
+  byte_index = Hash.new([])
+  data.each_with_index{|v, i| byte_index[v] << i}
+
+  # 3 pointers / indices:
+  psrc = 0  # start of pattern to copy from
+  ptgt = 0  # start of pattern to copy to
+  len = 0
+  
+  while ptgt < data.size
+    # check if pattern continues
+    if data[psrc+len] == data[ptgt+len]
+      len += 1
+    else
+      # pattern psrc+len broken, search for a longer one nsrc+nlen
+      nsrc = psrc
+      nlen = 0
+      loop do
+        nsrc = byte_index.bsearch{|x| x > nsrc}
+        break if nsrc == nil || nsrc >= ptgt
+        for i in 0..len do break if data[nsrc+i] != data[ptgt+i]; end
+        if i == len && data[nsrc+len] == data[ptgt+len]
+          psrc = nsrc
+          break
+        end
+      end
+      if nsrc != psrc # didn't find a longer pattern: write this one
+        # TODO!!!
+        if false && len > 3
+          # Pattern long enough for compression -- save compressed
+        else
+          # Pattern too short for compression -- save uncompressed
+          bits.write0 # uncompressed
+          (len/3).times{ bits.writeArr[1,1] }
+          bits.writeArr[len%3 / 2, len%3 & 1]
+          len.times{|i| bits.write(8, data[ptgt+i]) }
+        end
+      end
+    end
+  end
+
+  out += arr_write32(bits.byteSize)
+  out += offset_lens
+  out << skip_bits
+  out += arr_write24be(data.size)
+  out += bits.getStream
+end
+
+def compress_pp(data) # TODO
+  compress_pp_proper(data)
+  raise "ppo compression not supported yet"
 end
 
 def decompress_uli(data)

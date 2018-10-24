@@ -4,21 +4,10 @@ require './test_images.rb' # for generating random pixels
 
 
 class TestCompression < Test::Unit::TestCase
-  def test_bitreaderA
+  def test_bitreader
     data_in = Array.new(16){|i| 11*i}
     data_in += [0x00, 0xFF, 0x11, 0x77]
-    bits = ReverseBitReaderA.new(data_in)
-    data_out = []
-    (data_in.size).times{
-      data_out << bits.read(8)
-    }
-    assert_equal( data_in.reverse, data_out )
-  end
-
-  def test_bitreaderB
-    data_in = Array.new(16){|i| 11*i}
-    data_in += [0x00, 0xFF, 0x11, 0x77]
-    bits = ReverseBitReaderB.new(data_in)
+    bits = ReverseBitReader.new(data_in)
     data_out = []
     (data_in.size).times{
       b = bits.read(8)
@@ -35,7 +24,33 @@ class TestCompression < Test::Unit::TestCase
     assert_equal( data_in.reverse, data_out )
   end
 
-  # r
+  def test_bitwriter
+    data_in = Array.new(16){|i| 11*i}
+    data_in += [0x00, 0xFF, 0x11, 0x77]
+    bits = ReverseBitWriter.new
+    data_in.size.times{|i|  bits.write(8, data_in[i])  }
+    
+    data_out = bits.getStream()
+    assert_equal( 0, bits.bitpos % 8 )
+    assert_equal( data_in.size, data_out.size )
+    assert_equal( data_in.reverse, data_out )
+  end
+
+  def notest_bit_readwrite
+    # TODO: enable once bitwriter works
+    num_bytes = 100
+    
+    data_in = Array.new(num_bytes){ rand 256 }
+
+    bit_rd = ReverseBitReader.new(data_in)
+    bit_wr = ReverseBitWriter.new
+
+    num_bytes.times{|i| bit_wr.write8(data_in[i]) }
+    data_out = Array.new(num_bytes){ bit_rd.read(8) }
+    assert_equal( data_in.size, data_out.size )
+    assert_equal( data_in, data_out )
+  end
+  
   def recompression_test(format)
     data_ein = generate_rle_pixels(100+rand(100), 100+rand(100)) # generate some amount of rle-friendly data
     data_cmp = compress(data_ein, format)    # compress it

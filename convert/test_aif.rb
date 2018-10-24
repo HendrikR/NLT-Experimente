@@ -5,12 +5,12 @@ require 'test/unit'
 require './test_images.rb'
 
 $testdir = "test_data"
-$testfiles = [#'WUERFEL.AIF',  # DSA2, subformat 03
-#              'MAG_BOOK.AIF', # DSA3, subformat 03
-#              'POOLMASK.AIF', # DSA3, subformat 02
-#              'BINPAL.AIF',   # DSA2, subformat 00, palette only
-#              'DRAGON_1.AIF', # DSA2, subformat 01
-              'ORKLAND.AIF',  # DSA2, subformat 00, riesengroß
+$testfiles = ['WUERFEL.AIF',  # DSA2, subformat 03
+              'MAG_BOOK.AIF', # DSA3, subformat 03
+              'POOLMASK.AIF', # DSA3, subformat 02
+              'BIN1PAL.AIF',  # DSA2, subformat 00, palette only
+              'DRAGON_2.AIF', # DSA2, subformat 03
+              'ORKLAND.AIF',  # DSA2, subformat 00, fullscreen
              ]
 
 class TestAIF < Test::Unit::TestCase
@@ -25,7 +25,8 @@ class TestAIF < Test::Unit::TestCase
     img_in = Image.new()
     img_in.subformat = subformat
     img_in.dimensions = Rect.new(0, 0, 30, 20)
-    img_in.palette = []; 256.times{ |i| img_in.palette << Palette.new(i, 255-i, 0x77) }
+    def t4(x) (x/4)*4; end
+    img_in.palette = []; 256.times{ |i| img_in.palette << Palette.new(t4(i), t4(255-i), t4(0x77)) }
     img_in.data = generate_random_pixels(img_in.dimensions.width, img_in.dimensions.height)
     return img_in
   end
