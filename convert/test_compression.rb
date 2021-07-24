@@ -127,15 +127,15 @@ class TestCompression < Test::Unit::TestCase
     #assert( data_cmp.size <= data_ein.size ) # compressed data should not be larger
   end
 
-  def ntest_recompression_uli
+  def test_recompression_uli
     recompression_test(:uli)
   end
 
-  def tnest_recompression_rle1
+  def test_recompression_rle1
     recompression_test(:rle1)
   end
 
-  def tenst_recompression_rle2
+  def test_recompression_rle2
     recompression_test(:rle2)
   end
 

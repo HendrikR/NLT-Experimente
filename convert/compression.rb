@@ -277,9 +277,7 @@ def decompress_pp(data)
       out << w
     }
   end
-  # Seems to be necessary, otherwise data is 2 pixels too long and images shifted right by 2 pixels
-  2.times{ out.pop }
-  ##puts "output is #{out.size} bytes long, should be #{m_unpacked_size-2}"
+  ##puts "output is #{out.size} bytes long, should be #{m_unpacked_size}"
   return out.reverse
 end
 
