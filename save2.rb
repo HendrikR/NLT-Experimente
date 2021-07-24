@@ -25,6 +25,8 @@
 # - TEMP: Platz für eine temporäre Datei, z.B. Automap-Status, Spieler-Notizen in Levels etc.
 #   + Gefolgt von einem 0-terminierten Dateinamen und den Daten.
 
+require './_common.rb'
+
 class Chunk
   attr_accessor :type, :length, :data, :pos
   def initialize(file, pos)
@@ -77,59 +79,50 @@ class Chunk_TIME < Chunk
   end
 
   def monat_s
-    case(@monat)
-    when 0; "NL"
-    when 1; "PRA"
-    when 2; "RON"
-    when 3; "EFF"
-    when 4; "TRA"
-    when 5; "BOR"
-    when 6; "HES"
-    when 7; "FIR"
-    when 8; "TSA"
-    when 9; "PHE"
-    when 10; "PER"
-    when 11; "ING"
-    when 12; "RAH"
-    else "KAPUTT"
-    end
+    return "Ungültiger Monat #{@monat}" if @monat < 0 or @monat > 12
+    return MONTH_NAME[@monat]
   end
+
   def to_s
     sprintf("Es ist %s, der %d. %s %d nach Hal, %02d:%02d\n",
             wochentag_s, @tag, monat_s, @jahr, @stunde, @minute)
   end
 end
 
+EQU_SLOTS = ["Kopf", "Arme", "Reif (r)", "Hand (r)", "Ring (r)", "Hose", "Schenkel", "Gürtel", "Hals", "Mantel", "Torso", "Reif (l)", "Hand (l)", "Ring (l)", "Schuhe"]
+
 class Chunk_CHAR < Chunk
   attr_accessor :name, :typus
   def read_data
-    @portrait = @data[4..5].unpack("S<")[0]
-    @oldname  = @data[6..21].unpack("a*")[0]
-    @name     = @data[22..37].unpack("a*")[0]
-    @typus    = @data[39].unpack("C")[0]
-    @sex      = @data[40].unpack("C")[0]
-    @stufe    = @data[45].unpack("C")[0]
+    @portrait = @data[0x04..0x05].unpack("S<")[0]
+    @oldname  = @data[0x06..0x15].unpack("a*")[0]
+    @name     = @data[0x16..0x25].unpack("a*")[0]
+    @typus    = @data[0x27].unpack("C")[0]
+    @sex      = @data[0x28].unpack("C")[0]
+    @stufe    = @data[0x2D].unpack("C")[0]
+    @rs, @be  = @data[0x36..0x37].unpack1("S<C")
+    num_eig   = @data[0x38].unpack1("C")
+    @attribs  = @data[0x3A..0x4E].unpack("C*").each_slice(3).to_a.transpose # normal, current, ??? (immer 0?)
+    @atpa_at  = @data[0x6E..0x74].unpack("C*") # at-werte für waffen, nach abzug des RS: faust, hieb, stich, schwert, axt, speer, 2h
+    @talente  = @data[0x10E..0x141].unpack("c*")
+    @zauber   = @data[0x143..0x198].unpack("c*")
+    # 27 Bytes pro Slot. 15 Slots --> 405 Bytes.
+    @ausrüst  = @data[0x19C..0x330].unpack("C*")
+    # 27 Bytes pro Slot. 16 Slots --> 432 Bytes
+    @inv      = @data[0x331..0x4E0].unpack("C*")
   end
+
   def typus_s
-    case(@typus)
-    when 1;  @sex==0 ? "Gaukler"   : "Gauklerin"
-    when 2;  @sex==0 ? "Jäger"     : "Jägerin"
-    when 3;  @sex==0 ? "Krieger"   : "Kriegerin"
-    when 4;  @sex==0 ? "Streuner"  : "Streunerin"
-    when 5;  @sex==0 ? "Thorwaler" : "Thorwalerin"
-    when 6;  @sex==0 ? "Zwerg"     : "Zwergin"
-    when 7;  @sex==0 ? "Hexer"     : "Hexe"
-    when 8;  @sex==0 ? "Druide"    : "Druidin"
-    when 9;  @sex==0 ? "Magier"    : "Magierin"
-    when 10; @sex==0 ? "Auelf"     : "Auelfe"  
-    when 11; @sex==0 ? "Firnelf"   : "Firnelfe"
-    when 12; @sex==0 ? "Waldelf"   : "Waldelfe"
-    else "Ungültiger Typus (#{@typus.to_s})";
-    end
+    return "Ungültiger Typus (#{@typus})" if @typus < 1 or @typus > 12
+    return "Ungültiges Geschlecht (#{@sex})" if @sex != 0 and @sex != 1
+    typename = TYPUS[@typus-1]
+    typename += @sex == 0 ? " (M)" : " (F)"
   end
+
   def to_s
-    sprintf("%s, %s der %d-ten Stufe\n",
-            @name, typus_s, @stufe)
+    #"#{@name}, #{typus_s()} der #{@stufe}-ten Stufe\n"
+    #tab = {}; @zauber.each_with_index{|v,i| tab[SPELL[i]] = v }
+    "#{@name}, %s}\n" % @inv.map{|x| "0x%02X" % x}.join(", ")
   end
 end
 
@@ -152,7 +145,7 @@ end
 class Chunk_PLAY < Chunk
   attr_accessor :state
   def add(name, range, unpack="C*")
-    if range.class == Fixnum then range = range..range; end
+    if range.class == Integer then range = range..range; end
     d = @data[range].unpack(unpack)
     @state[name] = d.one? ? d[0] : d
     range.each{|idx| @allstates.delete(idx) }
@@ -179,9 +172,9 @@ class Chunk_PLAY < Chunk
   def to_s
     #str = "Game state:\n"
     str = ""
-    #str += @state.inject(""){|istr,(key,val)|
-    #  istr += key + " = " + val.to_s + "\t"
-    #}
+    str += @state.map{|key,val|
+      key + " = " + val.to_s + "\t"
+    }.join
     str += @allstates.select{|key,val| val != 0}.to_s
     return str
   end
@@ -223,4 +216,4 @@ while not f.eof?
 end
 
 
-chunks.select{|c| c.type == "PLAY"}.each { |c| puts c.type.to_s + ":  " + c.to_s }
+chunks.select{|c| c.type == "CHAR"}.each { |c| puts c.length + ":  " + c.to_s if c.typus == 3}

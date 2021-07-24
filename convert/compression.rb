@@ -2,6 +2,11 @@
 
 # TODO: careful optimization can yield great performance improvements here.
 
+def arr_write32(v);  [v].pack("L<").unpack ("C4"); end
+def arr_read32(arr); arr.pack("C4").unpack("L<")[0]; end
+def arr_write24be(v);  [v].pack("L>").unpack("C4")[1..3]; end
+def arr_read24be(arr); ("\x00"+arr.pack("C3")).unpack("L>")[0]; end
+
 def decompress( compressed, compression_mode )
   case compression_mode
   when :raw  then return compressed
@@ -138,12 +143,12 @@ def compress_rle3(data)
 end
 
 class ReverseBitReader
+  """Read bits in reverse order, lowest bit first.
+  Caveat: The bits within a byte are _not_ reversed."""
   def initialize(data)
     @data    = data
     raise "Error: wrong input (should be byte array)" if not (data.class == Array && data.first.class == Integer)
-    @offset  = @data.size-1
-    @bitpos  = 0
-    @current_byte = @data[@offset]
+    reset!
   end
   def read1
     read(1)
@@ -153,18 +158,29 @@ class ReverseBitReader
     ##raise "Error: End of bitstream reached" if eof?
     out = 0
     for i in 0...num do
-      if @bitpos == 8
+      if @bitpos < 0
         @offset -= 1
-        @bitpos = 0
+        @bitpos = 7
         @current_byte = @data[@offset]
       end
-      out = out << 1 | ((@current_byte >> @bitpos) & 0x01)
-      @bitpos += 1
+      the_bit = ((@current_byte >> (7-@bitpos)) & 0x01)
+      ##puts "state: #{@bitpos}, #{@offset}, #{@current_byte.to_s(16)} --> #{the_bit}"
+      out = (out << 1) | ((@current_byte >> (7-@bitpos)) & 0x01)
+      @bitpos -= 1
     end
+    ##puts "reading #{num} bits: %0#{num}b" % out
     return out
   end
   def eof?
-    @offset <= 0 && @bitpos == 8
+    @offset <= 0 && @bitpos == 0
+  end
+  def reset!()
+    @offset  = @data.size-1
+    @bitpos  = 7
+    @current_byte = @data[@offset]
+  end
+  def pos_str
+    "ofs #{@offset}.#{@bitpos}"
   end
 end
 
@@ -172,24 +188,26 @@ class ReverseBitWriter
   attr_reader :bitpos
 
   def initialize
+    reset!
+  end
+
+  def reset!
     @data    = []
     @bitpos  = 8
     @current_byte = 0
   end
 
-  def write0; write(1, 0); end
-  def write1; write(1, 1); end
   def write8(bits); write(8, bits); end
   def writeSeq(*arr); writeArr(arr); end
 
-  # TODO: Bad performance. Shifts bits around twice, is this necessary?
+  # TODO: Bad performance: Shifts bits around twice
   def write(num, dat)
     bitarr = []
     for i in 0...num do
       bitarr << (dat & 0b1)
       dat >>= 1
     end
-    writeArr(bitarr)
+    writeArr(bitarr.reverse)
   end
   
   def writeArr(bits)
@@ -204,8 +222,8 @@ class ReverseBitWriter
     end
   end
   
-  def getStream; @data; end
-  def bytes; @data.size; end
+  def stream; @data; end
+  def byteSize; @data.size; end
 end
 
 def decompress_pp(data)
@@ -219,43 +237,40 @@ def decompress_pp(data)
   skip_bits = data.pop
   m_unpacked_size = arr_read24be(data.pop(3)) # TODO!! ¿ACE?
 
-
-  if packed_size-4 != m_packed_size && packed_size-5 != m_packed_size
-    # -5 for aif, -4 for everything else
-    raise "Error: Powerpack packed length mismatch: should be #{packed_size-4}, is #{m_packed_size}"
+  # TODO: These different sizes are worrysome. Be careful.
+  if packed_size != m_packed_size && # ace
+     packed_size-5 != m_packed_size && # aif
+     packed_size-4 != m_packed_size # nvf
+    raise "Error: Powerpack packed length mismatch: should be #{packed_size}/#{packed_size-5}, is #{m_packed_size}"
   end
   bits = ReverseBitReader.new(data)
   skipped = bits.read(skip_bits)
-  ##puts "skipped #{skip_bits} bits: %0#{skip_bits}b" % skipped
-  ##puts "offset lenses are #{offset_lens}; skipping #{skip_bits} bits. Depacking from #{m_packed_size} to #{m_unpacked_size} bytes"
+  ##puts "offset lenses are #{offset_lens}; skipping #{skip_bits} bits. Depacking from #{m_packed_size}/#{packed_size} to #{m_unpacked_size} bytes"
 
+  ##puts "skipped bits are: 0b%0#{skip_bits}b" % skipped
+  #btr=128; print "reading #{btr} bits: "; while btr>=8 do print " %08b" % bits.read(8); btr-=8; end; puts " %0#{btr}b" % bits.read(btr); exit
   while not bits.eof? do
     if bits.read1 == 0 # literal sequence
       len = 1
       begin b = bits.read(2); len+= b; end until b < 3 # read length of sequence
-      ##puts "reading #{len} literal bytes"
       len.times { out << bits.read(8) }
       break if bits.eof?
     end
     # Pattern mode: read runlength / offset lens
     x = bits.read(2)
     offs_bitlen = offset_lens[x]
-    ##puts "offset lens ##{x}: #{offs_bitlen} bits"
     runlength = x+2
     if x==3
       x = bits.read1
       offs_bitlen = 7 if x==0
       offset=bits.read(offs_bitlen)
-      ##puts "runlength lens is #{offs_bitlen} bits and offset is #{offset}"
-      loop do
-        x=bits.read(3)
-        runlength += x
-        break if x!=7
-      end
+      ##puts "runlength is #{runlength} bytes and offset is #{offset}"
+      begin x=bits.read(3); runlength += x; end while x==7
     else
       offset=bits.read(offs_bitlen)
     end
-    ##puts "reading #{runlength} bytes from reloffset -#{offset}"
+    ##puts "offset lens ##{x}: #{offs_bitlen} bits"
+    ##puts "reading #{runlength} bytes from reloffset -#{offset} = 0b#{offset.to_s(2)}"
     raise "ERROR: invalid offset while reading PP data" if out.size<offset
     runlength.times{
       w = out[out.size-offset-1]
@@ -264,35 +279,66 @@ def decompress_pp(data)
   end
   # Seems to be necessary, otherwise data is 2 pixels too long and images shifted right by 2 pixels
   2.times{ out.pop }
+  ##puts "output is #{out.size} bytes long, should be #{m_unpacked_size-2}"
   return out.reverse
 end
 
-def compress_pp_proper(data)
-  # TODO/PEND
+def shift_bitarr(arr, bits)
   out = []
-  bits = ReverseBitWriter.new
-  # TODO: Lenses as seen in sample pictures. Check if another pattern is better.
-  offset_lens = [9,10,10,10]
+  bits = bits % 8
+  for i in 1...arr.size do
+    out << ( (0xFF & arr[i-1] << bits) | arr[i] >> (8-bits) )
+  end
+  out << ( 0xFF & (arr.last << bits) )
+end
+
+class CompressPP_Raw
+  attr_accessor :type, :vals
+  def initialize(vals)
+    @type = :raw
+    @vals = vals
+  end
+  def length(); @vals.size; end
+  def to_s; "RAW: #{@vals}"; end
+end
+
+class CompressPP_Ref
+  attr_accessor :type, :length, :offset
+  def initialize(length, offset)
+    @type   = :ref
+    @length = length
+    @offset = offset
+  end
+  def getBestLens
+    # TODO!!!
+  end
+  def to_s; "REF: copy #{@length} bytes from ofs -#{@offset}"; end
+end
+
+def compress_pp_patternfinder(data)
+  pattern_arr = []
 
   # build byte index
-  byte_index = Hash.new([])
-  data.each_with_index{|v, i| byte_index[v] << i}
+  byte_index = Hash.new
+  data.each_with_index{|v, i| byte_index.member?(v)  ?  byte_index[v] << i  :  byte_index[v] = [i] }
 
   # 3 pointers / indices:
   psrc = 0  # start of pattern to copy from
   ptgt = 0  # start of pattern to copy to
-  len = 0
+  len = 1
   
-  while ptgt < data.size
+  while ptgt+len < data.size
+    ##puts "ptgt = #{ptgt}, len=#{len}"
     # check if pattern continues
-    if data[psrc+len] == data[ptgt+len]
+    if psrc < ptgt && data[psrc+len] == data[ptgt+len] && ptgt + len < data.size-1
       len += 1
     else
-      # pattern psrc+len broken, search for a longer one nsrc+nlen
+      # pattern broken at psrc+len, search for a longer one nsrc+nlen
+      ##puts "pattern break at #{ptgt}+#{len}"
       nsrc = psrc
       nlen = 0
       loop do
-        nsrc = byte_index.bsearch{|x| x > nsrc}
+        nsrc = byte_index[data[ptgt]].bsearch{|x| x > nsrc}
         break if nsrc == nil || nsrc >= ptgt
         for i in 0..len do break if data[nsrc+i] != data[ptgt+i]; end
         if i == len && data[nsrc+len] == data[ptgt+len]
@@ -301,30 +347,109 @@ def compress_pp_proper(data)
         end
       end
       if nsrc != psrc # didn't find a longer pattern: write this one
-        # TODO!!!
-        if false && len > 3
+        if len > 2
           # Pattern long enough for compression -- save compressed
+          pattern_arr << CompressPP_Ref.new( len, ptgt-psrc )
         else
-          # Pattern too short for compression -- save uncompressed
-          bits.write0 # uncompressed
-          (len/3).times{ bits.writeArr[1,1] }
-          bits.writeArr[len%3 / 2, len%3 & 1]
-          len.times{|i| bits.write(8, data[ptgt+i]) }
+          pattern_arr << CompressPP_Raw.new( data[ptgt...(ptgt+len)] )
         end
+        ptgt += len
+        len   = 1
       end
     end
   end
 
-  out += arr_write32(bits.byteSize)
-  out += offset_lens
-  out << skip_bits
-  out += arr_write24be(data.size)
-  out += bits.getStream
+  pattern_arr << CompressPP_Raw.new( [data.last] ) if pattern_arr.last.type == :raw
+
+  return pattern_arr
 end
 
-def compress_pp(data) # TODO
-  compress_pp_proper(data)
-  raise "ppo compression not supported yet"
+def compress_pp_compactor(patterns)
+  compacted = []
+  # TODO: Lenses as seen in sample pictures. Check if another pattern is better.
+  offset_lens = [9,10,10,10]
+  last_type = :ref
+  raw_buf = []
+  for pattern in patterns do
+    if pattern.type == :raw
+      if last_type == :raw
+        raw_buf.concat( pattern.vals )
+      else
+        raw_buf = pattern.vals
+      end
+    elsif pattern.type == :ref
+      # TODO: choose best offset lens
+      if last_type == :raw
+        compacted << CompressPP_Raw.new( raw_buf )
+        raw_buf = []
+      end
+      compacted << CompressPP_Ref.new( pattern.length, pattern.offset )
+    else raise "Unknow pattern type '#{pattern.type}'"
+    end
+    last_type = pattern.type
+  end
+  compacted << CompressPP_Raw.new( raw_buf ) unless raw_buf.empty?
+
+  return compacted
+end
+
+def compress_pp_bitstream(patterns, uncompressed_size)
+  out = []
+  bits = ReverseBitWriter.new
+  last_mode = 0
+  offset_lens = [9,10,10,10] ## TODO!! Set and use actual lens, not this bogus thing.
+  for pattern in patterns do
+    if pattern.type == :raw
+      bits.writeSeq(0) # uncompressed
+      len = pattern.length - 1
+      (len/3).times{ bits.write(2, 0b11) }
+      bits.write(2, len % 3)
+      puts "writing #{pattern.length} literal bytes"
+      pattern.length.times{|i| bits.write(8, pattern.vals[i]) }
+      last_mode = 0
+    elsif pattern.type == :ref
+      bits.writeSeq(1) if last_mode != 0 # compressed
+      lens_idx = 3##offset_lens.find_index{|x| Math.log2(ptgt - psrc) <= x }
+      puts "using offset lens #{lens_idx}(#{offset_lens[lens_idx]}) because #{Math.log2(pattern.length)}"
+      bits.write(2, lens_idx)
+      bits.write(1, 1) # following: offset lens & variable runlength (special lens 3:1)
+      bits.write(offset_lens[lens_idx], pattern.offset)
+      len = pattern.length - (lens_idx+1)
+      (len/7).times{ bits.write(3, 0b111)}
+      bits.write(3, len % 7)
+      last_mode = 1
+    else raise "Unknow pattern type '#{pattern.type}'"
+    end
+  end
+  
+  # for some reason, we need to add 2 more bytes. meh.
+  #if last_mode == 1
+    bits.write(1, 0b1) unless last_mode == 0 # may need to add 1-marker for copy
+    bits.write(2, 0b00) # lens #0 (2 bytes follow)
+    bits.write(offset_lens[0], 1) # distance (-1)
+  #end
+  
+  empty_bits = 8 - bits.bitpos
+  out += arr_write32(bits.byteSize + 5)           # compressed size
+  out += offset_lens                              # offset lens
+  out += shift_bitarr(bits.stream(), empty_bits)  # bitstream
+  out += arr_write24be(uncompressed_size)         # uncompressed size
+  out << empty_bits                               # skip bits
+
+  print "pp stream: #{bits.stream.size} bytes, #{bits.bitpos} lastbits: "
+  bits.stream().each{|x| printf("%08b ", x)}; puts
+  print "shifted: "
+  shift_bitarr(bits.stream(), empty_bits).each{|x| printf("%08b ", x)}; puts
+  puts
+
+  return out
+end
+
+def compress_pp(data) # TODO/PEND
+  patterns1 = compress_pp_patternfinder(data.reverse)
+  patterns2 = compress_pp_compactor(patterns1)
+  puts patterns2
+  bitstream = compress_pp_bitstream(patterns2, data.size)
 end
 
 def decompress_uli(data)

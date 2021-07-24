@@ -51,7 +51,7 @@ class Rect
   end
 
   def ==(o)
-    @x0 == o.x0 && @y0 == o.y0 && @width = o.width && @height == o.height
+    @x0 == o.x0 && @y0 == o.y0 && @width == o.width && @height == o.height
   end
 
   def to_s

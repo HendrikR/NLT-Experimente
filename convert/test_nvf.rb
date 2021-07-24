@@ -6,11 +6,12 @@ require './test_images.rb'
 $testdir = "test_data"
 $testfiles = ['HORSE0.NVF',  ## DSA2, mode 0x04 (RLE, same size)
               'FONT.NVF',    ## DSA2, mode 0x01 (raw, diff size)
-              #'NATURE.NVF',  ## DSA2: Tileset, mode 0x00 (raw, same size)
-              #'HEADS.NVF',   ## DSA2: NSC-Köpfe, mode 0x02 (pp, same size)
+              'NATURE.NVF',  ## DSA2: Tileset, mode 0x00 (raw, same size)
+              'HEADS.NVF',   ## DSA2: NSC-Köpfe, mode 0x02 (pp, same size)
               'FONT3.NVF',   ## DSA3, mode 0x01 (raw, diff size)
               'CHEADS2.NVF', ## DSA3: SC-Köpfe (krank), mode 0x02 (pp, same size)
               'FINGER.NVF',  ## DSA1: Schwarzer Finger, mode 0x05 (RLE, diff size), no palette
+              'COMPASS.NVF', ## DSA1: Windrose, mode 0x02 (PP, same size), no palette
              ]
 
 class TestNVF < Test::Unit::TestCase

@@ -1,26 +1,43 @@
 require './images.rb'
+require './formats.rb'
 require 'yaml'
 
 class YAML_DIR < ImageHandler
-  def initialize(format)
-    @format = format
+  def initialize(img_format)
+    @img_format = img_format
+    @formatter = TGA.new
   end
   def read(filename)
-    @metadata = YAML::parse_file(filename).to_ruby
-  end
-  def write(filename, img_group)
+    img_group = YAML::parse_file(filename).to_ruby
     img_group.parts.map{|part|
-      idx = 0
       part.images.map{|img|
-        img.name = idx if img.name.empty?
-        idx += 1
-        img.
+        name = img.data
+        yield @formatter.read(name)
       }
     }
-    puts img_group.to_yaml
-    #file = File.new(filename, IO::CREATE | IO::WRONLY)
-    #file.write(@metadata.to_yaml)
-    #for 
-    #file.close()
+  end
+  def write(dirname, img_group)
+    Dir::mkdir(dirname) unless Dir::exists?(dirname)
+    img_group.parts.each{|part|
+      idx = 0
+      part.images.each{|img|
+        idx += 1
+        img.name = ("%04d" % idx) if img.name.empty?
+        old_subformat = img.subformat
+        img.subformat = 9
+        img_file = "#{dirname}/img-#{part.name}-#{img.name}.tga" # TODO: respect @img_format
+        puts "write #{img_file}"
+        @formatter.write(img_file, img)
+
+        # this is saved in the image file
+        img.data = img_file
+        img.compressed_data = nil
+        img.palette = nil
+        img.subformat = old_subformat
+      }
+    }
+    file = File.new("#{dirname}/meta.yaml", IO::CREAT | IO::WRONLY)
+    file.write(img_group.to_yaml)
+    file.close()
   end
 end
