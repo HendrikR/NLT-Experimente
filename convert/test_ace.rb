@@ -6,6 +6,7 @@ require './test_images.rb'
 $testdir = "test_data"
 $testfiles = ['JAEGER.ACE', ## DSA2: Kampfanimationen Jäger, subformat 50(pp)
               'A1_5_BOA.ACE', ## DSA3: Ruderboot-Animationsbildchen, subformat 1(rle) / 0(raw)
+              'F_HELMET.ACE', ## DSA2: Animation Helm aufsetzen (w), subformat 50(pp)
               'FEUERGEI.ACE', ## DSA3: Kampfanimationen, subformat 50(pp) / 1(rle)
              ]
 

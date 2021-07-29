@@ -24,7 +24,7 @@ GOAL: all (de-)compression algos should be tested
 ** PEND BOB support (old format)
 ** TODO [#D] ULI support
 ** TODO [#D] RAW support
-* Compression algorithms [4/7]
+* Compression algorithms [4/9]
 ** DONE Raw
 ** DONE RLE1 (nvf-style)
 ** DONE RLE2 (pcx/tga-style)
@@ -43,3 +43,9 @@ GOAL: all (de-)compression algos should be tested
 ** TODO [#C] configurable compression modes
 ** TODO [#C] automatically choose best (i.e. smallest) compression mode for a file
 ** TODO Specify external palette (different palette formats, e.g. GIMP)
+* Bugs
+** TODO TGA: DSA2:JAEGER.ACE, img 113.4: shifted by -5 bytes?
+   Tritt auch bei anderen Animationen auf, z.B. DSA3:F_RING.ACE, frames 1-2, oder DSA3:W_STREUN.ACE
+** DONE ACE: DSA3, subformat 50 (pp): "invalid offset" for some pictures
+   only happens for some fight animations: FEUERGEI.ACE, M_GAUKLE.ACE, M_ZWERG.ACE, ZANT.ACE
+   solved -- was a faulty ReverseBitReader.eof? function; reading sometimes continued after end-of-stream

@@ -172,7 +172,7 @@ class ReverseBitReader
     return out
   end
   def eof?
-    @offset <= 0 && @bitpos == 0
+    @offset <= 0 && @bitpos <= 0
   end
   def reset!()
     @offset  = @data.size-1
@@ -238,7 +238,7 @@ def decompress_pp(data)
   m_unpacked_size = arr_read24be(data.pop(3)) # TODO!! ¿ACE?
 
   # TODO: These different sizes are worrysome. Be careful.
-  if packed_size != m_packed_size && # ace
+  if packed_size+3 != m_packed_size && # ace
      packed_size-5 != m_packed_size && # aif
      packed_size-4 != m_packed_size # nvf
     raise "Error: Powerpack packed length mismatch: should be #{packed_size}/#{packed_size-5}, is #{m_packed_size}"
@@ -261,17 +261,17 @@ def decompress_pp(data)
     offs_bitlen = offset_lens[x]
     runlength = x+2
     if x==3
-      x = bits.read1
-      offs_bitlen = 7 if x==0
+      more = bits.read1
+      offs_bitlen = 7 if more==0
       offset=bits.read(offs_bitlen)
       ##puts "runlength is #{runlength} bytes and offset is #{offset}"
-      begin x=bits.read(3); runlength += x; end while x==7
+      begin rl=bits.read(3); runlength += rl; end while rl==7
     else
       offset=bits.read(offs_bitlen)
     end
     ##puts "offset lens ##{x}: #{offs_bitlen} bits"
     ##puts "reading #{runlength} bytes from reloffset -#{offset} = 0b#{offset.to_s(2)}"
-    raise "ERROR: invalid offset while reading PP data" if out.size<offset
+    raise "ERROR: invalid offset while reading PP data, at #{bits.pos_str}" if out.size<offset
     runlength.times{
       w = out[out.size-offset-1]
       out << w
