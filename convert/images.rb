@@ -154,7 +154,7 @@ class ImageGroup
   end
 
   def sanity_checks
-    raise "High number of subimages (#{@parts.size}) seems flaky." if @parts.size > 60 # TODO: this is not a good sanity check, remove it after reaching stability.
+    raise "High number of subimages (#{@parts.size}) seems flaky." if @parts.size > 128 # TODO: this is not a good sanity check, remove it after reaching stability.
 
     for part in @parts do
       part.sanity_checks

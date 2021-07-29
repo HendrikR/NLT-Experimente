@@ -26,7 +26,7 @@ class YAML_DIR < ImageHandler
         old_subformat = img.subformat
         img.subformat = 9
         img_file = "#{dirname}/img-#{part.name}-#{img.name}.tga" # TODO: respect @img_format
-        puts "write #{img_file}"
+        ##puts "write #{img_file}"
         @formatter.write(img_file, img)
 
         # this is saved in the image file
