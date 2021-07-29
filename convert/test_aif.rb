@@ -9,6 +9,7 @@ $testfiles = ['WUERFEL.AIF',  # DSA2, subformat 03
               'MAG_BOOK.AIF', # DSA3, subformat 03
               'POOLMASK.AIF', # DSA3, subformat 02
               'BIN1PAL.AIF',  # DSA2, subformat 00, palette only
+              'DRAGON_1.AIF', # DSA2, subformat 01
               'DRAGON_2.AIF', # DSA2, subformat 03
               'ORKLAND.AIF',  # DSA2, subformat 00, fullscreen
              ]

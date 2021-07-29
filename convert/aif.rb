@@ -10,7 +10,7 @@ class AIF < ImageHandler
     # mode 50: Amiga PowerPack 2.0
     case aif.subformat
     when 0; :raw
-    when 1; :unknown_aif_0x01 # todo
+    when 1; :rle1
     when 2; :rle3
     when 3; :pp
     else raise("unknown AIF mode #{aif.subformat}")
