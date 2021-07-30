@@ -50,7 +50,7 @@ GOAL: all (de-)compression algos should be tested
 ** DONE ACE: DSA3, subformat 50 (pp): "invalid offset" for some pictures
    only happens for some fight animations: FEUERGEI.ACE, M_GAUKLE.ACE, M_ZWERG.ACE, ZANT.ACE
    solved -- was a faulty ReverseBitReader.eof? function; reading sometimes continued after end-of-stream
-** TODO AIF: colors seem off (too bright) sometimes
+** DONE AIF: colors seem off (too bright) sometimes
    DSA2:orkland.aif, dragon_2.aif
 ** DONE AIF: support mode 1
    e.g. dragon_1.aif

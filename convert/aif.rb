@@ -45,12 +45,15 @@ class AIF < ImageHandler
     end
 
     aif.data = decompress(aif.compressed_data, compression_mode(aif))
-    raise "size mismatch #{aif.data.size} != #{aif.dimensions.size}" if aif.data.size != aif.dimensions.size
+    raise "size mismatch #{aif.data.size} < #{aif.dimensions.size}" if aif.data.size < aif.dimensions.size
 
     # Palette
     palette_size.times do
       rgb = file.read(3).unpack("CCC")
-      aif.palette << Palette.new(rgb[0], rgb[1], rgb[2])
+      # cut off upper 2 bytes (not used by VGA palette, but sometimes contain junk)
+      aif.palette << Palette.new( (rgb[0] << 2) & 0xFF,
+                                  (rgb[1] << 2) & 0xFF,
+                                  (rgb[2] << 2) & 0xFF)
     end
 
     file.close
