@@ -19,7 +19,7 @@ class TestCompression < Test::Unit::TestCase
   def bit_test_data
     data_in  = Array.new(8){ rand 256 }
     data_in += Array.new(4){|i| 37*i}
-    data_in += [0x00, 0xFF, 0x11, 0x77]
+    data_in += [0x00, 0xFF, 0x12, 0x79]
     return data_in
   end
     
@@ -42,16 +42,17 @@ class TestCompression < Test::Unit::TestCase
     data_in.size.times{
       byte_out = 0
       8.times{ byte_out = (byte_out << 1) | (bits.read1 & 1) }
-      data_out_bits << swap_bits(byte_out)
+      data_out_bits << byte_out
     }
     bits.reset!
     data_in.size.times{
-      data_out_bytes << swap_bits(bits.read(8))
+      data_out_bytes << bits.read(8)
     }
-    assert_equal( data_out_bits, data_out_bytes )
+    assert_equal( data_out_bytes, data_out_bits )
   end
 
   def test_bitwriter_bytewise
+    # Test if bitwriter writes 8-bit sequences correctly
     data_in = bit_test_data()
     bits = ReverseBitWriter.new
     data_in.size.times{|i| bits.write(8, swap_bits(data_in[i])) }
@@ -67,7 +68,7 @@ class TestCompression < Test::Unit::TestCase
     data_in = bit_test_data()
 
     bits = ReverseBitWriter.new
-    data_in.size.times{|i| bits.write(8, swap_bits(data_in[i])) }
+    data_in.size.times{|i| bits.write(8, data_in[i]) }
     data_out_bytes = bits.stream()
 
     bits.reset!
@@ -85,7 +86,7 @@ class TestCompression < Test::Unit::TestCase
     data_in = bit_test_data()
 
     bits = ReverseBitWriter.new
-    data_in.size.times{|i| bits.write(8, swap_bits(data_in[i])) }
+    data_in.size.times{|i| bits.write(8, data_in[i]) }
     data_out_bytes = bits.stream()
 
     bits.reset!

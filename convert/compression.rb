@@ -172,7 +172,7 @@ class ReverseBitReader
     return out
   end
   def eof?
-    @offset <= 0 && @bitpos <= 0
+    @offset < 0
   end
   def reset!()
     @offset  = @data.size-1
@@ -192,38 +192,41 @@ class ReverseBitWriter
   end
 
   def reset!
-    @data    = []
-    @bitpos  = 8
+    @data    = [0]
+    @bitpos  = 0
     @current_byte = 0
   end
 
   def write8(bits); write(8, bits); end
   def writeSeq(*arr); writeArr(arr); end
 
-  # TODO: Bad performance: Shifts bits around twice
-  def write(num, dat)
-    bitarr = []
+  def write(num, bitmask)
     for i in 0...num do
-      bitarr << (dat & 0b1)
-      dat >>= 1
+      if @bitpos > 7
+        @bitpos = 0
+        @data.unshift(0x00) # shift in a new, emtpy byte
+      end
+      @data[0] = (@data[0] << 1) | (bitmask & 0x01)
+      bitmask >>= 1
+      @bitpos += 1
     end
-    writeArr(bitarr.reverse)
   end
-  
+
   def writeArr(bits)
     num = bits.size
     for b in bits do
-      if @bitpos == 8
+      if @bitpos > 7
         @bitpos = 0
-        @data.unshift(0) # shift in a new, emtpy byte
+        @data.unshift(0x00) # shift in a new, emtpy byte
       end
-      @data[0] |= (b & 0b1) << @bitpos
+      @data[0] |= (b & 0b1) << (7 - @bitpos)
       @bitpos += 1
     end
   end
   
   def stream; @data; end
   def byteSize; @data.size; end
+  def bitSize; 8*@data.size + @bitpos; end
 end
 
 def decompress_pp(data)

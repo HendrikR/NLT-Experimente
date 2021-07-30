@@ -21,6 +21,7 @@ GOAL: all (de-)compression algos should be tested
 ** DONE ACE support
 ** PEND AIF support
 ** PEND BOB support (new format)
+- DSA2:BSTR_NO.BOB (und BSTR_FIR) sind interessant: nur Hauptbild (1 Part), vermutlich unkomprimiert. Palette am Ende(?).
 ** PEND BOB support (old format)
 ** TODO [#D] ULI support
 ** TODO [#D] RAW support
@@ -54,3 +55,4 @@ GOAL: all (de-)compression algos should be tested
 ** DONE AIF: support mode 1
    e.g. dragon_1.aif
    that was simple -- it‘s :rle1.
+** DONE compression: fix bit writer / reader
